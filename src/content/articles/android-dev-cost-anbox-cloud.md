@@ -4,7 +4,7 @@ pubDate: 2026-10-24
 canonicalTitle: How to lower Android™ development costs by removing hardware from the critical path
 canonicalUrl: https://ubuntu.com/blog/lower-android-development-cost
 canonicalAuthor: Bertrand Boisseau
-canonicalPubDate: 2026-10-16
+canonicalPubDate: 2026-10-16T09:50:26Z
 sourceFeed: Ubuntu Blog
 summary: Android 開發的成本不只是裝置本身，還包括採購、設定、維護、遠端存取、實驗室空間，以及工程師等待裝置的時間。Canonical 主張多數建置、App 測試、重現問題與回歸測試其實不需要實體裝置，可以用 Anbox Cloud 依需求建立容器或虛擬機環境，實體裝置則保留給真正需要硬體的驗證。
 taiwanTakeaway: 台灣有大量做 Android 裝置的 ODM、車用與 POS 終端廠商，以及要同時支援多種機型的金融、電商 App 團隊；這篇文章提供的是一個好用的成本盤點框架：先算清楚「工程師等裝置」花了多少錢，再決定哪些測試真的需要實機。

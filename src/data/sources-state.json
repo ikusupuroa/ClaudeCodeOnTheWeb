@@ -6,10 +6,10 @@
   "items": [
     {
       "url": "https://canonical.com/blog/upgrade-your-existing-ubuntu-lts-instances-to-ubuntu-pro-in-aws",
-      "status": "published",
-      "title": "A new way to upgrade to Ubuntu Pro on AWS",
+      "status": "skipped",
+      "title": "Upgrade your existing Ubuntu LTS instances to Ubuntu Pro in AWS",
       "processedDate": "2026-10-24",
-      "article": "ubuntu-pro-aws-upgrade"
+      "note": "2023 年舊文，誤當成原文使用；導讀已改寫為 2026-10-23 的新原文"
     },
     {
       "url": "https://ubuntu.com/blog/canonical-releases-ubuntu-26-10-stonking-stingray",
@@ -70,45 +70,47 @@
     },
     {
       "url": "https://canonical.com/blog/from-personas-to-archetypes-part-2",
-      "status": "drafting",
+      "status": "published",
       "title": "From personas to archetypes: a living, shared understanding of the people we build for (Part 2 of 2)",
       "processedDate": "2026-10-24",
-      "note": "Issue #5 選定；等待 canonical.com 網路權限後撰寫"
+      "article": "personas-to-archetypes",
+      "note": "Part 1、Part 2 合併為一篇導讀"
     },
     {
       "url": "https://canonical.com/blog/upgrade-ubuntu-lts-instances-to-ubuntu-pro-in-aws",
-      "status": "drafting",
+      "status": "published",
       "title": "A new way to upgrade to Ubuntu Pro on AWS",
       "processedDate": "2026-10-24",
-      "note": "Issue #5 選定；等待 canonical.com 網路權限後撰寫"
+      "article": "ubuntu-pro-aws-upgrade"
     },
     {
       "url": "https://canonical.com/blog/simplify-your-enterprise-kubernetes-and-govern-your-ai-agents-with-canonical",
-      "status": "drafting",
+      "status": "published",
       "title": "Simplify your enterprise kubernetes and govern your AI agents with Canonical",
       "processedDate": "2026-10-24",
-      "note": "Issue #5 選定；等待 canonical.com 網路權限後撰寫"
+      "article": "kubernetes-ai-agents-kubecon-na-2026"
     },
     {
       "url": "https://canonical.com/blog/from-personas-to-archetypes",
-      "status": "drafting",
+      "status": "published",
       "title": "From personas to archetypes: a living, shared understanding of the people we build for (Part 1 of 2)",
       "processedDate": "2026-10-24",
-      "note": "Issue #5 選定；等待 canonical.com 網路權限後撰寫"
+      "article": "personas-to-archetypes",
+      "note": "Part 1、Part 2 合併為一篇導讀"
     },
     {
       "url": "https://canonical.com/blog/microcloud-and-lxd-lts-releases-2026",
-      "status": "drafting",
+      "status": "published",
       "title": "MicroCloud and LXD LTS releases now available",
       "processedDate": "2026-10-24",
-      "note": "Issue #5 選定；等待 canonical.com 網路權限後撰寫"
+      "article": "microcloud-lxd-lts-2026"
     },
     {
       "url": "https://canonical.com/blog/what-designers-should-know-about-semiotics",
-      "status": "drafting",
+      "status": "published",
       "title": "What designers should know about semiotics",
       "processedDate": "2026-10-24",
-      "note": "Issue #5 選定；等待 canonical.com 網路權限後撰寫"
+      "article": "semiotics-for-designers"
     },
     {
       "url": "https://ubuntu.com/blog/devpack-for-rust-support",
