@@ -6,7 +6,7 @@ import TagList from '../../components/TagList.astro';
 import TaiwanTakeawayCard from '../../components/TaiwanTakeawayCard.astro';
 import SourceAttribution from '../../components/SourceAttribution.astro';
 import { getArticles, type Article } from '../../lib/articles';
-import { formatDate, isoDate } from '../../lib/site';
+import { formatDate, isoDate, withBase } from '../../lib/site';
 
 export async function getStaticPaths() {
   const articles = await getArticles();
@@ -38,7 +38,7 @@ const { Content } = await render(article);
 <BaseLayout title={data.title} description={data.summary}>
   <article class="mx-auto max-w-3xl px-4 pt-10 sm:px-6 md:pt-14">
     <nav class="text-sm text-stone-500 dark:text-stone-400" aria-label="麵包屑">
-      <a href="/" class="hover:text-ubuntu-orange">最新導讀</a>
+      <a href={withBase('/')} class="hover:text-ubuntu-orange">最新導讀</a>
       <span class="mx-2">/</span>
       <span>{data.sourceFeed}</span>
     </nav>
@@ -91,7 +91,7 @@ const { Content } = await render(article);
       (newer || older) && (
         <nav class="mt-10 grid gap-4 sm:grid-cols-2" aria-label="其他文章">
           {older ? (
-            <a href={`/articles/${older.id}/`} class="rounded-xl border border-stone-200 p-4 transition hover:border-ubuntu-orange dark:border-white/10">
+            <a href={withBase(`/articles/${older.id}/`)} class="rounded-xl border border-stone-200 p-4 transition hover:border-ubuntu-orange dark:border-white/10">
               <span class="text-xs text-stone-500">← 較早的導讀</span>
               <span class="mt-1 block font-medium">{older.data.title}</span>
             </a>
@@ -99,7 +99,7 @@ const { Content } = await render(article);
             <span />
           )}
           {newer && (
-            <a href={`/articles/${newer.id}/`} class="rounded-xl border border-stone-200 p-4 text-right transition hover:border-ubuntu-orange dark:border-white/10">
+            <a href={withBase(`/articles/${newer.id}/`)} class="rounded-xl border border-stone-200 p-4 text-right transition hover:border-ubuntu-orange dark:border-white/10">
               <span class="text-xs text-stone-500">較新的導讀 →</span>
               <span class="mt-1 block font-medium">{newer.data.title}</span>
             </a>

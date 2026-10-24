@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { withBase } from '../lib/site';
 ---
 
 <BaseLayout title="找不到頁面">
@@ -7,7 +8,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <p class="font-mono text-6xl font-bold text-ubuntu-orange">404</p>
     <h1 class="mt-4 text-2xl font-bold">找不到這個頁面</h1>
     <p class="mt-3 text-stone-600 dark:text-stone-400">文章可能已調整網址，回到首頁看看最新導讀吧。</p>
-    <a href="/" class="mt-8 inline-block rounded-full bg-ubuntu-orange px-6 py-2.5 font-medium text-white hover:bg-ubuntu-orange-light">
+    <a href={withBase('/')} class="mt-8 inline-block rounded-full bg-ubuntu-orange px-6 py-2.5 font-medium text-white hover:bg-ubuntu-orange-light">
       回到首頁
     </a>
   </section>

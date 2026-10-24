@@ -2,7 +2,7 @@
 import SourceBadge from './SourceBadge.astro';
 import TagList from './TagList.astro';
 import type { Article } from '../lib/articles';
-import { formatDate, isoDate } from '../lib/site';
+import { formatDate, isoDate, withBase } from '../lib/site';
 
 interface Props {
   article: Article;
@@ -10,7 +10,7 @@ interface Props {
 
 const { article } = Astro.props;
 const { data } = article;
-const href = `/articles/${article.id}/`;
+const href = withBase(`/articles/${article.id}/`);
 ---
 
 <article

@@ -6,6 +6,9 @@ import digestSections from './src/lib/digest-sections.mjs';
 
 // https://astro.build/config
 export default defineConfig({
+  // GitHub Pages 專案網站：https://ikusupuroa.github.io/ClaudeCodeOnTheWeb/
+  site: 'https://ikusupuroa.github.io',
+  base: '/ClaudeCodeOnTheWeb',
   output: 'static',
   markdown: {
     processor: satteri({

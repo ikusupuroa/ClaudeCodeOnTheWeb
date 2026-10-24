@@ -1,4 +1,6 @@
 ---
+import { withBase } from '../lib/site';
+
 interface Props {
   tags: string[];
   linked?: boolean;
@@ -14,7 +16,7 @@ const cls =
     tags.map((tag) => (
       <li>
         {linked ? (
-          <a href={`/?tag=${encodeURIComponent(tag)}`} class:list={[cls, 'transition-colors hover:border-ubuntu-orange hover:text-ubuntu-orange']}>
+          <a href={withBase(`/?tag=${encodeURIComponent(tag)}`)} class:list={[cls, 'transition-colors hover:border-ubuntu-orange hover:text-ubuntu-orange']}>
             #{tag}
           </a>
         ) : (

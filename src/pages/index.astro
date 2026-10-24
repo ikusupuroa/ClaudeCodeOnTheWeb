@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ArticleCard from '../components/ArticleCard.astro';
 import { getArticles, countTags } from '../lib/articles';
-import { SITE } from '../lib/site';
+import { SITE, withBase } from '../lib/site';
 
 const articles = await getArticles();
 const tags = countTags(articles);
@@ -30,7 +30,7 @@ const tags = countTags(articles);
         >
           瀏覽最新導讀
         </a>
-        <a href="/about/" class="rounded-full border border-white/30 px-6 py-2.5 font-medium text-white/90 transition hover:bg-white/10">
+        <a href={withBase('/about/')} class="rounded-full border border-white/30 px-6 py-2.5 font-medium text-white/90 transition hover:bg-white/10">
           策展理念
         </a>
       </div>

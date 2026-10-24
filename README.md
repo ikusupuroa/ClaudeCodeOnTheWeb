@@ -39,6 +39,16 @@ node scripts/fetch-sources.mjs --json       # JSON 輸出，方便 Claude 或其
 
 ---
 
+## 部署（GitHub Pages）
+
+網站網址：**https://ikusupuroa.github.io/ClaudeCodeOnTheWeb/**
+
+- `.github/workflows/deploy.yml`：PR 只跑建置檢查；合併到 `main` 後自動建置並部署到 GitHub Pages。也可以在 Actions 頁面手動執行（workflow_dispatch）。
+- repo 的 Settings → Pages → Build and deployment → Source 必須選 **GitHub Actions**。
+- 網站部署在子路徑 `/ClaudeCodeOnTheWeb/`（見 `astro.config.mjs` 的 `base`）。站內連結請用 `src/lib/site.ts` 的 `withBase()` 產生，不要直接寫 `/about/` 這類絕對路徑。
+
+---
+
 ## 專案結構
 
 ```text

@@ -1,21 +1,22 @@
 ---
 import Logo from './Logo.astro';
-import { SITE } from '../lib/site';
+import { SITE, withBase } from '../lib/site';
 
 const links = [
-  { href: '/', label: '最新導讀' },
-  { href: '/about/', label: '關於本站' },
+  { href: withBase('/'), label: '最新導讀' },
+  { href: withBase('/about/'), label: '關於本站' },
 ];
 
 const path = Astro.url.pathname;
-const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
+const home = withBase('/');
+const isActive = (href: string) => (href === home ? path === home : path.startsWith(href));
 ---
 
 <header
   class="sticky top-0 z-40 border-b border-white/10 bg-aubergine-deep/95 text-white backdrop-blur supports-[backdrop-filter]:bg-aubergine-deep/85"
 >
   <div class="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
-    <a href="/" class="flex min-w-0 items-center gap-3">
+    <a href={home} class="flex min-w-0 items-center gap-3">
       <Logo />
       <span class="min-w-0 leading-tight">
         <span class="block truncate text-[0.95rem] font-medium tracking-wide">{SITE.name}</span>

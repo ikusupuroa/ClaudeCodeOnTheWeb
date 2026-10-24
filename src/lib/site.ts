@@ -19,3 +19,9 @@ export function formatDate(date: Date): string {
 export function isoDate(date: Date): string {
   return date.toISOString().slice(0, 10);
 }
+
+/** 為站內路徑加上部署子路徑（astro.config 的 base），例如 '/about/' → '/ClaudeCodeOnTheWeb/about/' */
+export function withBase(path: string): string {
+  const base = import.meta.env.BASE_URL.replace(/\/+$/, '');
+  return `${base}/${path.replace(/^\/+/, '')}`;
+}
