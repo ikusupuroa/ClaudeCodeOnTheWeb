@@ -7,13 +7,13 @@ canonicalAuthor: Peter B. Polgár
 canonicalPubDate: 2026-10-23T22:25:12Z
 sourceFeed: Canonical Blog
 summary: Canonical 有 60 多項技術產品，各團隊的使用者人物誌（persona）常常做完就過時、無法共享。他們改用「原型」（archetype）：以行為為基礎、每個論點都附來源、用 Markdown 放在 Git 版本控制的使用者描述，再由 AI Agent 協助蒐集與起草、由人負責判斷與審核，讓原型像產品一樣持續更新。
-taiwanTakeaway: 對台灣做 B2B 軟體、SaaS 或系統整合的團隊，這套做法最值得借鏡的不是 AI，而是「每個論點都要有出處」：把客戶訪談、客服紀錄、業務回饋整理成有來源、有版本的使用者原型，產品、行銷、業務與 AI Agent 就能用同一份資料講同一種語言。
+takeaway: 對台灣做 B2B 軟體、SaaS 或系統整合的團隊，這套做法最值得借鏡的不是 AI，而是「每個論點都要有出處」：把客戶訪談、客服紀錄、業務回饋整理成有來源、有版本的使用者原型，產品、行銷、業務與 AI Agent 就能用同一份資料講同一種語言。
 tags:
   - AI
   - Design
 ---
 
-## 🇹🇼 台灣觀點點評
+## ikusupuroa 觀點
 
 ### 1. 這不只是設計團隊的事
 

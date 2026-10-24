@@ -1,6 +1,8 @@
-# Canonical Taiwan Tech Hub（Canonical 台灣技術觀點站）
+# ikusupuroa 的 Ubuntu 技術筆記
 
-專注追蹤 Canonical & Ubuntu 官方最新技術，為台灣開發者與企業提供繁體精華導讀與在地觀點。
+我是 ikusupuroa，一個 Ubuntu 使用者。這個網站追蹤 Canonical 與 Ubuntu 官方的最新消息，用繁體中文整理重點，也分享我推薦 Ubuntu 的理由。
+
+網站：**https://ikusupuroa.github.io/ClaudeCodeOnTheWeb/**
 
 - **框架**：Astro 7（純靜態 SSG）＋ Tailwind CSS 4
 - **內容**：Astro Content Collections（`src/content/articles/`，具 TypeScript 型別的 Frontmatter Schema）
@@ -64,23 +66,29 @@ node scripts/fetch-sources.mjs --json       # JSON 輸出，方便 Claude 或其
 ## 專案結構
 
 ```text
+├── .github/workflows/
+│   ├── deploy.yml                 # PR 建置檢查；合併到 main 後部署到 GitHub Pages
+│   └── monitor-feeds.yml          # 每小時檢查官方 Blog，有新文章就開 Issue
 ├── scripts/
-│   └── fetch-sources.mjs          # RSS 監控與去重腳本
+│   ├── fetch-sources.mjs          # RSS 監控與去重腳本
+│   └── notify-new-articles.cjs    # 把新文章開成 GitHub Issue
 ├── src/
 │   ├── content/articles/          # 文章 Markdown（檔名即網址 slug）
 │   ├── content.config.ts          # 文章 Frontmatter Schema
 │   ├── data/sources-state.json    # 抓取與處理狀態追蹤檔
-│   ├── components/                # 卡片、台灣觀點卡片、原文出處區塊等
+│   ├── components/                # 文章卡片、觀點卡片、原文出處區塊等
 │   ├── layouts/BaseLayout.astro
 │   ├── lib/
 │   │   ├── articles.ts            # 取得／排序文章、統計標籤
 │   │   └── digest-sections.mjs    # Markdown 外掛：把兩大區塊包成 <section>
 │   ├── pages/
-│   │   ├── index.astro            # 首頁（Hero、標籤篩選、文章卡片）
-│   │   ├── about.astro            # 關於本站
+│   │   ├── index.astro            # 首頁（Hero、最新 6 篇、標籤連結）
+│   │   ├── about.astro            # 關於我
+│   │   ├── articles/index.astro   # 全部文章（標籤篩選）
 │   │   └── articles/[slug].astro  # 文章詳情頁
 │   └── styles/global.css          # Tailwind 與品牌色設定
-└── astro.config.mjs
+├── astro.config.mjs
+└── CLAUDE.md                      # Claude Code 的工作守則（發布流程、寫作規則）
 ```
 
 ---
@@ -97,10 +105,10 @@ canonicalTitle: Original English Title     # 必填，原文英文標題
 canonicalUrl: https://ubuntu.com/blog/...  # 必填，原文連結
 sourceFeed: Ubuntu Blog                    # 必填，"Canonical Blog" 或 "Ubuntu Blog"
 summary: 2-3 句原文核心摘要。               # 必填
-taiwanTakeaway: 台灣在地觀點核心引言。       # 必填，會顯示在文章頂部的亮眼卡片
+takeaway: 觀點的核心引言。                  # 必填，會顯示在文章頂部的觀點卡片
 tags: [Ubuntu, Security]                   # 必填，至少一個
 canonicalAuthor: Jane Doe                  # 選填，原文作者
-canonicalPubDate: 2026-10-15               # 選填，原文發布日期
+canonicalPubDate: 2026-10-15T12:16:02Z     # 選填，原文發布時間（排序依據；沒填就用 pubDate）
 draft: false                               # 選填，true 時不會建置
 ---
 ```
@@ -110,16 +118,16 @@ draft: false                               # 選填，true 時不會建置
 每篇文章內文**必須**包含以下兩個二級標題（文字需完全一致），缺一個建置就會失敗：
 
 ```markdown
-## 🇹🇼 台灣觀點點評
+## ikusupuroa 觀點
 
-（深入剖析此技術對台灣企業、開發者生態或雲端架構的實際落地價值）
+（以 Ubuntu 使用者的角度：值得注意的地方、該怎麼因應、Ubuntu 在這方面的優點）
 
 ## 原文精華導讀
 
 （繁體中文核心大綱、重點表格、技術演進，結尾附「### 出處」連結）
 ```
 
-`src/lib/digest-sections.mjs` 會自動把「台灣觀點點評」套上 Callout 樣式，把「原文精華導讀」套上導讀樣式，作者不需要手寫 HTML。
+`src/lib/digest-sections.mjs` 會自動把「ikusupuroa 觀點」套上 Callout 樣式，把「原文精華導讀」套上導讀樣式，作者不需要手寫 HTML。
 
 ### 撰寫原則
 
@@ -165,7 +173,7 @@ draft: false                               # 選填，true 時不會建置
 
 每小時的自動監控會用 GitHub Issue 通知你新文章（見上方「新文章自動監控」）。也可以隨時請 Claude 手動檢查：
 
-> 請執行 `node scripts/fetch-sources.mjs`，列出未處理的新文章，並依「對台灣企業與開發者的參考價值」排序，給我每篇一句話的推薦理由。
+> 請執行 `node scripts/fetch-sources.mjs`，列出未處理的新文章，並依「對 Ubuntu 使用者的參考價值」排序，給我每篇一句話的推薦理由。
 
 也可以直接貼原文網址，跳到 Step 2。
 
@@ -173,12 +181,12 @@ draft: false                               # 選填，true 時不會建置
 
 > 幫我新增一篇文章：https://ubuntu.com/blog/xxx
 
-想指定台灣觀點的方向可以一起說，例如「著重金融業合規」。Claude 會依序：
+想指定觀點的方向可以一起說，例如「著重金融業合規」。Claude 會依序：
 
 1. 閱讀原文，在 `src/content/articles/` 新增文章，並把 `sources-state.json` 中該篇標為 `published`。
 2. 執行 `npm run build` 與 `astro check`，確認零錯誤、零警告。
 3. 開 Pull Request，等 GitHub Actions 建置檢查通過後**直接合併**，網站約 1～2 分鐘後自動更新。
-4. 確認部署成功，回報文章網址、台灣觀點重點，以及文中標為「待確認」或「本站補充」的段落。
+4. 確認部署成功，回報文章網址、觀點重點，以及文中標為「待確認」或「本站補充」的段落。
 
 建置檢查失敗時，Claude 會先修正，不會合併壞掉的版本。
 
@@ -188,7 +196,7 @@ draft: false                               # 選填，true 時不會建置
 
 - [ ] 版本號、日期、指令與原文一致
 - [ ] `canonicalUrl` 可以正常開啟
-- [ ] 台灣觀點有具體場景，不是空泛的「值得關注」
+- [ ] 觀點有具體場景，不是空泛的「值得關注」
 - [ ] 沒有原文沒寫、卻被寫成事實的內容
 - [ ] 標籤沿用既有分類（Cloud、Ubuntu、AI、Security、Kubernetes 等），避免同義重複
 

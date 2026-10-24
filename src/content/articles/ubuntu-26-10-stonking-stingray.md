@@ -7,7 +7,7 @@ canonicalAuthor: Canonical
 canonicalPubDate: 2026-10-15T12:16:02Z
 sourceFeed: Ubuntu Blog
 summary: Ubuntu 26.10「Stonking Stingray」完成 Rust 版 uutils coreutils 的全面替換，並以 Sequoia PGP 帶來後量子（post-quantum）就緒的套件簽章。這一版也首度整合 Myna，一個在本機執行、不上傳語音的 speech-to-text 代理，作為 Ubuntu AI 路線圖的第一個里程碑。
-taiwanTakeaway: 26.10 是一個「現在就該開始測、但先別上正式環境」的版本：Rust coreutils 會直接考驗你們 CI 裡那堆 shell script，而 Myna 的本機語音辨識，則讓重視個資與機敏資料的台灣企業，第一次有機會在不把聲音送上雲的前提下評估 AI 輸入。
+takeaway: 26.10 是一個「現在就該開始測、但先別上正式環境」的版本：Rust coreutils 會直接考驗你們 CI 裡那堆 shell script，而 Myna 的本機語音辨識，則讓重視個資與機敏資料的台灣企業，第一次有機會在不把聲音送上雲的前提下評估 AI 輸入。
 tags:
   - Ubuntu
   - AI
@@ -15,7 +15,7 @@ tags:
   - Security
 ---
 
-## 🇹🇼 台灣觀點點評
+## ikusupuroa 觀點
 
 ### 1. 先定位：26.10 是 interim 版本，不是 LTS
 

@@ -7,14 +7,14 @@ canonicalAuthor: Mita Bhattacharya
 canonicalPubDate: 2026-10-21T10:00:00Z
 sourceFeed: Canonical Blog
 summary: Canonical 預告將在 KubeCon NA 2026 展示四個情境：用 Charmed OpenShell 管理大量 AI Agent、以本機推論與 OpenAI 相容 API 讓 AI 應用可以更換模型、在防火牆內建置完整 MLOps，以及用強化過的 rocks 容器映像檔保護軟體供應鏈，底層都是 Canonical Kubernetes 與 MicroCloud。
-taiwanTakeaway: 對想把生成式 AI 留在自家機房的台灣金融、製造與公部門，這篇最實用的是「模型可替換」的架構思路：應用程式透過 OpenAI 相容 API 呼叫本機模型，模型換供應商或搬回地端時，不必大改程式；至於 AI Agent 治理，Charmed OpenShell 目前仍是 alpha，適合先觀察、別急著上正式環境。
+takeaway: 對想把生成式 AI 留在自家機房的台灣金融、製造與公部門，這篇最實用的是「模型可替換」的架構思路：應用程式透過 OpenAI 相容 API 呼叫本機模型，模型換供應商或搬回地端時，不必大改程式；至於 AI Agent 治理，Charmed OpenShell 目前仍是 alpha，適合先觀察、別急著上正式環境。
 tags:
   - Kubernetes
   - AI
   - Cloud
 ---
 
-## 🇹🇼 台灣觀點點評
+## ikusupuroa 觀點
 
 ### 1. 先定位：這是一篇展覽預告
 

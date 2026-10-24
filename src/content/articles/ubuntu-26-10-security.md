@@ -7,14 +7,14 @@ canonicalAuthor: Ijlal Loutfi
 canonicalPubDate: 2026-10-06T14:19:19Z
 sourceFeed: Ubuntu Blog
 summary: Ubuntu 26.10 的資安主軸是「減少可被攻擊的程式碼」：簽章版 GRUB 移除多種檔案系統與影像解析器，核心工具全面改用 Rust，並升級到 OpenSSL 4.0 與 OpenSSH 10.5。同時加入 upki 憑證撤銷檢查、以 dbus-broker 取代 dbus-daemon，並強化 Microsoft MFA 登入與硬體金鑰 VPN 支援。
-taiwanTakeaway: 這一版的方向就是 28.04 LTS 的預告，台灣企業現在該做的是「提早盤點相容性」：/boot 用了 LVM、LUKS 或軟體 RAID 的標準映像檔、靠 OpenSSL ENGINE 介接 HSM 或智慧卡的系統，以及會複製、搬移、刪除檔案的特權腳本，都可能在升級後出問題。
+takeaway: 這一版的方向就是 28.04 LTS 的預告，台灣企業現在該做的是「提早盤點相容性」：/boot 用了 LVM、LUKS 或軟體 RAID 的標準映像檔、靠 OpenSSL ENGINE 介接 HSM 或智慧卡的系統，以及會複製、搬移、刪除檔案的特權腳本，都可能在升級後出問題。
 tags:
   - Security
   - Ubuntu
   - Rust
 ---
 
-## 🇹🇼 台灣觀點點評
+## ikusupuroa 觀點
 
 ### 1. 26.10 不是要你上正式環境，而是讓你提早看到 28.04 LTS
 

@@ -18,9 +18,9 @@ const allHref = withBase('/articles/');
     >
     </div>
     <div class="relative mx-auto max-w-6xl px-4 py-20 sm:px-6 md:py-28">
-      <p class="font-mono text-sm tracking-widest text-ubuntu-orange-light">CANONICAL × UBUNTU × TAIWAN</p>
+      <p class="font-mono text-sm tracking-widest text-ubuntu-orange-light">UBUNTU NOTES BY IKUSUPUROA</p>
       <h1 class="mt-4 max-w-3xl text-4xl font-bold leading-tight md:text-6xl">
-        {SITE.nameZh}
+        {SITE.title}
       </h1>
       <p class="mt-6 max-w-2xl text-lg leading-relaxed text-white/80 md:text-xl">
         {SITE.description}
@@ -33,7 +33,7 @@ const allHref = withBase('/articles/');
           瀏覽最新導讀
         </a>
         <a href={withBase('/about/')} class="rounded-full border border-white/30 px-6 py-2.5 font-medium text-white/90 transition hover:bg-white/10">
-          策展理念
+          關於我
         </a>
       </div>
       <dl class="mt-12 flex flex-wrap gap-x-10 gap-y-4 text-sm text-white/60">
@@ -57,7 +57,7 @@ const allHref = withBase('/articles/');
     <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
       <div>
         <h2 class="text-2xl font-bold md:text-3xl">最新精華導讀</h2>
-        <p class="mt-2 text-stone-600 dark:text-stone-400">每篇皆附「🇹🇼 台灣觀點點評」與 Canonical 官方原文出處。</p>
+        <p class="mt-2 text-stone-600 dark:text-stone-400">每篇都有我的觀點，也附上 Canonical 官方原文出處。</p>
       </div>
       <a href={allHref} class="shrink-0 font-medium text-ubuntu-orange hover:underline">全部文章 →</a>
     </div>

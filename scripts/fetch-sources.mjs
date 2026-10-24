@@ -155,7 +155,7 @@ function parseFeed(xml, source) {
 async function fetchFeed(feedUrl) {
   const response = await fetch(feedUrl, {
     headers: {
-      'User-Agent': 'CanonicalTaiwanTechHub/1.0 (+feed monitor)',
+      'User-Agent': 'ikusupuroa-ubuntu-notes/1.0 (+feed monitor)',
       Accept: 'application/rss+xml, application/atom+xml, application/xml;q=0.9, */*;q=0.8',
     },
     signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
@@ -219,7 +219,7 @@ async function main() {
 
 function printReport({ fetched, known, unique, errors }) {
   const line = '─'.repeat(72);
-  console.log(`\nCanonical Taiwan Tech Hub｜新文章監控  ${formatDate(new Date())}`);
+  console.log(`\nikusupuroa Ubuntu 技術筆記｜新文章監控  ${formatDate(new Date())}`);
   console.log(line);
   console.log(`已抓取 ${fetched} 篇 ・ 追蹤檔已記錄 ${known} 篇 ・ 未處理 ${unique.length} 篇`);
 
