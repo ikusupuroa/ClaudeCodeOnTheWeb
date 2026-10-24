@@ -1,0 +1,94 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import { getArticles, countTags } from '../../lib/articles';
+
+const articles = await getArticles();
+const tags = countTags(articles);
+---
+
+<BaseLayout title="全部文章" description="Canonical 台灣技術觀點站的全部精華導讀，可依標籤篩選。">
+  <section class="bg-aubergine-deep text-white">
+    <div class="mx-auto max-w-6xl px-4 py-14 sm:px-6 md:py-16">
+      <p class="font-mono text-sm tracking-widest text-ubuntu-orange-light">ALL ARTICLES</p>
+      <h1 class="mt-3 text-3xl font-bold md:text-5xl">全部文章</h1>
+      <p class="mt-4 text-lg text-white/80">共 {articles.length} 篇精華導讀，由新到舊排列，可依標籤篩選。</p>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+    <div class="flex flex-wrap gap-2" role="toolbar" aria-label="依標籤篩選" data-tag-filter>
+      <button
+        type="button"
+        data-tag=""
+        aria-pressed="true"
+        class="tag-btn rounded-full border border-stone-300 px-4 py-1.5 text-sm transition dark:border-white/20"
+      >
+        全部 <span class="opacity-60">{articles.length}</span>
+      </button>
+      {
+        tags.map(([tag, count]) => (
+          <button
+            type="button"
+            data-tag={tag}
+            aria-pressed="false"
+            class="tag-btn rounded-full border border-stone-300 px-4 py-1.5 text-sm transition dark:border-white/20"
+          >
+            #{tag} <span class="opacity-60">{count}</span>
+          </button>
+        ))
+      }
+    </div>
+
+    <div class="mt-8 grid gap-6 md:grid-cols-2" data-article-grid>
+      {articles.map((article) => <ArticleCard article={article} />)}
+    </div>
+
+    <p class="mt-10 hidden text-center text-stone-500" data-empty-state>此標籤目前沒有文章。</p>
+  </section>
+</BaseLayout>
+
+<style>
+  .tag-btn:hover {
+    border-color: var(--color-ubuntu-orange);
+    color: var(--color-ubuntu-orange);
+  }
+  .tag-btn[aria-pressed='true'] {
+    border-color: var(--color-ubuntu-orange);
+    background-color: var(--color-ubuntu-orange);
+    color: #fff;
+  }
+</style>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-tag-filter] [data-tag]');
+  const cards = document.querySelectorAll<HTMLElement>('[data-article-card]');
+  const emptyState = document.querySelector<HTMLElement>('[data-empty-state]');
+
+  function applyFilter(tag: string) {
+    let visible = 0;
+    cards.forEach((card) => {
+      const tags: string[] = JSON.parse(card.dataset.tags ?? '[]');
+      const show = !tag || tags.includes(tag);
+      card.hidden = !show;
+      if (show) visible++;
+    });
+    buttons.forEach((btn) => btn.setAttribute('aria-pressed', String((btn.dataset.tag ?? '') === tag)));
+    emptyState?.classList.toggle('hidden', visible > 0);
+  }
+
+  buttons.forEach((btn) =>
+    btn.addEventListener('click', () => {
+      const tag = btn.dataset.tag ?? '';
+      const url = new URL(window.location.href);
+      if (tag) url.searchParams.set('tag', tag);
+      else url.searchParams.delete('tag');
+      history.replaceState(null, '', url);
+      applyFilter(tag);
+    }),
+  );
+
+  const initial = new URLSearchParams(window.location.search).get('tag') ?? '';
+  const known = [...buttons].some((btn) => btn.dataset.tag === initial);
+  applyFilter(known ? initial : '');
+</script>
