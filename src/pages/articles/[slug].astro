@@ -1,0 +1,111 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SourceBadge from '../../components/SourceBadge.astro';
+import TagList from '../../components/TagList.astro';
+import TaiwanTakeawayCard from '../../components/TaiwanTakeawayCard.astro';
+import SourceAttribution from '../../components/SourceAttribution.astro';
+import { getArticles, type Article } from '../../lib/articles';
+import { formatDate, isoDate } from '../../lib/site';
+
+export async function getStaticPaths() {
+  const articles = await getArticles();
+  return articles.map((article, i) => ({
+    params: { slug: article.id },
+    props: { article, newer: articles[i - 1], older: articles[i + 1] },
+  }));
+}
+
+interface Props {
+  article: Article;
+  newer?: Article;
+  older?: Article;
+}
+
+const { article, newer, older } = Astro.props;
+const { data } = article;
+
+// 每篇文章必須同時包含兩個主要區塊，缺一即中止建置
+const REQUIRED_SECTIONS = ['## 🇹🇼 台灣觀點點評', '## 原文精華導讀'];
+const missing = REQUIRED_SECTIONS.filter((heading) => !article.body?.includes(heading));
+if (missing.length > 0) {
+  throw new Error(`文章「${article.id}」缺少必要區塊：${missing.join('、')}`);
+}
+
+const { Content } = await render(article);
+---
+
+<BaseLayout title={data.title} description={data.summary}>
+  <article class="mx-auto max-w-3xl px-4 pt-10 sm:px-6 md:pt-14">
+    <nav class="text-sm text-stone-500 dark:text-stone-400" aria-label="麵包屑">
+      <a href="/" class="hover:text-ubuntu-orange">最新導讀</a>
+      <span class="mx-2">/</span>
+      <span>{data.sourceFeed}</span>
+    </nav>
+
+    <header class="mt-6">
+      <div class="flex flex-wrap items-center gap-2">
+        <SourceBadge feed={data.sourceFeed} />
+        <time datetime={isoDate(data.pubDate)} class="text-sm text-stone-500 dark:text-stone-400">
+          導讀發表：{formatDate(data.pubDate)}
+        </time>
+      </div>
+      <h1 class="mt-4 text-3xl font-bold leading-snug text-stone-900 md:text-[2.6rem] md:leading-tight dark:text-white">
+        {data.title}
+      </h1>
+      <p class="mt-4 text-lg leading-relaxed text-stone-600 dark:text-stone-300">{data.summary}</p>
+      <div class="mt-5"><TagList tags={data.tags} linked /></div>
+    </header>
+
+    <div class="mt-8">
+      <SourceAttribution
+        position="top"
+        canonicalTitle={data.canonicalTitle}
+        canonicalUrl={data.canonicalUrl}
+        sourceFeed={data.sourceFeed}
+        canonicalAuthor={data.canonicalAuthor}
+        canonicalPubDate={data.canonicalPubDate}
+      />
+    </div>
+
+    <div class="mt-8">
+      <TaiwanTakeawayCard takeaway={data.taiwanTakeaway} />
+    </div>
+
+    <div class="article-prose mt-12">
+      <Content />
+    </div>
+
+    <div class="mt-14">
+      <SourceAttribution
+        position="bottom"
+        canonicalTitle={data.canonicalTitle}
+        canonicalUrl={data.canonicalUrl}
+        sourceFeed={data.sourceFeed}
+        canonicalAuthor={data.canonicalAuthor}
+        canonicalPubDate={data.canonicalPubDate}
+      />
+    </div>
+
+    {
+      (newer || older) && (
+        <nav class="mt-10 grid gap-4 sm:grid-cols-2" aria-label="其他文章">
+          {older ? (
+            <a href={`/articles/${older.id}/`} class="rounded-xl border border-stone-200 p-4 transition hover:border-ubuntu-orange dark:border-white/10">
+              <span class="text-xs text-stone-500">← 較早的導讀</span>
+              <span class="mt-1 block font-medium">{older.data.title}</span>
+            </a>
+          ) : (
+            <span />
+          )}
+          {newer && (
+            <a href={`/articles/${newer.id}/`} class="rounded-xl border border-stone-200 p-4 text-right transition hover:border-ubuntu-orange dark:border-white/10">
+              <span class="text-xs text-stone-500">較新的導讀 →</span>
+              <span class="mt-1 block font-medium">{newer.data.title}</span>
+            </a>
+          )}
+        </nav>
+      )
+    }
+  </article>
+</BaseLayout>

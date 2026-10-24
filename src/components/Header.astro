@@ -1,0 +1,68 @@
+---
+import Logo from './Logo.astro';
+import { SITE } from '../lib/site';
+
+const links = [
+  { href: '/', label: '最新導讀' },
+  { href: '/about/', label: '關於本站' },
+];
+
+const path = Astro.url.pathname;
+const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
+---
+
+<header
+  class="sticky top-0 z-40 border-b border-white/10 bg-aubergine-deep/95 text-white backdrop-blur supports-[backdrop-filter]:bg-aubergine-deep/85"
+>
+  <div class="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
+    <a href="/" class="flex min-w-0 items-center gap-3">
+      <Logo />
+      <span class="min-w-0 leading-tight">
+        <span class="block truncate text-[0.95rem] font-medium tracking-wide">{SITE.name}</span>
+        <span class="block truncate text-xs text-white/60">{SITE.nameZh}</span>
+      </span>
+    </a>
+
+    <nav class="flex items-center gap-1 text-sm">
+      {
+        links.map((link) => (
+          <a
+            href={link.href}
+            class:list={[
+              'whitespace-nowrap rounded-md px-2.5 py-1.5 transition-colors sm:px-3',
+              isActive(link.href)
+                ? 'bg-white/10 text-white'
+                : 'text-white/70 hover:bg-white/5 hover:text-white',
+            ]}
+            aria-current={isActive(link.href) ? 'page' : undefined}
+          >
+            {link.label}
+          </a>
+        ))
+      }
+      <button
+        type="button"
+        id="theme-toggle"
+        class="ml-1 rounded-md p-2 text-white/70 transition-colors hover:bg-white/5 hover:text-white"
+        aria-label="切換深色／亮色模式"
+      >
+        <svg class="h-5 w-5 dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+        <svg class="hidden h-5 w-5 dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"></circle>
+          <path stroke-linecap="round" d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
+        </svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<script>
+  document.getElementById('theme-toggle')?.addEventListener('click', () => {
+    const isDark = document.documentElement.classList.toggle('dark');
+    try {
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    } catch {}
+  });
+</script>

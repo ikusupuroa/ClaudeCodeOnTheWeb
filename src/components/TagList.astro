@@ -1,0 +1,26 @@
+---
+interface Props {
+  tags: string[];
+  linked?: boolean;
+}
+
+const { tags, linked = false } = Astro.props;
+const cls =
+  'rounded-md border border-stone-200 px-2 py-0.5 text-xs text-stone-600 dark:border-white/15 dark:text-stone-300';
+---
+
+<ul class="flex flex-wrap gap-1.5" aria-label="標籤">
+  {
+    tags.map((tag) => (
+      <li>
+        {linked ? (
+          <a href={`/?tag=${encodeURIComponent(tag)}`} class:list={[cls, 'transition-colors hover:border-ubuntu-orange hover:text-ubuntu-orange']}>
+            #{tag}
+          </a>
+        ) : (
+          <span class={cls}>#{tag}</span>
+        )}
+      </li>
+    ))
+  }
+</ul>

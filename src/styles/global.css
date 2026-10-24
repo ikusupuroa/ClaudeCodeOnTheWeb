@@ -1,0 +1,127 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* Canonical / Ubuntu 品牌色 */
+  --color-ubuntu-orange: #e95420;
+  --color-ubuntu-orange-light: #f26b3a;
+  --color-ubuntu-orange-soft: #fdeee8;
+  --color-aubergine: #77216f;
+  --color-aubergine-mid: #5e2750;
+  --color-aubergine-deep: #2c001e;
+  --color-warm-grey: #aea79f;
+  --color-cool-grey: #333333;
+
+  /* 中英混排：Ubuntu 負責拉丁字，Noto Sans TC 負責中文 */
+  --font-sans: 'Ubuntu', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', system-ui, sans-serif;
+  --font-mono: 'Ubuntu Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+}
+
+@layer base {
+  html {
+    @apply scroll-smooth antialiased;
+    font-feature-settings: 'palt' 0;
+  }
+
+  body {
+    @apply bg-white font-sans text-[#111] dark:bg-[#1a0014] dark:text-stone-100;
+    line-height: 1.75;
+    letter-spacing: 0.01em;
+  }
+
+  ::selection {
+    @apply bg-ubuntu-orange text-white;
+  }
+}
+
+/* ---------- 文章內文 ---------- */
+@layer components {
+  .article-prose {
+    @apply prose prose-lg max-w-none dark:prose-invert;
+    --tw-prose-links: var(--color-ubuntu-orange);
+    --tw-prose-invert-links: var(--color-ubuntu-orange-light);
+    --tw-prose-quote-borders: var(--color-aubergine);
+    --tw-prose-invert-quote-borders: var(--color-ubuntu-orange);
+  }
+
+  /* 中文段落行高與字距 */
+  .article-prose :where(p, li) {
+    line-height: 1.9;
+  }
+
+  .article-prose :where(h2, h3) {
+    @apply scroll-mt-24 tracking-normal;
+  }
+
+  .article-prose :where(code):not(:where(pre code)) {
+    @apply rounded bg-stone-100 px-1.5 py-0.5 font-mono text-[0.9em] font-normal text-aubergine-mid dark:bg-white/10 dark:text-orange-200;
+  }
+
+  .article-prose :where(code):not(:where(pre code))::before,
+  .article-prose :where(code):not(:where(pre code))::after {
+    content: none;
+  }
+
+  .article-prose pre {
+    @apply rounded-lg border border-stone-200 font-mono text-[0.92rem] leading-relaxed dark:border-white/10;
+  }
+
+  /* 中文引言不套英文引號與斜體 */
+  .article-prose blockquote {
+    @apply font-normal not-italic;
+  }
+
+  .article-prose blockquote p::before,
+  .article-prose blockquote p::after {
+    content: none;
+  }
+
+  .article-prose table {
+    @apply block overflow-x-auto text-base md:table;
+  }
+
+  .article-prose thead th {
+    @apply bg-aubergine-mid/5 px-3 dark:bg-white/5;
+  }
+
+  .article-prose td {
+    @apply px-3;
+  }
+
+  /* 【🇹🇼 台灣觀點點評】Callout */
+  .article-prose .section-taiwan {
+    @apply relative mb-12 overflow-hidden rounded-2xl border border-ubuntu-orange/30 bg-gradient-to-br from-ubuntu-orange-soft via-white to-white p-6 shadow-sm md:p-8 dark:border-ubuntu-orange/40 dark:from-ubuntu-orange/15 dark:via-aubergine-deep dark:to-aubergine-deep;
+  }
+
+  .article-prose .section-taiwan::before {
+    content: '';
+    @apply absolute inset-y-0 left-0 w-1.5 bg-gradient-to-b from-ubuntu-orange to-aubergine;
+  }
+
+  .article-prose .section-taiwan > h2 {
+    @apply mt-0 text-ubuntu-orange dark:text-ubuntu-orange-light;
+  }
+
+  .article-prose .section-taiwan > :last-child {
+    @apply mb-0;
+  }
+
+  /* 【原文精華導讀】 */
+  .article-prose .section-digest > h2 {
+    @apply mt-0 border-b-2 border-aubergine/20 pb-2 dark:border-white/15;
+  }
+
+  .article-prose .section-digest > h2::before {
+    content: '';
+    @apply mr-3 inline-block h-[0.9em] w-1.5 -translate-y-px rounded-sm bg-aubergine align-middle dark:bg-ubuntu-orange;
+  }
+}
+
+/* Shiki 雙主題切換 */
+.dark .astro-code,
+.dark .astro-code span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
+}

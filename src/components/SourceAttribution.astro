@@ -1,0 +1,60 @@
+---
+import { formatDate } from '../lib/site';
+
+interface Props {
+  position: 'top' | 'bottom';
+  canonicalTitle: string;
+  canonicalUrl: string;
+  sourceFeed: string;
+  canonicalAuthor?: string;
+  canonicalPubDate?: Date;
+}
+
+const { position, canonicalTitle, canonicalUrl, sourceFeed, canonicalAuthor, canonicalPubDate } = Astro.props;
+---
+
+{
+  position === 'top' ? (
+    <div class="flex flex-col gap-2 rounded-xl border border-stone-200 bg-stone-50 px-4 py-3 text-sm sm:flex-row sm:items-center sm:justify-between dark:border-white/10 dark:bg-white/[0.04]">
+      <p class="min-w-0 text-stone-600 dark:text-stone-300">
+        <span class="font-medium text-stone-800 dark:text-white">原文</span>
+        <span class="mx-1.5 text-stone-300 dark:text-white/20">|</span>
+        <span lang="en" class="font-mono">{canonicalTitle}</span>
+        {canonicalAuthor && <span class="ml-1.5">— {canonicalAuthor}</span>}
+        {canonicalPubDate && <span class="ml-1.5">（{formatDate(canonicalPubDate)}）</span>}
+      </p>
+      <a
+        href={canonicalUrl}
+        rel="noopener"
+        class="inline-flex shrink-0 items-center gap-1 font-medium text-ubuntu-orange hover:underline"
+      >
+        前往 {sourceFeed} 閱讀原文 <span aria-hidden="true">↗</span>
+      </a>
+    </div>
+  ) : (
+    <section class="rounded-2xl border-2 border-aubergine/20 bg-aubergine/[0.03] p-6 dark:border-white/10 dark:bg-white/[0.03]" aria-label="原文出處與版權聲明">
+      <p class="text-sm font-medium tracking-widest text-aubergine dark:text-ubuntu-orange-light">SOURCE & COPYRIGHT｜原文出處與版權</p>
+      <dl class="mt-4 grid gap-x-6 gap-y-2 text-sm sm:grid-cols-[auto_1fr]">
+        <dt class="text-stone-500 dark:text-stone-400">原文標題</dt>
+        <dd lang="en" class="font-mono text-stone-900 dark:text-white">{canonicalTitle}</dd>
+        <dt class="text-stone-500 dark:text-stone-400">作者</dt>
+        <dd class="text-stone-900 dark:text-white">{canonicalAuthor ?? 'Canonical'}</dd>
+        {canonicalPubDate && (
+          <>
+            <dt class="text-stone-500 dark:text-stone-400">原文發布</dt>
+            <dd class="text-stone-900 dark:text-white">{formatDate(canonicalPubDate)}</dd>
+          </>
+        )}
+        <dt class="text-stone-500 dark:text-stone-400">來源</dt>
+        <dd class="text-stone-900 dark:text-white">{sourceFeed}</dd>
+        <dt class="text-stone-500 dark:text-stone-400">連結</dt>
+        <dd class="break-all">
+          <a href={canonicalUrl} rel="noopener" class="text-ubuntu-orange hover:underline">{canonicalUrl}</a>
+        </dd>
+      </dl>
+      <p class="mt-4 border-t border-aubergine/10 pt-4 text-xs leading-relaxed text-stone-500 dark:border-white/10 dark:text-stone-400">
+        本文為原文之繁體中文導讀與評論，非逐字翻譯；技術細節、版本與價格請以 Canonical 官方原文為準。原文著作權屬 Canonical Ltd. 及原作者所有。
+      </p>
+    </section>
+  )
+}
