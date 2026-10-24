@@ -20,6 +20,8 @@ nvm use        # 若使用 nvm，會讀取 .nvmrc
 npm install
 ```
 
+在 Claude Code 雲端工作階段中，`.claude/hooks/session-start.sh` 會在每次啟動時自動檢查 Node.js 版本，不足 22.23.4 就安裝 Node 24 LTS，再執行 `npm install`，不需要手動設定。
+
 ## 常用指令
 
 | 指令 | 說明 |
@@ -161,7 +163,9 @@ draft: false                               # 選填，true 時不會建置
 | `skipped` | 審查後決定不處理；可用 `note` 說明原因 |
 | `unpublished` | 曾發布但已下架（文章設為 `draft: true`）；用 `note` 說明原因 |
 
-比對時網址會先正規化（統一 https、去掉 `www.`、重複斜線、結尾斜線與 `utm_*` 參數），所以 `https://ubuntu.com//blog/xxx/` 與 `https://ubuntu.com/blog/xxx` 會被當成同一篇。
+比對時以網址中 `/blog/` 之後的路徑（slug）判斷是不是同一篇，並先正規化網址（統一 https、去掉 `www.`、重複斜線、結尾斜線與 `utm_*` 參數）。
+
+Canonical Blog 與 Ubuntu Blog 常刊登同一篇文章，slug 相同就視為同一篇：兩邊同時出現時以**先發表的那一邊**為來源；一邊已記錄在追蹤檔後，另一邊之後才刊登的同一篇會自動略過，不會再通知。
 
 ---
 

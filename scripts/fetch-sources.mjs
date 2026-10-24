@@ -52,6 +52,20 @@ function normalizeUrl(raw) {
   }
 }
 
+/**
+ * 文章識別鍵：網址中 /blog/ 之後的路徑（slug）。
+ * Canonical Blog 與 Ubuntu Blog 常刊登同一篇文章、slug 相同，用 slug 比對才能視為同一篇。
+ */
+function articleKey(url) {
+  const normalized = normalizeUrl(url);
+  try {
+    const match = new URL(normalized).pathname.match(/\/blog\/(.+)$/);
+    return match ? match[1] : normalized;
+  } catch {
+    return normalized;
+  }
+}
+
 const ENTITIES = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ', hellip: '…' };
 
 function decodeEntities(text) {
@@ -168,7 +182,8 @@ async function fetchFeed(feedUrl) {
 
 async function main() {
   const state = JSON.parse(await readFile(STATE_PATH, 'utf8'));
-  const known = new Map(toArray(state.items).map((item) => [normalizeUrl(item.url), item]));
+  // 追蹤檔用 slug 比對：一邊已處理過，另一邊之後才刊登的同一篇就不再列出
+  const known = new Map(toArray(state.items).map((item) => [articleKey(item.url), item]));
 
   const results = await Promise.allSettled(state.monitored_feeds.map(fetchFeed));
 
@@ -184,17 +199,20 @@ async function main() {
     }
     fetched += result.value.length;
     const fresh = result.value
-      .filter((item) => item.url && !known.has(item.url))
+      .filter((item) => item.url && !known.has(articleKey(item.url)))
       .sort((a, b) => b.pubDate - a.pubDate)
       .slice(0, limit);
     newItems.push(...fresh);
   });
 
-  // 同一篇文章可能同時出現在兩個 Feed
-  const seen = new Set();
-  const unique = newItems
-    .filter((item) => (seen.has(item.url) ? false : seen.add(item.url)))
-    .sort((a, b) => b.pubDate - a.pubDate);
+  // 同一篇文章可能同時出現在兩個 Feed：只保留先發表的那一邊
+  const earliest = new Map();
+  for (const item of newItems) {
+    const key = articleKey(item.url);
+    const current = earliest.get(key);
+    if (!current || item.pubDate < current.pubDate) earliest.set(key, item);
+  }
+  const unique = [...earliest.values()].sort((a, b) => b.pubDate - a.pubDate);
 
   if (asJson) {
     console.log(
