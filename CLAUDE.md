@@ -11,6 +11,12 @@
 - 編輯要求**下架**時：在該篇 frontmatter 加 `draft: true`（不要刪檔），`src/data/sources-state.json` 該篇 `status` 改為 `unpublished` 並加 `note` 說明原因，合併後回報。
 - 自動合併只適用於文章的新增、修改、下架；網站程式、版型或部署設定的變更，仍要先讓編輯確認。
 
+## 新文章監控 Issue
+
+- `monitor-feeds.yml` 每小時開帶 `new-articles` 標籤的 Issue 列出新文章；編輯會用「Issue #N 的第 X 篇」指定要寫哪幾篇。
+- 處理時：要寫的照上方流程發布；編輯說略過的，在 `sources-state.json` 標為 `skipped` 並加 `note`。
+- 該 Issue 的每一篇都處理完（發布或略過）後，在 Issue 留言說明處理結果並關閉 Issue。
+
 ## 寫作規則
 
 - 每篇都必須有 `## 🇹🇼 台灣觀點點評` 與 `## 原文精華導讀` 兩個區塊（缺一建置會失敗）。

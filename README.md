@@ -49,6 +49,18 @@ node scripts/fetch-sources.mjs --json       # JSON 輸出，方便 Claude 或其
 
 ---
 
+## 新文章自動監控（GitHub Issue 通知）
+
+`.github/workflows/monitor-feeds.yml` 每小時（UTC 第 17 分）在 GitHub Actions 上執行 `fetch-sources.mjs`：
+
+- 有尚未處理、也還沒通知過的新文章時，自動開一個帶 `new-articles` 標籤的 Issue，並 @ repo 擁有者，觸發 GitHub 的手機推播與 Email 通知。
+- 同一篇文章只會通知一次（比對所有 `new-articles` Issue 內的網址），沒有新文章時不會開 Issue。
+- 想立刻檢查，可以到 Actions 頁面手動執行「Monitor Canonical & Ubuntu feeds」（Run workflow）。
+- 選題後回到 Claude Code 對話，例如：「Issue #5 的第 1、3 篇要寫，其他略過」。
+- 注意：公開 repo 連續 60 天沒有任何 commit，GitHub 會自動停用排程，需要到 Actions 頁面重新啟用。
+
+---
+
 ## 專案結構
 
 ```text
@@ -150,6 +162,8 @@ draft: false                               # 選填，true 時不會建置
 本站採用 **「先發布、後審查」**：Claude 寫完文章、建置檢查通過後就直接合併上線，並通知編輯；編輯看過網站後，發現問題再請 Claude 修改或下架。
 
 ### Step 1：檢查新文章（選用）
+
+每小時的自動監控會用 GitHub Issue 通知你新文章（見上方「新文章自動監控」）。也可以隨時請 Claude 手動檢查：
 
 > 請執行 `node scripts/fetch-sources.mjs`，列出未處理的新文章，並依「對台灣企業與開發者的參考價值」排序，給我每篇一句話的推薦理由。
 
