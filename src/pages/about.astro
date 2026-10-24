@@ -1,66 +1,77 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { SITE } from '../lib/site';
+import { SITE, withBase } from '../lib/site';
+
+const reasons = [
+  {
+    title: '長期支援，升級有節奏',
+    body: 'LTS 版本每兩年一版，標準支援 5 年，搭配 Ubuntu Pro（含 Legacy add-on）最長可到 15 年。正式環境不必追著版本跑，可以按自己的節奏規劃升級。',
+  },
+  {
+    title: '安全修補跟得上',
+    body: '從本站整理的 PHP、curl、憑證外洩等事件可以看到，Ubuntu 會為所有支援中的版本釋出修補，還有預設開啟的自動安全更新。',
+  },
+  {
+    title: '從筆電到雲端都是同一套',
+    body: '桌機、伺服器、主要公有雲、Kubernetes 與邊緣裝置都能跑 Ubuntu，學一次就能用在很多地方。',
+  },
+  {
+    title: '開源，而且一直在進步',
+    body: '從 Rust 改寫的核心工具、後量子密碼，到在本機執行的語音輸入 Myna，每個版本都看得到新東西。',
+  },
+];
 
 const workflow = [
-  {
-    step: '01',
-    title: '自動監控',
-    who: '腳本',
-    body: '監控腳本定期抓取 Canonical Blog 與 Ubuntu Blog 的官方 RSS Feed，並與追蹤檔比對，列出尚未處理的新文章。',
-  },
-  {
-    step: '02',
-    title: '選題審查',
-    who: '編輯',
-    body: '編輯從清單中挑出對台灣企業與開發者真正有意義的主題，略過純活動公告或重複資訊，並在追蹤檔記錄決定。',
-  },
-  {
-    step: '03',
-    title: 'AI 協作撰稿',
-    who: 'Claude Code',
-    body: 'Claude Code 閱讀官方原文，產出繁體中文精華導讀與在地觀點初稿；不確定的技術細節會明確標註，不自行補完。',
-  },
-  {
-    step: '04',
-    title: '人工把關發布',
-    who: '編輯',
-    body: '編輯逐段核對原文、修正觀點與用詞，確認出處連結正確後才合併發布。每篇文章都保留原文連結供讀者查證。',
-  },
+  { step: '01', who: '自動', title: '監控官方消息', body: 'GitHub Actions 每小時檢查 Canonical Blog 與 Ubuntu Blog，有新文章就開 Issue 通知我。' },
+  { step: '02', who: 'ikusupuroa', title: '挑選主題', body: '我從清單中挑出值得分享的文章，略過純活動公告或重複的內容。' },
+  { step: '03', who: 'Claude Code', title: 'AI 協作撰稿', body: 'Claude Code 閱讀官方原文，整理成繁體中文導讀與觀點初稿；查不到的內容會標註「待確認」。' },
+  { step: '04', who: 'ikusupuroa', title: '上線後檢查', body: '文章通過建置檢查後直接上線，我再逐篇確認；有問題就修改或下架。' },
 ];
 ---
 
-<BaseLayout title="關於本站" description={`關於 ${SITE.nameZh}：策展初衷與人機協同審查模式。`}>
+<BaseLayout title="關於我" description={`關於 ${SITE.name}：一個 Ubuntu 使用者，以及這個網站怎麼運作。`}>
   <section class="bg-aubergine-deep text-white">
     <div class="mx-auto max-w-3xl px-4 py-16 sm:px-6 md:py-20">
-      <p class="font-mono text-sm tracking-widest text-ubuntu-orange-light">ABOUT</p>
-      <h1 class="mt-3 text-3xl font-bold md:text-5xl">關於本站</h1>
-      <p class="mt-5 text-lg leading-relaxed text-white/80">{SITE.description}</p>
+      <p class="font-mono text-sm tracking-widest text-ubuntu-orange-light">ABOUT ME</p>
+      <h1 class="mt-3 text-3xl font-bold md:text-5xl">嗨，我是 ikusupuroa</h1>
+      <p class="mt-5 text-lg leading-relaxed text-white/80">
+        我是一個 Ubuntu 使用者。這個網站是我的 Ubuntu 技術筆記：追蹤 Canonical 與 Ubuntu 的官方消息，用繁體中文整理重點，也分享我為什麼推薦 Ubuntu。
+      </p>
     </div>
   </section>
 
   <div class="mx-auto max-w-3xl px-4 py-14 sm:px-6">
     <section class="article-prose">
-      <h2>策展初衷</h2>
+      <h2>為什麼做這個網站</h2>
       <p>
-        Canonical 每週在官方部落格發布大量 Ubuntu、雲端、Kubernetes、AI 與資安相關的技術文章，但多數為英文，
-        而且是以全球市場的角度撰寫。台灣的企業 IT、雲端架構師與開發者真正想知道的往往是：
-        <strong>這件事跟我有什麼關係？我的環境要不要動？成本與風險是什麼？</strong>
+        Canonical 與 Ubuntu 的官方部落格每週都有不少新消息，從安全修補、新版本到雲端與 AI，但大多是英文，也不一定會說明「這件事跟我有什麼關係」。
       </p>
-      <p>本站因此只做兩件事：</p>
+      <p>所以每篇文章我都分成兩個部分：</p>
       <ul>
-        <li><strong>原文精華導讀</strong>：把官方文章濃縮成結構清楚的繁體中文重點，技術名詞保留英文原文，並附上官方出處連結。</li>
-        <li>
-          <strong>🇹🇼 台灣觀點點評</strong>：從台灣企業的上雲現況、法規環境、產業結構與開發者生態出發，評估這項技術的實際落地價值。
-        </li>
+        <li><strong>ikusupuroa 觀點</strong>：以 Ubuntu 使用者的角度，說明這件事值得注意的地方、要怎麼因應，以及 Ubuntu 在這方面做得好的地方。</li>
+        <li><strong>原文精華導讀</strong>：把官方文章整理成繁體中文重點，技術名詞保留英文，並附上官方出處連結。</li>
       </ul>
-      <p>本站不是逐字翻譯，也不取代官方文件。所有版本號、價格與支援政策，請以 Canonical 官方原文為準。</p>
+      <p>這裡不是逐字翻譯，也不取代官方文件。版本、價格與支援政策，請以 Canonical 官方原文為準。</p>
     </section>
 
     <section class="mt-14">
-      <h2 class="text-2xl font-bold">人機協同審查模式</h2>
+      <h2 class="text-2xl font-bold">我推薦 Ubuntu 的理由</h2>
+      <ul class="mt-6 grid gap-4 sm:grid-cols-2">
+        {
+          reasons.map((item) => (
+            <li class="rounded-2xl border border-stone-200 p-5 dark:border-white/10">
+              <h3 class="text-lg font-bold text-ubuntu-orange">{item.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-stone-600 dark:text-stone-300">{item.body}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section class="mt-14">
+      <h2 class="text-2xl font-bold">文章是怎麼產生的</h2>
       <p class="mt-3 leading-relaxed text-stone-600 dark:text-stone-300">
-        本站採用「腳本監控 → 編輯選題 → Claude Code 協作撰稿 → 人工把關發布」的流程，讓 AI 負責速度，讓人負責判斷。
+        我用 Claude Code 協作撰稿：AI 負責速度，我負責判斷。
       </p>
       <ol class="mt-8 grid gap-4 sm:grid-cols-2">
         {
@@ -81,17 +92,18 @@ const workflow = [
     </section>
 
     <section class="mt-14 rounded-2xl border border-ubuntu-orange/30 bg-ubuntu-orange-soft/50 p-6 dark:bg-ubuntu-orange/10">
-      <h2 class="text-xl font-bold">編輯原則</h2>
+      <h2 class="text-xl font-bold">寫作原則</h2>
       <ul class="mt-4 list-disc space-y-2 pl-5 text-stone-700 dark:text-stone-300">
-        <li>每篇導讀都必須附上 Canonical 官方原文連結與作者資訊。</li>
+        <li>每篇導讀都附上 Canonical 官方原文連結與作者資訊。</li>
         <li>技術名詞保留英文，並附繁體中文說明，例如 Livepatch（核心熱修補）。</li>
-        <li>原文沒寫、我們也無法查證的內容，會明確標註「待確認」，不做臆測。</li>
-        <li>觀點點評代表本站立場，不代表 Canonical 官方意見。</li>
+        <li>推薦 Ubuntu，但不誇大：原文沒寫、也查不到的內容，會標註「待確認」。</li>
+        <li>觀點是我個人的看法，不代表 Canonical 官方意見。</li>
       </ul>
     </section>
 
     <p class="mt-10 text-sm text-stone-500 dark:text-stone-400">
-      本站為獨立的非官方策展站，與 Canonical Ltd. 無隸屬關係。Ubuntu 與 Canonical 為 Canonical Ltd. 之註冊商標。
+      本站由 ikusupuroa 個人經營，與 Canonical Ltd. 無隸屬關係。Ubuntu 與 Canonical 為 Canonical Ltd. 之註冊商標。
+      <a href={withBase('/articles/')} class="text-ubuntu-orange hover:underline">看全部文章 →</a>
     </p>
   </div>
 </BaseLayout>

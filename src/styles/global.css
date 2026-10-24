@@ -90,21 +90,21 @@
     @apply px-3;
   }
 
-  /* 【🇹🇼 台灣觀點點評】Callout */
-  .article-prose .section-taiwan {
+  /* 【ikusupuroa 觀點】Callout */
+  .article-prose .section-take {
     @apply relative mb-12 overflow-hidden rounded-2xl border border-ubuntu-orange/30 bg-gradient-to-br from-ubuntu-orange-soft via-white to-white p-6 shadow-sm md:p-8 dark:border-ubuntu-orange/40 dark:from-ubuntu-orange/15 dark:via-aubergine-deep dark:to-aubergine-deep;
   }
 
-  .article-prose .section-taiwan::before {
+  .article-prose .section-take::before {
     content: '';
     @apply absolute inset-y-0 left-0 w-1.5 bg-gradient-to-b from-ubuntu-orange to-aubergine;
   }
 
-  .article-prose .section-taiwan > h2 {
+  .article-prose .section-take > h2 {
     @apply mt-0 text-ubuntu-orange dark:text-ubuntu-orange-light;
   }
 
-  .article-prose .section-taiwan > :last-child {
+  .article-prose .section-take > :last-child {
     @apply mb-0;
   }
 

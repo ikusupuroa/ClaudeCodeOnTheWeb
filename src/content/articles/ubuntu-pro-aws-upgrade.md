@@ -7,7 +7,7 @@ canonicalAuthor: Carlos Bravo
 canonicalPubDate: 2026-10-23T16:17:44Z
 sourceFeed: Canonical Blog
 summary: 透過 AWS License Manager 把既有的 Ubuntu LTS 執行個體原地升級為 Ubuntu Pro，現在可以選擇 AWS Marketplace 的 Ubuntu Pro 授權作為目的地，不再只能用傳統的 EC2 授權。操作流程幾乎不變，但採購方式改為 Marketplace 交易，可以取得私有報價、量販折扣、搭配企業支援，並計入 AWS EDP 承諾消費。
-taiwanTakeaway: 這次的改變不在技術，而在採購：對已經和 AWS 簽了 EDP 承諾消費的台灣中大型企業，Ubuntu Pro 的費用可以直接折抵承諾額度，還能和 Canonical 議價、綁企業支援。財務與採購部門會比 IT 更在意這個消息；但要注意，轉換時主機必須停機重開，要排維護時段。
+takeaway: 這次的改變不在技術，而在採購：對已經和 AWS 簽了 EDP 承諾消費的台灣中大型企業，Ubuntu Pro 的費用可以直接折抵承諾額度，還能和 Canonical 議價、綁企業支援。財務與採購部門會比 IT 更在意這個消息；但要注意，轉換時主機必須停機重開，要排維護時段。
 tags:
   - Cloud
   - AWS
@@ -15,7 +15,7 @@ tags:
   - Security
 ---
 
-## 🇹🇼 台灣觀點點評
+## ikusupuroa 觀點
 
 ### 1. 誰最受惠：有 AWS EDP 承諾的企業
 

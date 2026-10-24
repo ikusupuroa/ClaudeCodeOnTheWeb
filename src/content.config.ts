@@ -17,8 +17,8 @@ const articles = defineCollection({
     sourceFeed: z.enum(['Canonical Blog', 'Ubuntu Blog']),
     /** 2-3 句原文核心摘要 */
     summary: z.string(),
-    /** 🇹🇼 台灣在地觀點點評核心引言 */
-    taiwanTakeaway: z.string(),
+    /** ikusupuroa 觀點的核心引言 */
+    takeaway: z.string(),
     /** 分類標籤，如 Cloud, Ubuntu, AI, Security, Kubernetes */
     tags: z.array(z.string()).min(1),
     /** （選填）原文作者 */

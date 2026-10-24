@@ -7,14 +7,14 @@ canonicalAuthor: Miona Aleksic
 canonicalPubDate: 2026-10-19T10:00:00Z
 sourceFeed: Canonical Blog
 summary: Canonical 釋出 MicroCloud 3.4.0 LTS（內含 LXD 6.10.0 LTS、MicroCeph Tentacle、MicroOVN 26.03，以 Ubuntu 26.04 LTS 為基礎），最長可獲 15 年安全維護。新功能包括多叢集集中管理的 Cluster Manager、跨叢集非同步複寫的災難復原、Entra ID 整合、OVN 負載平衡、直接串接 HPE、Pure Storage、Dell 的 SAN 儲存，以及 NVIDIA 與 AMD GPU 的 CDI 支援。
-taiwanTakeaway: 對正在重新評估虛擬化平台授權成本的台灣企業，以及在台灣、東南亞多地設廠、需要集中管理邊緣機房的製造業，這次 LTS 補上了幾個過去評估時常卡關的功能：多站點集中管理、跨叢集災難復原，以及直接沿用既有的 SAN 儲存設備。
+takeaway: 對正在重新評估虛擬化平台授權成本的台灣企業，以及在台灣、東南亞多地設廠、需要集中管理邊緣機房的製造業，這次 LTS 補上了幾個過去評估時常卡關的功能：多站點集中管理、跨叢集災難復原，以及直接沿用既有的 SAN 儲存設備。
 tags:
   - Cloud
   - Virtualization
   - Kubernetes
 ---
 
-## 🇹🇼 台灣觀點點評
+## ikusupuroa 觀點
 
 ### 1. 誰該關注這次發布
 

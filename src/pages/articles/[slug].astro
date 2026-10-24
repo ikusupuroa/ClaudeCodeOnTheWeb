@@ -3,7 +3,7 @@ import { render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SourceBadge from '../../components/SourceBadge.astro';
 import TagList from '../../components/TagList.astro';
-import TaiwanTakeawayCard from '../../components/TaiwanTakeawayCard.astro';
+import TakeawayCard from '../../components/TakeawayCard.astro';
 import SourceAttribution from '../../components/SourceAttribution.astro';
 import { getArticles, type Article } from '../../lib/articles';
 import { formatDate, isoDate, withBase } from '../../lib/site';
@@ -26,7 +26,7 @@ const { article, newer, older } = Astro.props;
 const { data } = article;
 
 // 每篇文章必須同時包含兩個主要區塊，缺一即中止建置
-const REQUIRED_SECTIONS = ['## 🇹🇼 台灣觀點點評', '## 原文精華導讀'];
+const REQUIRED_SECTIONS = ['## ikusupuroa 觀點', '## 原文精華導讀'];
 const missing = REQUIRED_SECTIONS.filter((heading) => !article.body?.includes(heading));
 if (missing.length > 0) {
   throw new Error(`文章「${article.id}」缺少必要區塊：${missing.join('、')}`);
@@ -69,7 +69,7 @@ const { Content } = await render(article);
     </div>
 
     <div class="mt-8">
-      <TaiwanTakeawayCard takeaway={data.taiwanTakeaway} />
+      <TakeawayCard takeaway={data.takeaway} />
     </div>
 
     <div class="article-prose mt-12">
