@@ -139,40 +139,38 @@ draft: false                               # 選填，true 時不會建置
 | `published` | 已發布導讀；`article` 欄位填文章檔名（不含 `.md`） |
 | `drafting` | 已選題、撰寫中 |
 | `skipped` | 審查後決定不處理；可用 `note` 說明原因 |
+| `unpublished` | 曾發布但已下架（文章設為 `draft: true`）；用 `note` 說明原因 |
 
 比對時網址會先正規化（統一 https、去掉 `www.`、重複斜線、結尾斜線與 `utm_*` 參數），所以 `https://ubuntu.com//blog/xxx/` 與 `https://ubuntu.com/blog/xxx` 會被當成同一篇。
 
 ---
 
-## 與 Claude Code 協作審查並發布新文章（SOP）
+## 與 Claude Code 協作發布新文章（SOP）
 
-### Step 1：檢查新文章
+本站採用 **「先發布、後審查」**：Claude 寫完文章、建置檢查通過後就直接合併上線，並通知編輯；編輯看過網站後，發現問題再請 Claude 修改或下架。
 
-在 Claude Code 對話中輸入：
+### Step 1：檢查新文章（選用）
 
 > 請執行 `node scripts/fetch-sources.mjs`，列出未處理的新文章，並依「對台灣企業與開發者的參考價值」排序，給我每篇一句話的推薦理由。
 
-### Step 2：選題
+也可以直接貼原文網址，跳到 Step 2。
 
-依清單回覆你的決定，例如：
+### Step 2：請 Claude 撰寫並發布
 
-> 第 1、3 篇要寫；第 2 篇是活動公告，標記為 skipped。
+> 幫我新增一篇文章：https://ubuntu.com/blog/xxx
 
-Claude 會更新 `sources-state.json`：要寫的標為 `drafting`，不寫的標為 `skipped` 並記錄原因。
+想指定台灣觀點的方向可以一起說，例如「著重金融業合規」。Claude 會依序：
 
-### Step 3：撰寫初稿
+1. 閱讀原文，在 `src/content/articles/` 新增文章，並把 `sources-state.json` 中該篇標為 `published`。
+2. 執行 `npm run build` 與 `astro check`，確認零錯誤、零警告。
+3. 開 Pull Request，等 GitHub Actions 建置檢查通過後**直接合併**，網站約 1～2 分鐘後自動更新。
+4. 確認部署成功，回報文章網址、台灣觀點重點，以及文中標為「待確認」或「本站補充」的段落。
 
-> 請閱讀第 1 篇原文，依 README 的文章格式寫一篇導讀，台灣觀點請著重在＿＿＿（例如：金融業合規、製造業上雲、開發者工具鏈）。
+建置檢查失敗時，Claude 會先修正，不會合併壞掉的版本。
 
-Claude 會在 `src/content/articles/` 新增 Markdown 檔，並在回覆中列出：
+### Step 3：上線後審查
 
-- 引用了原文哪些重點
-- 哪些內容標註為「待確認」
-- 建議的標籤
-
-### Step 4：人工審查
-
-逐段核對以下項目，有問題直接在對話中請 Claude 修改：
+打開網站逐段核對，有問題直接在對話中告訴 Claude：
 
 - [ ] 版本號、日期、指令與原文一致
 - [ ] `canonicalUrl` 可以正常開啟
@@ -180,17 +178,13 @@ Claude 會在 `src/content/articles/` 新增 Markdown 檔，並在回覆中列�
 - [ ] 沒有原文沒寫、卻被寫成事實的內容
 - [ ] 標籤沿用既有分類（Cloud、Ubuntu、AI、Security、Kubernetes 等），避免同義重複
 
-可以用 `npm run dev` 在本地預覽實際畫面。
+### 修改或下架
 
-### Step 5：建置驗證並發布
-
-> 審查完成，請把狀態改為 published，執行 `npm run build` 確認零錯誤後 commit 並 push。
-
-Claude 會：
-
-1. 將 `sources-state.json` 中該篇的 `status` 改為 `published`，填入 `processedDate` 與 `article`。
-2. 執行 `npm run build`，確認沒有錯誤與警告。
-3. Commit 並 push，必要時開 Pull Request 供最後確認。
+- **修改**：「XXX 那篇的第 3 段改成……」，Claude 修改後同樣直接合併上線。
+- **下架**：「把 XXX 那篇下架」，Claude 會：
+  1. 在該篇 frontmatter 加上 `draft: true`（檔案保留、網站不再顯示，之後要重新上架只要改回 `false`）。
+  2. 把 `sources-state.json` 中該篇的 `status` 改為 `unpublished`，並用 `note` 記錄原因。
+  3. 合併上線並回報。
 
 ---
 
