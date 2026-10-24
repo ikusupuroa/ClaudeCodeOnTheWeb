@@ -1,0 +1,38 @@
+name: Monitor Canonical & Ubuntu feeds
+
+on:
+  schedule:
+    # 每小時第 17 分（UTC）檢查一次，避開整點尖峰
+    - cron: '17 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: monitor-feeds
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      - name: Fetch feeds
+        run: node scripts/fetch-sources.mjs --json > new-items.json
+
+      - name: Open issue for new articles
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const notify = require('./scripts/notify-new-articles.cjs');
+            await notify({ github, context, core, reportPath: 'new-items.json' });
