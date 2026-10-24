@@ -31,6 +31,154 @@
       "title": "php2shell (CVE-2026-109618 and CVE-2026-109619) – PHP critical vulnerability fixes available",
       "processedDate": "2026-10-24",
       "article": "php2shell-php-critical-vulnerability"
+    },
+    {
+      "url": "https://ubuntu.com/blog/emudhra-ca-compromise-fixes-available",
+      "status": "published",
+      "title": "eMudhra CA compromise fixes available",
+      "processedDate": "2026-10-24",
+      "article": "emudhra-ca-compromise"
+    },
+    {
+      "url": "https://ubuntu.com/blog/lower-android-development-cost",
+      "status": "published",
+      "title": "How to lower Android™ development costs by removing hardware from the critical path",
+      "processedDate": "2026-10-24",
+      "article": "android-dev-cost-anbox-cloud"
+    },
+    {
+      "url": "https://ubuntu.com/blog/curl-vulnerabilities-fixes-available",
+      "status": "published",
+      "title": "Fixes available for CVE-2026-92392 and other curl vulnerabilities",
+      "processedDate": "2026-10-24",
+      "article": "curl-vulnerabilities-oct-2026"
+    },
+    {
+      "url": "https://ubuntu.com/blog/ubuntu-26-10-security",
+      "status": "published",
+      "title": "What’s new in security for Ubuntu 26.10?",
+      "processedDate": "2026-10-24",
+      "article": "ubuntu-26-10-security"
+    },
+    {
+      "url": "https://canonical.com/blog/canonical-releases-ubuntu-26-10-stonking-stingray",
+      "status": "published",
+      "title": "Canonical releases Ubuntu 26.10 Stonking Stingray",
+      "processedDate": "2026-10-24",
+      "article": "ubuntu-26-10-stonking-stingray",
+      "note": "與 Ubuntu Blog 同一篇，已發布"
+    },
+    {
+      "url": "https://canonical.com/blog/from-personas-to-archetypes-part-2",
+      "status": "drafting",
+      "title": "From personas to archetypes: a living, shared understanding of the people we build for (Part 2 of 2)",
+      "processedDate": "2026-10-24",
+      "note": "Issue #5 選定；等待 canonical.com 網路權限後撰寫"
+    },
+    {
+      "url": "https://canonical.com/blog/upgrade-ubuntu-lts-instances-to-ubuntu-pro-in-aws",
+      "status": "drafting",
+      "title": "A new way to upgrade to Ubuntu Pro on AWS",
+      "processedDate": "2026-10-24",
+      "note": "Issue #5 選定；等待 canonical.com 網路權限後撰寫"
+    },
+    {
+      "url": "https://canonical.com/blog/simplify-your-enterprise-kubernetes-and-govern-your-ai-agents-with-canonical",
+      "status": "drafting",
+      "title": "Simplify your enterprise kubernetes and govern your AI agents with Canonical",
+      "processedDate": "2026-10-24",
+      "note": "Issue #5 選定；等待 canonical.com 網路權限後撰寫"
+    },
+    {
+      "url": "https://canonical.com/blog/from-personas-to-archetypes",
+      "status": "drafting",
+      "title": "From personas to archetypes: a living, shared understanding of the people we build for (Part 1 of 2)",
+      "processedDate": "2026-10-24",
+      "note": "Issue #5 選定；等待 canonical.com 網路權限後撰寫"
+    },
+    {
+      "url": "https://canonical.com/blog/microcloud-and-lxd-lts-releases-2026",
+      "status": "drafting",
+      "title": "MicroCloud and LXD LTS releases now available",
+      "processedDate": "2026-10-24",
+      "note": "Issue #5 選定；等待 canonical.com 網路權限後撰寫"
+    },
+    {
+      "url": "https://canonical.com/blog/what-designers-should-know-about-semiotics",
+      "status": "drafting",
+      "title": "What designers should know about semiotics",
+      "processedDate": "2026-10-24",
+      "note": "Issue #5 選定；等待 canonical.com 網路權限後撰寫"
+    },
+    {
+      "url": "https://ubuntu.com/blog/devpack-for-rust-support",
+      "status": "skipped",
+      "title": "Devpack for Rust: Zero to Rust in seconds",
+      "processedDate": "2026-10-24",
+      "note": "編輯指示：Issue #5 第 12 篇以後不發表"
+    },
+    {
+      "url": "https://canonical.com/blog/securing-open-source-software-dependencies-in-the-public-cloud",
+      "status": "skipped",
+      "title": "Securing open source software dependencies in the public cloud",
+      "processedDate": "2026-10-24",
+      "note": "編輯指示：Issue #5 第 12 篇以後不發表"
+    },
+    {
+      "url": "https://ubuntu.com/blog/securing-open-source-software-dependencies-in-the-public-cloud",
+      "status": "skipped",
+      "title": "Securing open source software dependencies in the public cloud",
+      "processedDate": "2026-10-24",
+      "note": "編輯指示：Issue #5 第 12 篇以後不發表"
+    },
+    {
+      "url": "https://ubuntu.com/blog/confidential-computing-use-cases",
+      "status": "skipped",
+      "title": "Confidential computing in the real world: finding your use case",
+      "processedDate": "2026-10-24",
+      "note": "編輯指示：Issue #5 第 12 篇以後不發表"
+    },
+    {
+      "url": "https://canonical.com/blog/ai-infrastructure-for-telcos",
+      "status": "skipped",
+      "title": "AI infrastructure for telcos",
+      "processedDate": "2026-10-24",
+      "note": "編輯指示：Issue #5 第 12 篇以後不發表"
+    },
+    {
+      "url": "https://canonical.com/blog/canonical-a-challenger-in-2026-gartner-magic-quadrant-for-server-virtualization-platforms",
+      "status": "skipped",
+      "title": "Canonical named a Challenger in the 2026 GartnerⓇ Magic Quadrant™ for Server Virtualization Platforms",
+      "processedDate": "2026-10-24",
+      "note": "編輯指示：Issue #5 第 12 篇以後不發表"
+    },
+    {
+      "url": "https://ubuntu.com/blog/android-belongs-in-your-ci-cd-pipeline",
+      "status": "skipped",
+      "title": "Android™ belongs in your CI/CD pipeline",
+      "processedDate": "2026-10-24",
+      "note": "編輯指示：Issue #5 第 12 篇以後不發表"
+    },
+    {
+      "url": "https://ubuntu.com/blog/realtime-transaction-fraud-detection-with-an-llm",
+      "status": "skipped",
+      "title": "Realtime transaction fraud detection – with an LLM?",
+      "processedDate": "2026-10-24",
+      "note": "編輯指示：Issue #5 第 12 篇以後不發表"
+    },
+    {
+      "url": "https://canonical.com/blog/charmed-openshell-alpha-release",
+      "status": "skipped",
+      "title": "Canonical announces the alpha release of Charmed OpenShell to help secure autonomous AI agent fleets",
+      "processedDate": "2026-10-24",
+      "note": "編輯指示：Issue #5 第 12 篇以後不發表"
+    },
+    {
+      "url": "https://canonical.com/blog/ubuntu-coming-soon-to-qualcomm-snapdragon-x2-series-platforms",
+      "status": "skipped",
+      "title": "Ubuntu coming soon to Snapdragon X2 Series platforms, unlocking more Linux PCs for the agentic world",
+      "processedDate": "2026-10-24",
+      "note": "編輯指示：Issue #5 第 12 篇以後不發表"
     }
   ]
 }
