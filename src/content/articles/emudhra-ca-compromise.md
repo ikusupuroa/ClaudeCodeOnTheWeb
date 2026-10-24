@@ -4,7 +4,7 @@ pubDate: 2026-10-24
 canonicalTitle: eMudhra CA compromise fixes available
 canonicalUrl: https://ubuntu.com/blog/emudhra-ca-compromise-fixes-available
 canonicalAuthor: Luci Stanescu
-canonicalPubDate: 2026-10-20
+canonicalPubDate: 2026-10-20T23:45:09Z
 sourceFeed: Ubuntu Blog
 summary: eMudhra 憑證機構（CA）的私鑰在 2026 年 10 月 20 日被證實外洩，攻擊者可簽發能通過驗證的假憑證。Ubuntu 已更新 ca-certificates 與 libnss3，移除兩個曾交叉簽署 eMudhra 的根憑證；但 Java 的根憑證庫因為一個尚未解決的問題，需要手動重建。
 taiwanTakeaway: 這次最容易被漏掉的是 Java：台灣金融、政府與企業的核心系統大量跑在 Java 上，更新 ca-certificates 不會自動清掉 Java 憑證庫裡的問題憑證，必須手動重建；而重建時，自己加進去的政府或企業內部 CA 憑證也會一起消失，要記得補回去。

@@ -4,7 +4,7 @@ pubDate: 2026-10-24
 canonicalTitle: Fixes available for CVE-2026-92392 and other curl vulnerabilities
 canonicalUrl: https://ubuntu.com/blog/curl-vulnerabilities-fixes-available
 canonicalAuthor: Luci Stanescu
-canonicalPubDate: 2026-10-14
+canonicalPubDate: 2026-10-14T16:48:02Z
 sourceFeed: Ubuntu Blog
 summary: curl 專案在 2026 年 10 月 14 日一次公開 22 個安全漏洞，其中只有 CVE-2026-92392 為高風險（可能導致遠端程式碼執行），而且只影響 Ubuntu 26.04 LTS。Ubuntu 已為所有受影響版本釋出修補，同時涵蓋 curl 指令與 libcurl 函式庫。
 taiwanTakeaway: 對已經導入 26.04 LTS 的台灣企業，這次要優先處理；其他版本雖然只有中低風險漏洞，但 libcurl 藏在 PHP、Git 和各種應用程式底下，系統更新之外，也別忘了容器映像檔與自帶 libcurl 的軟體。
@@ -38,7 +38,7 @@ curl 不只是指令列工具。**libcurl** 是許多軟體底層的網路函式
 
 ### 4. 老版本主機一樣需要 Ubuntu Pro
 
-14.04 到 20.04 的修補版本都帶有 `+esm`，只透過 Ubuntu Pro 的 ESM（延伸安全維護）提供。這是本站近期第三篇提到同樣狀況的安全公告：手上還有舊版主機的企業，值得把 Ubuntu Pro 列入評估，做法可參考[〈在 AWS 上把 Ubuntu LTS 原地轉成 Ubuntu Pro〉](../ubuntu-pro-aws-upgrade/)。
+14.04 到 20.04 的修補版本都帶有 `+esm`，只透過 Ubuntu Pro 的 ESM（延伸安全維護）提供。這是本站近期第三篇提到同樣狀況的安全公告：手上還有舊版主機的企業，值得把 Ubuntu Pro 列入評估，做法可參考[〈AWS 上升級 Ubuntu Pro 有新選項〉](../ubuntu-pro-aws-upgrade/)。
 
 ## 原文精華導讀
 
