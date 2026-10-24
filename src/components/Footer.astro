@@ -1,0 +1,31 @@
+---
+import { SITE } from '../lib/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-20 bg-aubergine-deep text-white/70">
+  <div class="h-1 bg-gradient-to-r from-ubuntu-orange via-aubergine to-aubergine-mid"></div>
+  <div class="mx-auto grid max-w-6xl gap-8 px-4 py-10 text-sm sm:px-6 md:grid-cols-3">
+    <div>
+      <p class="font-medium text-white">{SITE.name}</p>
+      <p class="mt-2 leading-relaxed">{SITE.description}</p>
+    </div>
+    <div>
+      <p class="font-medium text-white">追蹤來源</p>
+      <ul class="mt-2 space-y-1">
+        <li><a class="hover:text-ubuntu-orange" href="https://canonical.com/blog" rel="noopener">Canonical Blog</a></li>
+        <li><a class="hover:text-ubuntu-orange" href="https://ubuntu.com/blog" rel="noopener">Ubuntu Blog</a></li>
+      </ul>
+    </div>
+    <div class="leading-relaxed">
+      <p class="font-medium text-white">版權與聲明</p>
+      <p class="mt-2">
+        本站為獨立的非官方策展站，與 Canonical Ltd. 無隸屬關係。原文著作權屬 Canonical Ltd.
+        及原作者所有，本站僅提供繁體中文導讀、評論與出處連結。
+      </p>
+      <p class="mt-2">Ubuntu 與 Canonical 為 Canonical Ltd. 之註冊商標。</p>
+    </div>
+  </div>
+  <p class="border-t border-white/10 py-4 text-center text-xs text-white/40">© {year} {SITE.name}</p>
+</footer>

@@ -1,0 +1,97 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../lib/site';
+
+const workflow = [
+  {
+    step: '01',
+    title: '自動監控',
+    who: '腳本',
+    body: '監控腳本定期抓取 Canonical Blog 與 Ubuntu Blog 的官方 RSS Feed，並與追蹤檔比對，列出尚未處理的新文章。',
+  },
+  {
+    step: '02',
+    title: '選題審查',
+    who: '編輯',
+    body: '編輯從清單中挑出對台灣企業與開發者真正有意義的主題，略過純活動公告或重複資訊，並在追蹤檔記錄決定。',
+  },
+  {
+    step: '03',
+    title: 'AI 協作撰稿',
+    who: 'Claude Code',
+    body: 'Claude Code 閱讀官方原文，產出繁體中文精華導讀與在地觀點初稿；不確定的技術細節會明確標註，不自行補完。',
+  },
+  {
+    step: '04',
+    title: '人工把關發布',
+    who: '編輯',
+    body: '編輯逐段核對原文、修正觀點與用詞，確認出處連結正確後才合併發布。每篇文章都保留原文連結供讀者查證。',
+  },
+];
+---
+
+<BaseLayout title="關於本站" description={`關於 ${SITE.nameZh}：策展初衷與人機協同審查模式。`}>
+  <section class="bg-aubergine-deep text-white">
+    <div class="mx-auto max-w-3xl px-4 py-16 sm:px-6 md:py-20">
+      <p class="font-mono text-sm tracking-widest text-ubuntu-orange-light">ABOUT</p>
+      <h1 class="mt-3 text-3xl font-bold md:text-5xl">關於本站</h1>
+      <p class="mt-5 text-lg leading-relaxed text-white/80">{SITE.description}</p>
+    </div>
+  </section>
+
+  <div class="mx-auto max-w-3xl px-4 py-14 sm:px-6">
+    <section class="article-prose">
+      <h2>策展初衷</h2>
+      <p>
+        Canonical 每週在官方部落格發布大量 Ubuntu、雲端、Kubernetes、AI 與資安相關的技術文章，但多數為英文，
+        而且是以全球市場的角度撰寫。台灣的企業 IT、雲端架構師與開發者真正想知道的往往是：
+        <strong>這件事跟我有什麼關係？我的環境要不要動？成本與風險是什麼？</strong>
+      </p>
+      <p>本站因此只做兩件事：</p>
+      <ul>
+        <li><strong>原文精華導讀</strong>：把官方文章濃縮成結構清楚的繁體中文重點，技術名詞保留英文原文，並附上官方出處連結。</li>
+        <li>
+          <strong>🇹🇼 台灣觀點點評</strong>：從台灣企業的上雲現況、法規環境、產業結構與開發者生態出發，評估這項技術的實際落地價值。
+        </li>
+      </ul>
+      <p>本站不是逐字翻譯，也不取代官方文件。所有版本號、價格與支援政策，請以 Canonical 官方原文為準。</p>
+    </section>
+
+    <section class="mt-14">
+      <h2 class="text-2xl font-bold">人機協同審查模式</h2>
+      <p class="mt-3 leading-relaxed text-stone-600 dark:text-stone-300">
+        本站採用「腳本監控 → 編輯選題 → Claude Code 協作撰稿 → 人工把關發布」的流程，讓 AI 負責速度，讓人負責判斷。
+      </p>
+      <ol class="mt-8 grid gap-4 sm:grid-cols-2">
+        {
+          workflow.map((item) => (
+            <li class="rounded-2xl border border-stone-200 p-5 dark:border-white/10">
+              <div class="flex items-center justify-between">
+                <span class="font-mono text-2xl font-bold text-ubuntu-orange">{item.step}</span>
+                <span class="rounded-full bg-aubergine/10 px-2.5 py-0.5 text-xs text-aubergine dark:bg-white/10 dark:text-stone-200">
+                  {item.who}
+                </span>
+              </div>
+              <h3 class="mt-3 text-lg font-bold">{item.title}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-stone-600 dark:text-stone-300">{item.body}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <section class="mt-14 rounded-2xl border border-ubuntu-orange/30 bg-ubuntu-orange-soft/50 p-6 dark:bg-ubuntu-orange/10">
+      <h2 class="text-xl font-bold">編輯原則</h2>
+      <ul class="mt-4 list-disc space-y-2 pl-5 text-stone-700 dark:text-stone-300">
+        <li>每篇導讀都必須附上 Canonical 官方原文連結與作者資訊。</li>
+        <li>技術名詞保留英文，並附繁體中文說明，例如 Livepatch（核心熱修補）。</li>
+        <li>原文沒寫、我們也無法查證的內容，會明確標註「待確認」，不做臆測。</li>
+        <li>觀點點評代表本站立場，不代表 Canonical 官方意見。</li>
+      </ul>
+    </section>
+
+    <p class="mt-10 text-sm text-stone-500 dark:text-stone-400">
+      本站為獨立的非官方策展站，與 Canonical Ltd. 無隸屬關係。Ubuntu 與 Canonical 為 Canonical Ltd. 之註冊商標。
+    </p>
+  </div>
+</BaseLayout>

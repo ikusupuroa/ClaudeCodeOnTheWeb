@@ -1,0 +1,29 @@
+{
+  "monitored_feeds": [
+    "https://canonical.com/blog/feed",
+    "https://ubuntu.com/blog/feed"
+  ],
+  "items": [
+    {
+      "url": "https://canonical.com/blog/upgrade-your-existing-ubuntu-lts-instances-to-ubuntu-pro-in-aws",
+      "status": "published",
+      "title": "A new way to upgrade to Ubuntu Pro on AWS",
+      "processedDate": "2026-10-24",
+      "article": "ubuntu-pro-aws-upgrade"
+    },
+    {
+      "url": "https://ubuntu.com/blog/canonical-releases-ubuntu-26-10-stonking-stingray",
+      "status": "published",
+      "title": "Canonical releases Ubuntu 26.10 Stonking Stingray",
+      "processedDate": "2026-10-24",
+      "article": "ubuntu-26-10-stonking-stingray"
+    },
+    {
+      "url": "https://ubuntu.com/blog/myna-speech-to-text-technology-preview-available",
+      "status": "skipped",
+      "title": "Myna speech-to-text is now available as a technology preview",
+      "processedDate": "2026-10-24",
+      "note": "併入 Ubuntu 26.10 Stonking Stingray 導讀"
+    }
+  ]
+}
