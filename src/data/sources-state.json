@@ -24,6 +24,13 @@
       "title": "Myna speech-to-text is now available as a technology preview",
       "processedDate": "2026-10-24",
       "note": "併入 Ubuntu 26.10 Stonking Stingray 導讀"
+    },
+    {
+      "url": "https://ubuntu.com/blog/php2shell-vulnerability-fixes-available",
+      "status": "published",
+      "title": "php2shell (CVE-2026-109618 and CVE-2026-109619) – PHP critical vulnerability fixes available",
+      "processedDate": "2026-10-24",
+      "article": "php2shell-php-critical-vulnerability"
     }
   ]
 }
