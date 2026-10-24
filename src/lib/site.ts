@@ -2,6 +2,11 @@ export const SITE = {
   name: 'ikusupuroa',
   nameZh: 'Ubuntu 技術筆記',
   title: 'ikusupuroa 的 Ubuntu 技術筆記',
+  /** 首頁 Hero 的兩段介紹，各自一行 */
+  intro: [
+    '我是 ikusupuroa，一個 Ubuntu 使用者。',
+    '這裡追蹤 Canonical 與 Ubuntu 官方的最新消息，用繁體中文整理重點，也分享我推薦 Ubuntu 的理由。',
+  ],
   description:
     '我是 ikusupuroa，一個 Ubuntu 使用者。這裡追蹤 Canonical 與 Ubuntu 官方的最新消息，用繁體中文整理重點，也分享我推薦 Ubuntu 的理由。',
 };

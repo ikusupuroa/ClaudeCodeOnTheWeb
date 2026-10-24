@@ -17,14 +17,14 @@ const allHref = withBase('/articles/');
       aria-hidden="true"
     >
     </div>
-    <div class="relative mx-auto max-w-6xl px-4 py-20 sm:px-6 md:py-28">
+    <div class="relative mx-auto max-w-6xl px-4 pb-24 pt-20 sm:px-6 md:pb-32 md:pt-28">
       <p class="font-mono text-sm tracking-widest text-ubuntu-orange-light">UBUNTU NOTES BY IKUSUPUROA</p>
-      <h1 class="mt-4 max-w-3xl text-4xl font-bold leading-tight md:text-6xl">
+      <h1 class="mt-4 text-4xl font-bold leading-tight md:whitespace-nowrap md:text-5xl lg:text-6xl">
         {SITE.title}
       </h1>
-      <p class="mt-6 max-w-2xl text-lg leading-relaxed text-white/80 md:text-xl">
-        {SITE.description}
-      </p>
+      <div class="mt-6 space-y-1 text-lg leading-relaxed text-white/80 md:text-xl">
+        {SITE.intro.map((line) => <p class="lg:whitespace-nowrap">{line}</p>)}
+      </div>
       <div class="mt-8 flex flex-wrap gap-3">
         <a
           href="#articles"
@@ -51,6 +51,17 @@ const allHref = withBase('/articles/');
         </div>
       </dl>
     </div>
+
+    <a
+      href="#articles"
+      class="scroll-hint absolute bottom-5 left-1/2 flex h-11 w-11 -translate-x-1/2 items-center justify-center rounded-full border border-white/30 text-white/80 transition hover:border-ubuntu-orange hover:bg-ubuntu-orange hover:text-white"
+      aria-label="往下捲到最新精華導讀"
+      title="往下看最新文章"
+    >
+      <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6"></path>
+      </svg>
+    </a>
   </section>
 
   <section id="articles" class="mx-auto max-w-6xl scroll-mt-16 px-4 py-14 sm:px-6">
@@ -97,3 +108,18 @@ const allHref = withBase('/articles/');
     window.location.replace(`${import.meta.env.BASE_URL.replace(/\/+$/, '')}/articles/?tag=${encodeURIComponent(tag)}`);
   }
 </script>
+
+<style>
+  @keyframes scroll-hint-bounce {
+    0%, 100% { transform: translate(-50%, 0); }
+    50% { transform: translate(-50%, 6px); }
+  }
+  .scroll-hint {
+    animation: scroll-hint-bounce 2s ease-in-out infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .scroll-hint {
+      animation: none;
+    }
+  }
+</style>
