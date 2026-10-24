@@ -1,7 +1,7 @@
 ---
 import SourceBadge from './SourceBadge.astro';
 import TagList from './TagList.astro';
-import type { Article } from '../lib/articles';
+import { sortDate, type Article } from '../lib/articles';
 import { formatDate, isoDate, withBase } from '../lib/site';
 
 interface Props {
@@ -11,6 +11,7 @@ interface Props {
 const { article } = Astro.props;
 const { data } = article;
 const href = withBase(`/articles/${article.id}/`);
+const date = sortDate(article);
 ---
 
 <article
@@ -40,8 +41,8 @@ const href = withBase(`/articles/${article.id}/`);
 
     <div class="mt-auto flex flex-wrap items-center justify-between gap-3 pt-5">
       <div class="relative z-10"><TagList tags={data.tags} /></div>
-      <time datetime={isoDate(data.pubDate)} class="text-xs text-stone-500 dark:text-stone-400">
-        {formatDate(data.pubDate)}
+      <time datetime={isoDate(date)} class="text-xs text-stone-500 dark:text-stone-400">
+        原文 {formatDate(date)}
       </time>
     </div>
   </div>

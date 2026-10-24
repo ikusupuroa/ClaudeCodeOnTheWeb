@@ -1,11 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ArticleCard from '../components/ArticleCard.astro';
-import { getArticles, countTags } from '../lib/articles';
+import { getArticles, countTags, HOME_ARTICLE_LIMIT } from '../lib/articles';
 import { SITE, withBase } from '../lib/site';
 
 const articles = await getArticles();
 const tags = countTags(articles);
+const latest = articles.slice(0, HOME_ARTICLE_LIMIT);
+const allHref = withBase('/articles/');
 ---
 
 <BaseLayout>
@@ -52,85 +54,46 @@ const tags = countTags(articles);
   </section>
 
   <section id="articles" class="mx-auto max-w-6xl scroll-mt-16 px-4 py-14 sm:px-6">
-    <div class="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+    <div class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
       <div>
         <h2 class="text-2xl font-bold md:text-3xl">最新精華導讀</h2>
         <p class="mt-2 text-stone-600 dark:text-stone-400">每篇皆附「🇹🇼 台灣觀點點評」與 Canonical 官方原文出處。</p>
       </div>
+      <a href={allHref} class="shrink-0 font-medium text-ubuntu-orange hover:underline">全部文章 →</a>
     </div>
 
-    <div class="mt-6 flex flex-wrap gap-2" role="toolbar" aria-label="依標籤篩選" data-tag-filter>
-      <button
-        type="button"
-        data-tag=""
-        aria-pressed="true"
-        class="tag-btn rounded-full border border-stone-300 px-4 py-1.5 text-sm transition dark:border-white/20"
-      >
-        全部 <span class="opacity-60">{articles.length}</span>
-      </button>
+    <nav class="mt-6 flex flex-wrap gap-2" aria-label="依標籤瀏覽">
       {
         tags.map(([tag, count]) => (
-          <button
-            type="button"
-            data-tag={tag}
-            aria-pressed="false"
-            class="tag-btn rounded-full border border-stone-300 px-4 py-1.5 text-sm transition dark:border-white/20"
+          <a
+            href={withBase(`/articles/?tag=${encodeURIComponent(tag)}`)}
+            class="rounded-full border border-stone-300 px-4 py-1.5 text-sm transition hover:border-ubuntu-orange hover:text-ubuntu-orange dark:border-white/20"
           >
             #{tag} <span class="opacity-60">{count}</span>
-          </button>
+          </a>
         ))
       }
+    </nav>
+
+    <div class="mt-8 grid gap-6 md:grid-cols-2">
+      {latest.map((article) => <ArticleCard article={article} />)}
     </div>
 
-    <div class="mt-8 grid gap-6 md:grid-cols-2" data-article-grid>
-      {articles.map((article) => <ArticleCard article={article} />)}
+    <div class="mt-10 text-center">
+      <a
+        href={allHref}
+        class="inline-flex items-center gap-2 rounded-full border-2 border-ubuntu-orange px-6 py-2.5 font-medium text-ubuntu-orange transition hover:bg-ubuntu-orange hover:text-white"
+      >
+        查看全部 {articles.length} 篇文章 <span aria-hidden="true">→</span>
+      </a>
     </div>
-
-    <p class="mt-10 hidden text-center text-stone-500" data-empty-state>此標籤目前沒有文章。</p>
   </section>
 </BaseLayout>
 
-<style>
-  .tag-btn:hover {
-    border-color: var(--color-ubuntu-orange);
-    color: var(--color-ubuntu-orange);
-  }
-  .tag-btn[aria-pressed='true'] {
-    border-color: var(--color-ubuntu-orange);
-    background-color: var(--color-ubuntu-orange);
-    color: #fff;
-  }
-</style>
-
 <script>
-  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-tag-filter] [data-tag]');
-  const cards = document.querySelectorAll<HTMLElement>('[data-article-card]');
-  const emptyState = document.querySelector<HTMLElement>('[data-empty-state]');
-
-  function applyFilter(tag: string) {
-    let visible = 0;
-    cards.forEach((card) => {
-      const tags: string[] = JSON.parse(card.dataset.tags ?? '[]');
-      const show = !tag || tags.includes(tag);
-      card.hidden = !show;
-      if (show) visible++;
-    });
-    buttons.forEach((btn) => btn.setAttribute('aria-pressed', String((btn.dataset.tag ?? '') === tag)));
-    emptyState?.classList.toggle('hidden', visible > 0);
+  // 舊版首頁的 ?tag= 連結，轉到全部文章頁的同一個篩選
+  const tag = new URLSearchParams(window.location.search).get('tag');
+  if (tag) {
+    window.location.replace(`${import.meta.env.BASE_URL.replace(/\/+$/, '')}/articles/?tag=${encodeURIComponent(tag)}`);
   }
-
-  buttons.forEach((btn) =>
-    btn.addEventListener('click', () => {
-      const tag = btn.dataset.tag ?? '';
-      const url = new URL(window.location.href);
-      if (tag) url.searchParams.set('tag', tag);
-      else url.searchParams.delete('tag');
-      history.replaceState(null, '', url);
-      applyFilter(tag);
-    }),
-  );
-
-  const initial = new URLSearchParams(window.location.search).get('tag') ?? '';
-  const known = [...buttons].some((btn) => btn.dataset.tag === initial);
-  applyFilter(known ? initial : '');
 </script>
