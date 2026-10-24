@@ -29,5 +29,6 @@
 
 ## 技術注意事項
 
-- Node.js ≥ 22.23.4（建議 24，見 `.nvmrc`）。
+- Node.js ≥ 22.23.4（建議 24，見 `.nvmrc`）。雲端工作階段啟動時，`.claude/hooks/session-start.sh` 會自動安裝 Node 24 與套件。
+- 同一篇文章在 Canonical Blog 與 Ubuntu Blog 都有時視為一篇（以網址 `/blog/` 後的 slug 判斷），來源用先發表的那一邊；監控腳本已自動處理。
 - 網站部署在子路徑 `/ClaudeCodeOnTheWeb/`：元件中的站內連結用 `withBase()`；文章 Markdown 內連到其他文章用相對路徑，例如 `../ubuntu-pro-aws-upgrade/`。

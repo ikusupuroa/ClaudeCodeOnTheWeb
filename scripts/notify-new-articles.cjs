@@ -36,8 +36,12 @@ module.exports = async ({ github, context, core, reportPath }) => {
     state: 'all',
     per_page: 100,
   });
-  const announced = issues.map((issue) => issue.body ?? '').join('\n');
-  const fresh = report.newItems.filter((item) => !announced.includes(item.url));
+  // 以網址 /blog/ 之後的 slug 比對：另一個 Blog 晚刊登的同一篇不再通知
+  const slugOf = (url) => url.match(/\/blog\/([^\s?#)]+?)\/?(?=[\s?#)]|$)/)?.[1] ?? url;
+  const announced = new Set(
+    issues.flatMap((issue) => (issue.body ?? '').match(/https?:\/\/\S+/g) ?? []).map(slugOf),
+  );
+  const fresh = report.newItems.filter((item) => !announced.has(slugOf(item.url)));
 
   core.info(`未處理 ${report.newItems.length} 篇，其中尚未通知 ${fresh.length} 篇`);
   if (fresh.length === 0) return;
