@@ -1,6 +1,6 @@
 # ikusupuroa 的 Ubuntu 技術筆記
 
-我是 ikusupuroa，一個 Ubuntu 使用者。這個網站追蹤 Canonical 與 Ubuntu 官方的最新消息，用繁體中文整理重點，也分享我推薦 Ubuntu 的理由。
+我是 ikusupuroa，正在學習 Linux，選擇 Ubuntu 作為學習路線。這個網站是我的學習筆記：整理 Canonical 與 Ubuntu 的官方消息，也記錄自己動手實作的過程。
 
 網站：**https://ikusupuroa.github.io/ClaudeCodeOnTheWeb/**
 
@@ -128,7 +128,7 @@ draft: false                               # 選填，true 時不會建置
 ```markdown
 ## ikusupuroa 觀點
 
-（以 Ubuntu 使用者的角度：值得注意的地方、該怎麼因應、Ubuntu 在這方面的優點）
+（以 Linux 學習者的角度：讀完後覺得值得注意的地方、可以怎麼因應、還有哪些疑問；語氣中立，不用專家或顧問的口吻）
 
 ## 原文精華導讀
 
@@ -255,7 +255,7 @@ Canonical Blog 與 Ubuntu Blog 常刊登同一篇文章，slug 相同就視為�
 
 每小時的自動監控會用 GitHub Issue 通知你新文章（見上方「新文章自動監控」）。也可以隨時請 Claude 手動檢查：
 
-> 請執行 `node scripts/fetch-sources.mjs`，列出未處理的新文章，並依「對 Ubuntu 使用者的參考價值」排序，給我每篇一句話的推薦理由。
+> 請執行 `node scripts/fetch-sources.mjs`，列出未處理的新文章，並依「對 Linux 學習者的參考價值」排序，給我每篇一句話的推薦理由。
 
 也可以直接貼原文網址，跳到 Step 2。
 

@@ -4,11 +4,11 @@ export const SITE = {
   title: 'ikusupuroa 的 Ubuntu 技術筆記',
   /** 首頁 Hero 的兩段介紹，各自一行 */
   intro: [
-    '我是 ikusupuroa，一個 Ubuntu 使用者。',
-    '這裡追蹤 Canonical 與 Ubuntu 官方的最新消息，用繁體中文整理重點，也分享我推薦 Ubuntu 的理由。',
+    '我是 ikusupuroa，正在學習 Linux，選擇 Ubuntu 作為學習路線。',
+    '這裡是我的學習筆記：整理 Canonical 與 Ubuntu 的官方消息，也記錄自己動手實作的過程。',
   ],
   description:
-    '我是 ikusupuroa，一個 Ubuntu 使用者。這裡追蹤 Canonical 與 Ubuntu 官方的最新消息，用繁體中文整理重點，也分享我推薦 Ubuntu 的理由。',
+    '我是 ikusupuroa，正在學習 Linux，選擇 Ubuntu 作為學習路線。這裡是我的學習筆記：整理 Canonical 與 Ubuntu 的官方消息，也記錄自己動手實作的過程。',
 };
 
 const dateFormatter = new Intl.DateTimeFormat('zh-TW', {

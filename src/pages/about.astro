@@ -4,38 +4,38 @@ import { SITE, withBase } from '../lib/site';
 
 const reasons = [
   {
-    title: '長期支援，升級有節奏',
-    body: 'LTS 版本每兩年一版，標準支援 5 年，搭配 Ubuntu Pro（含 Legacy add-on）最長可到 15 年。正式環境不必追著版本跑，可以按自己的節奏規劃升級。',
+    title: '版本節奏清楚，可以學比較久',
+    body: 'LTS 版本每兩年一版，標準支援 5 年，搭配 Ubuntu Pro 還能延長。用同一個版本就能學一段時間，不必一直追新版。',
   },
   {
-    title: '安全修補跟得上',
-    body: '從本站整理的 PHP、curl、憑證外洩等事件可以看到，Ubuntu 會為所有支援中的版本釋出修補，還有預設開啟的自動安全更新。',
+    title: '遇到問題比較好查',
+    body: '官方文件、教學與社群討論都不少，卡關時比較容易找到可以參考的資料。',
   },
   {
-    title: '從筆電到雲端都是同一套',
-    body: '桌機、伺服器、主要公有雲、Kubernetes 與邊緣裝置都能跑 Ubuntu，學一次就能用在很多地方。',
+    title: '從筆電到雲端都能練習',
+    body: '同一套系統可以裝在筆電、虛擬機或雲端主機上，練過的指令在不同環境大多用得上。',
   },
   {
-    title: '開源，而且一直在進步',
-    body: '從 Rust 改寫的核心工具、後量子密碼，到在本機執行的語音輸入 Myna，每個版本都看得到新東西。',
+    title: '官方消息可以當教材',
+    body: 'Ubuntu 會公開安全公告與版本說明，跟著讀能順便了解漏洞怎麼被修補、新功能為什麼出現。',
   },
 ];
 
 const workflow = [
   { step: '01', who: '自動', title: '監控官方消息', body: 'GitHub Actions 每小時檢查 Canonical Blog 與 Ubuntu Blog，有新文章就開 Issue 通知我。' },
-  { step: '02', who: 'ikusupuroa', title: '挑選主題', body: '我從清單中挑出值得分享的文章，略過純活動公告或重複的內容。' },
-  { step: '03', who: 'Claude Code', title: 'AI 協作撰稿', body: 'Claude Code 閱讀官方原文，整理成繁體中文導讀與觀點初稿；查不到的內容會標註「待確認」。' },
-  { step: '04', who: 'ikusupuroa', title: '上線後檢查', body: '文章通過建置檢查後直接上線，我再逐篇確認；有問題就修改或下架。' },
+  { step: '02', who: 'ikusupuroa', title: '挑選主題、動手實作', body: '從清單中挑出想深入了解的文章；技術筆記與套件功能則由我自己操作並截圖。' },
+  { step: '03', who: 'Claude Code', title: 'AI 協助整理', body: 'Claude Code 閱讀官方原文或我的實作紀錄，整理成繁體中文初稿；查不到或沒交代清楚的內容會標註「待確認」。' },
+  { step: '04', who: 'ikusupuroa', title: '確認與修正', body: '導讀文章上線後我再逐篇確認；實作文章我看過預覽才上線。發現錯誤就修改或下架。' },
 ];
 ---
 
-<BaseLayout title="關於我" description={`關於 ${SITE.name}：一個 Ubuntu 使用者，以及這個網站怎麼運作。`}>
+<BaseLayout title="關於我" description={`關於 ${SITE.name}：一個選擇 Ubuntu 學習 Linux 的人，以及這個網站怎麼運作。`}>
   <section class="bg-aubergine-deep text-white">
     <div class="mx-auto max-w-3xl px-4 py-16 sm:px-6 md:py-20">
       <p class="font-mono text-sm tracking-widest text-ubuntu-orange-light">ABOUT ME</p>
       <h1 class="mt-3 text-3xl font-bold md:text-5xl">嗨，我是 ikusupuroa</h1>
       <p class="mt-5 text-lg leading-relaxed text-white/80">
-        我是一個 Ubuntu 使用者。這個網站是我的 Ubuntu 技術筆記：追蹤 Canonical 與 Ubuntu 的官方消息，用繁體中文整理重點，也分享我為什麼推薦 Ubuntu。
+        我正在學習 Linux，選擇 Ubuntu 作為學習路線。這個網站是我的學習筆記：整理 Canonical 與 Ubuntu 的官方消息，也記錄自己動手實作的過程。
       </p>
     </div>
   </section>
@@ -44,18 +44,23 @@ const workflow = [
     <section class="article-prose">
       <h2>為什麼做這個網站</h2>
       <p>
-        Canonical 與 Ubuntu 的官方部落格每週都有不少新消息，從安全修補、新版本到雲端與 AI，但大多是英文，也不一定會說明「這件事跟我有什麼關係」。
+        學 Linux 的過程中，我發現官方部落格與技術文件大多是英文，資訊也比較分散。與其讀完就忘，不如把讀到的、試過的整理下來，方便自己回頭查，也許對同樣在學的人有點幫助。
       </p>
-      <p>所以每篇文章我都分成兩個部分：</p>
+      <p>網站目前分成三個部分：</p>
       <ul>
-        <li><strong>ikusupuroa 觀點</strong>：以 Ubuntu 使用者的角度，說明這件事值得注意的地方、要怎麼因應，以及 Ubuntu 在這方面做得好的地方。</li>
-        <li><strong>原文精華導讀</strong>：把官方文章整理成繁體中文重點，技術名詞保留英文，並附上官方出處連結。</li>
+        <li>
+          <strong>精華導讀</strong>：整理 Canonical 與 Ubuntu 官方文章的重點。每篇分成「ikusupuroa 觀點」（我讀完後的想法與疑問）和「原文精華導讀」（官方原文的繁體中文重點與出處）。
+        </li>
+        <li><strong>技術筆記</strong>：學習過程中注意到的議題，查看 Ubuntu 提供的解決方式，自己動手試一次。</li>
+        <li><strong>Ubuntu 套件功能</strong>：認識 Canonical 推出的套件與產品，對照官方技術文件實際操作。</li>
       </ul>
-      <p>這裡不是逐字翻譯，也不取代官方文件。版本、價格與支援政策，請以 Canonical 官方原文為準。</p>
+      <p>
+        這裡不是逐字翻譯，也不取代官方文件。我還在學習，內容可能有錯或不完整，版本、價格與支援政策請以 Canonical 官方說明為準。
+      </p>
     </section>
 
     <section class="mt-14">
-      <h2 class="text-2xl font-bold">我推薦 Ubuntu 的理由</h2>
+      <h2 class="text-2xl font-bold">我選擇 Ubuntu 學 Linux 的原因</h2>
       <ul class="mt-6 grid gap-4 sm:grid-cols-2">
         {
           reasons.map((item) => (
@@ -66,12 +71,13 @@ const workflow = [
           ))
         }
       </ul>
+      <p class="mt-4 text-sm text-stone-500 dark:text-stone-400">這是我個人的選擇，其他 Linux 發行版也各有優點。</p>
     </section>
 
     <section class="mt-14">
       <h2 class="text-2xl font-bold">文章是怎麼產生的</h2>
       <p class="mt-3 leading-relaxed text-stone-600 dark:text-stone-300">
-        我用 Claude Code 協作撰稿：AI 負責速度，我負責判斷。
+        我用 Claude Code 協助整理文字；選題、實作與最後確認由我自己負責。
       </p>
       <ol class="mt-8 grid gap-4 sm:grid-cols-2">
         {
@@ -96,8 +102,8 @@ const workflow = [
       <ul class="mt-4 list-disc space-y-2 pl-5 text-stone-700 dark:text-stone-300">
         <li>每篇導讀都附上 Canonical 官方原文連結與作者資訊。</li>
         <li>技術名詞保留英文，並附繁體中文說明，例如 Livepatch（核心熱修補）。</li>
-        <li>推薦 Ubuntu，但不誇大：原文沒寫、也查不到的內容，會標註「待確認」。</li>
-        <li>觀點是我個人的看法，不代表 Canonical 官方意見。</li>
+        <li>以學習者的角度記錄，不誇大：原文沒寫、也查不到的內容，會標註「待確認」。</li>
+        <li>觀點是我學習過程中的個人想法，可能有錯，也不代表 Canonical 官方意見；發現錯誤歡迎指正。</li>
       </ul>
     </section>
 
