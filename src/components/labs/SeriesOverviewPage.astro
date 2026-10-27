@@ -1,0 +1,79 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import LabBadges from './LabBadges.astro';
+import TagList from '../TagList.astro';
+import { LAB_SECTIONS, sectionHref, type LabSeries } from '../../lib/labs';
+import { formatDate, isoDate, withBase } from '../../lib/site';
+
+interface Props {
+  series: LabSeries;
+}
+
+const { series } = Astro.props;
+const meta = LAB_SECTIONS[series.section];
+const first = series.chapters[0];
+const tags = [...new Set(series.chapters.flatMap((c) => c.doc.data.tags))];
+const products = [...new Set(series.chapters.flatMap((c) => ('product' in c.doc.data ? [c.doc.data.product] : [])))];
+---
+
+<BaseLayout title={series.data.title} description={series.data.summary}>
+  <section class="bg-aubergine-deep text-white">
+    <div class="mx-auto max-w-3xl px-4 py-14 sm:px-6 md:py-16">
+      <nav class="text-sm text-white/60" aria-label="麵包屑">
+        <a href={withBase(meta.path)} class="hover:text-ubuntu-orange-light">{meta.label}</a>
+        <span class="mx-2">/</span>
+        <span>系列</span>
+      </nav>
+      <p class="mt-6 font-mono text-sm tracking-widest text-ubuntu-orange-light">SERIES｜{series.chapters.length} CHAPTERS</p>
+      <h1 class="mt-3 text-3xl font-bold leading-tight md:text-5xl">{series.data.title}</h1>
+      <p class="mt-4 text-lg leading-relaxed text-white/80">{series.data.summary}</p>
+      <p class="mt-4 text-sm text-white/60">{series.data.status === 'completed' ? '已完結' : '連載中'}</p>
+      <a
+        href={withBase(sectionHref(first.section, first.slug))}
+        class="mt-8 inline-block rounded-full bg-ubuntu-orange px-6 py-2.5 font-medium text-white shadow-lg shadow-ubuntu-orange/30 transition hover:bg-ubuntu-orange-light"
+      >
+        從第 {first.chapter} 章開始
+      </a>
+    </div>
+  </section>
+
+  <div class="mx-auto max-w-3xl px-4 py-12 sm:px-6">
+    <div class="flex flex-wrap items-center gap-2">
+      {products.length > 0 ? products.map((p) => <LabBadges section={series.section} product={p} />) : <LabBadges section={series.section} />}
+    </div>
+    <div class="mt-4"><TagList tags={tags} /></div>
+
+    <h2 class="mt-10 text-2xl font-bold">章節</h2>
+    <ol class="mt-6 space-y-4">
+      {
+        series.chapters.map((c) => (
+          <li>
+            <a
+              href={withBase(sectionHref(c.section, c.slug))}
+              class="group flex gap-5 rounded-2xl border border-stone-200 p-5 transition hover:border-ubuntu-orange/50 hover:shadow-md dark:border-white/10"
+            >
+              <span class="font-mono text-2xl font-bold text-ubuntu-orange">{String(c.chapter).padStart(2, '0')}</span>
+              <span class="min-w-0">
+                <span class="block text-lg font-bold group-hover:text-ubuntu-orange">{c.doc.data.title}</span>
+                <span class="mt-1 block text-sm leading-relaxed text-stone-600 dark:text-stone-300">{c.doc.data.summary}</span>
+                <time datetime={isoDate(c.doc.data.pubDate)} class="mt-2 block text-xs text-stone-500 dark:text-stone-400">
+                  發表 {formatDate(c.doc.data.pubDate)}
+                </time>
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+    {
+      series.data.status === 'ongoing' && (
+        <p class="mt-6 rounded-2xl border-2 border-dashed border-stone-300 p-5 text-center text-sm text-stone-500 dark:border-white/15">
+          下一章撰寫中
+        </p>
+      )
+    }
+    <p class="mt-10 text-center">
+      <a href={withBase(meta.path)} class="font-medium text-ubuntu-orange hover:underline">← 回到{meta.navLabel}</a>
+    </p>
+  </div>
+</BaseLayout>

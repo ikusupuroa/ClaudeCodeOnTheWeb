@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import LabCard from './LabCard.astro';
+import { getLabContent, LAB_SECTIONS, type LabSectionKey } from '../../lib/labs';
+import { withBase } from '../../lib/site';
+
+interface Props {
+  section: LabSectionKey;
+}
+
+const { section } = Astro.props;
+const meta = LAB_SECTIONS[section];
+const { items } = await getLabContent(section);
+---
+
+<BaseLayout title={meta.label} description={meta.description}>
+  <section class="bg-aubergine-deep text-white">
+    <div class="mx-auto max-w-6xl px-4 py-14 sm:px-6 md:py-16">
+      <p class="font-mono text-sm tracking-widest text-ubuntu-orange-light">{meta.eyebrow}</p>
+      <h1 class="mt-3 text-3xl font-bold md:text-5xl">{meta.label}</h1>
+      <p class="mt-4 max-w-3xl text-lg text-white/80">{meta.description}</p>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+    {
+      items.length > 0 ? (
+        <div class="grid gap-6 md:grid-cols-2">
+          {items.map((item) => (
+            <LabCard item={item} />
+          ))}
+        </div>
+      ) : (
+        <div class="rounded-2xl border-2 border-dashed border-stone-300 px-6 py-16 text-center dark:border-white/15">
+          <p class="font-mono text-sm tracking-widest text-ubuntu-orange">COMING SOON</p>
+          <p class="mt-3 text-2xl font-bold">即將推出</p>
+          <p class="mx-auto mt-3 max-w-xl leading-relaxed text-stone-600 dark:text-stone-400">
+            我正在動手實作第一個主題，完成後會在這裡分享操作步驟與實作畫面。
+          </p>
+          <a href={withBase('/articles/')} class="mt-6 inline-block font-medium text-ubuntu-orange hover:underline">
+            先看看精華導讀 →
+          </a>
+        </div>
+      )
+    }
+  </section>
+</BaseLayout>

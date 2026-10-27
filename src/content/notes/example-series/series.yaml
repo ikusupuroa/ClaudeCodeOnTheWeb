@@ -1,0 +1,5 @@
+# 系列範本（draft: true 不會發布）。新系列：複製整個資料夾、改名，再把 draft 拿掉。
+title: 範本系列：用 LXD 建立測試環境
+summary: 這是系列範本。系列資料夾裡放 series.yaml 與各章 Markdown，章節檔名以兩位數字開頭（01-、02-）決定順序。
+status: ongoing
+draft: true

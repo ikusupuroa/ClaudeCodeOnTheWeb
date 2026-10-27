@@ -5,6 +5,8 @@ import { SITE, withBase } from '../lib/site';
 const links = [
   { href: withBase('/'), label: '最新導讀' },
   { href: withBase('/articles/'), label: '全部文章' },
+  { href: withBase('/notes/'), label: '技術筆記' },
+  { href: withBase('/packages/'), label: '套件功能' },
   { href: withBase('/about/'), label: '關於我' },
 ];
 
@@ -25,23 +27,25 @@ const isActive = (href: string) => (href === home ? path === home : path.startsW
       </span>
     </a>
 
-    <nav class="flex items-center gap-1 text-sm">
-      {
-        links.map((link) => (
-          <a
-            href={link.href}
-            class:list={[
-              'whitespace-nowrap rounded-md px-2.5 py-1.5 transition-colors sm:px-3',
-              isActive(link.href)
-                ? 'bg-white/10 text-white'
-                : 'text-white/70 hover:bg-white/5 hover:text-white',
-            ]}
-            aria-current={isActive(link.href) ? 'page' : undefined}
-          >
-            {link.label}
-          </a>
-        ))
-      }
+    <div class="flex items-center gap-1 text-sm">
+      <nav class="hidden items-center gap-1 md:flex" aria-label="主選單">
+        {
+          links.map((link) => (
+            <a
+              href={link.href}
+              class:list={[
+                'whitespace-nowrap rounded-md px-2.5 py-1.5 transition-colors sm:px-3',
+                isActive(link.href)
+                  ? 'bg-white/10 text-white'
+                  : 'text-white/70 hover:bg-white/5 hover:text-white',
+              ]}
+              aria-current={isActive(link.href) ? 'page' : undefined}
+            >
+              {link.label}
+            </a>
+          ))
+        }
+      </nav>
       <button
         type="button"
         id="theme-toggle"
@@ -56,11 +60,47 @@ const isActive = (href: string) => (href === home ? path === home : path.startsW
           <path stroke-linecap="round" d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
         </svg>
       </button>
-    </nav>
+
+      <details class="relative md:hidden" data-mobile-menu>
+        <summary
+          class="list-none rounded-md p-2 text-white/70 transition-colors hover:bg-white/5 hover:text-white [&::-webkit-details-marker]:hidden"
+          aria-label="開啟選單"
+        >
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16"></path>
+          </svg>
+        </summary>
+        <nav
+          class="absolute right-0 mt-2 flex w-44 flex-col gap-1 rounded-xl border border-white/10 bg-aubergine-deep p-2 shadow-xl"
+          aria-label="主選單"
+        >
+          {
+            links.map((link) => (
+              <a
+                href={link.href}
+                class:list={[
+                  'rounded-md px-3 py-2 transition-colors',
+                  isActive(link.href) ? 'bg-white/10 text-white' : 'text-white/70 hover:bg-white/5 hover:text-white',
+                ]}
+                aria-current={isActive(link.href) ? 'page' : undefined}
+              >
+                {link.label}
+              </a>
+            ))
+          }
+        </nav>
+      </details>
+    </div>
   </div>
 </header>
 
 <script>
+  // 點選單外面時收起手機選單
+  document.addEventListener('click', (event) => {
+    const menu = document.querySelector<HTMLDetailsElement>('[data-mobile-menu]');
+    if (menu?.open && !menu.contains(event.target as Node)) menu.open = false;
+  });
+
   document.getElementById('theme-toggle')?.addEventListener('click', () => {
     const isDark = document.documentElement.classList.toggle('dark');
     try {

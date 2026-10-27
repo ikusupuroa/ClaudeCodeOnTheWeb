@@ -1,0 +1,129 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import LabBadges from './LabBadges.astro';
+import SeriesToc from './SeriesToc.astro';
+import TagList from '../TagList.astro';
+import { LAB_SECTIONS, sectionHref, type LabEntry, type LabSeries } from '../../lib/labs';
+import { formatDate, isoDate, withBase } from '../../lib/site';
+
+interface Props {
+  entry: LabEntry;
+  series?: LabSeries;
+}
+
+const { entry, series } = Astro.props;
+const { data } = entry.doc;
+const meta = LAB_SECTIONS[entry.section];
+const product = 'product' in data ? data.product : undefined;
+const { Content } = await render(entry.doc);
+
+const index = series ? series.chapters.findIndex((c) => c.slug === entry.slug) : -1;
+const prev = series && index > 0 ? series.chapters[index - 1] : undefined;
+const next = series && index >= 0 ? series.chapters[index + 1] : undefined;
+const chapterHref = (c: LabEntry) => withBase(sectionHref(c.section, c.slug));
+---
+
+<BaseLayout title={series ? `${data.title}｜${series.data.title}` : data.title} description={data.summary}>
+  <article class="mx-auto max-w-3xl px-4 pt-10 sm:px-6 md:pt-14">
+    <nav class="text-sm text-stone-500 dark:text-stone-400" aria-label="麵包屑">
+      <a href={withBase(meta.path)} class="hover:text-ubuntu-orange">{meta.label}</a>
+      {
+        series && (
+          <>
+            <span class="mx-2">/</span>
+            <a href={withBase(sectionHref(series.section, series.slug))} class="hover:text-ubuntu-orange">{series.data.title}</a>
+          </>
+        )
+      }
+    </nav>
+
+    <header class="mt-6">
+      <div class="flex flex-wrap items-center gap-2">
+        <LabBadges section={entry.section} product={product} seriesLabel={series ? `第 ${entry.chapter} 章` : undefined} />
+        <time datetime={isoDate(data.pubDate)} class="text-sm text-stone-500 dark:text-stone-400">
+          發表：{formatDate(data.pubDate)}
+        </time>
+        {
+          data.updatedDate && (
+            <time datetime={isoDate(data.updatedDate)} class="text-sm text-stone-500 dark:text-stone-400">
+              ・更新：{formatDate(data.updatedDate)}
+            </time>
+          )
+        }
+      </div>
+      <h1 class="mt-4 text-3xl font-bold leading-snug text-stone-900 md:text-[2.6rem] md:leading-tight dark:text-white">
+        {data.title}
+      </h1>
+      <p class="mt-4 text-lg leading-relaxed text-stone-600 dark:text-stone-300">{data.summary}</p>
+      <div class="mt-5"><TagList tags={data.tags} /></div>
+    </header>
+
+    {
+      data.environment.length > 0 && (
+        <div class="mt-8 flex flex-col gap-2 rounded-xl border border-stone-200 bg-stone-50 px-4 py-3 text-sm sm:flex-row sm:items-center dark:border-white/10 dark:bg-white/[0.04]">
+          <span class="shrink-0 font-medium text-stone-800 dark:text-white">實作環境</span>
+          <ul class="flex flex-wrap gap-1.5">
+            {data.environment.map((env) => (
+              <li class="rounded-md bg-white px-2 py-0.5 font-mono text-xs text-stone-700 ring-1 ring-stone-200 dark:bg-white/10 dark:text-stone-200 dark:ring-white/10">
+                {env}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )
+    }
+
+    {series && <div class="mt-6"><SeriesToc series={series} current={entry.chapter} /></div>}
+
+    <div class="article-prose mt-12">
+      <Content />
+    </div>
+
+    {
+      data.references.length > 0 && (
+        <section class="mt-14 rounded-2xl border-2 border-aubergine/20 bg-aubergine/[0.03] p-6 dark:border-white/10 dark:bg-white/[0.03]" aria-label="參考文件">
+          <p class="text-sm font-medium tracking-widest text-aubergine dark:text-ubuntu-orange-light">REFERENCES｜參考文件</p>
+          <ul class="mt-4 space-y-2 text-sm">
+            {data.references.map((ref) => (
+              <li>
+                <a href={ref.url} rel="noopener" class="font-medium text-ubuntu-orange hover:underline">
+                  {ref.title} <span aria-hidden="true">↗</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    {
+      series ? (
+        <nav class="mt-10 grid gap-4 sm:grid-cols-2" aria-label="上一章與下一章">
+          {prev ? (
+            <a href={chapterHref(prev)} class="rounded-xl border border-stone-200 p-4 transition hover:border-ubuntu-orange dark:border-white/10">
+              <span class="text-xs text-stone-500">← 上一章</span>
+              <span class="mt-1 block font-medium">{prev.doc.data.title}</span>
+            </a>
+          ) : (
+            <span />
+          )}
+          {next ? (
+            <a href={chapterHref(next)} class="rounded-xl border border-stone-200 p-4 text-right transition hover:border-ubuntu-orange dark:border-white/10">
+              <span class="text-xs text-stone-500">下一章 →</span>
+              <span class="mt-1 block font-medium">{next.doc.data.title}</span>
+            </a>
+          ) : (
+            <p class="rounded-xl border border-dashed border-stone-300 p-4 text-right text-sm text-stone-500 dark:border-white/15">
+              {series.data.status === 'completed' ? '本系列已完結' : '下一章撰寫中'}
+            </p>
+          )}
+        </nav>
+      ) : (
+        <p class="mt-10 text-center">
+          <a href={withBase(meta.path)} class="font-medium text-ubuntu-orange hover:underline">← 回到{meta.navLabel}</a>
+        </p>
+      )
+    }
+  </article>
+</BaseLayout>

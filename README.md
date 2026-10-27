@@ -76,19 +76,25 @@ node scripts/fetch-sources.mjs --json       # JSON 輸出，方便 Claude 或其
 │   └── notify-new-articles.cjs    # 把新文章開成 GitHub Issue
 ├── src/
 │   ├── content/articles/          # 文章 Markdown（檔名即網址 slug）
+│   ├── content/notes/             # 技術筆記（單篇或系列，example-* 為範本草稿）
+│   ├── content/packages/          # Ubuntu 套件功能（同上）
 │   ├── content.config.ts          # 文章 Frontmatter Schema
 │   ├── data/sources-state.json    # 抓取與處理狀態追蹤檔
 │   ├── components/                # 文章卡片、觀點卡片、原文出處區塊等
 │   ├── layouts/BaseLayout.astro
 │   ├── lib/
 │   │   ├── articles.ts            # 取得／排序文章、統計標籤
+│   │   ├── labs.ts                # 技術筆記／套件功能：載入、驗證區塊、組出系列
 │   │   └── digest-sections.mjs    # Markdown 外掛：把兩大區塊包成 <section>
 │   ├── pages/
 │   │   ├── index.astro            # 首頁（Hero、最新 6 篇、標籤連結）
 │   │   ├── about.astro            # 關於我
 │   │   ├── articles/index.astro   # 全部文章（標籤篩選）
-│   │   └── articles/[slug].astro  # 文章詳情頁
+│   │   ├── articles/[slug].astro  # 文章詳情頁
+│   │   ├── notes/                 # 技術筆記列表、單篇、系列總覽與章節
+│   │   └── packages/              # Ubuntu 套件功能（同上）
 │   └── styles/global.css          # Tailwind 與品牌色設定
+├── inbox/                         # 實作截圖與操作紀錄的收件匣（不會上網站）
 ├── astro.config.mjs
 └── CLAUDE.md                      # Claude Code 的工作守則（發布流程、寫作規則）
 ```
@@ -136,6 +142,71 @@ draft: false                               # 選填，true 時不會建置
 - 技術名詞保留英文，並附繁體中文說明，例如 Livepatch（核心熱修補）。
 - 原文沒寫、也無法查證的內容，要用 `> **待確認**：…` 明確標註，不要臆測。
 - 價格、版本號、支援年限以原文為準，本站不自行提供價格數字。
+
+---
+
+## 技術筆記與 Ubuntu 套件功能
+
+兩個實作單元，由 ikusupuroa 動手實作、Claude 整理成文章：
+
+| 單元 | 網址 | 必要區塊 |
+| --- | --- | --- |
+| 技術筆記 | `/notes/` | `## 探討議題`、`## 實作筆記與畫面` |
+| Ubuntu 套件功能 | `/packages/` | `## 產品介紹`、`## 技術文件導讀與實作` |
+
+系列第 2 章起，第一個區塊改為 `## 前情提要`（上一章完成了什麼、這一章要接著處理什麼）。缺少必要區塊時建置會失敗。
+
+### 檔案放法
+
+```text
+src/content/notes/                  # 套件功能把 notes 換成 packages
+├── my-note.md                      # 單篇（沒有截圖）
+├── my-note-with-images/
+│   ├── index.md                    # 單篇（有截圖）
+│   └── images/01-install.png
+└── my-series/                      # 系列
+    ├── series.yaml                 # 系列標題、簡介、連載中／已完結
+    ├── 01-setup.md                 # 檔名開頭的數字就是章節順序
+    ├── 02-cluster.md
+    └── images/
+```
+
+截圖用相對路徑引用：`![圖說](./images/01-install.png)`，替代文字會顯示成圖說，圖片會在建置時自動壓縮成 WebP。
+
+### Frontmatter
+
+```yaml
+---
+title: 標題                                # 必填
+pubDate: 2026-10-27                        # 必填
+updatedDate: 2026-11-01                    # 選填
+summary: 2-3 句摘要。                       # 必填
+tags: [Security]                           # 必填，至少一個
+environment: [Ubuntu 24.04 LTS, LXD 6.10]  # 選填，顯示為「實作環境」
+references:                                # 技術筆記選填；套件功能至少一份
+  - title: LXD documentation
+    url: https://documentation.ubuntu.com/lxd/
+product: LXD                               # 套件功能必填
+draft: false                               # 選填
+---
+```
+
+`series.yaml`：
+
+```yaml
+title: 系列標題
+summary: 系列簡介
+status: ongoing   # ongoing（連載中）或 completed（已完結）
+```
+
+可直接複製 `example-single.md`、`example-series/` 這些範本草稿（`draft: true`，不會發布，但建置時會檢查格式）。
+
+### 發布流程（SOP）
+
+1. ikusupuroa 實作，把截圖與 `說明.md` 上傳到 `inbox/<主題資料夾>/`（步驟見 `inbox/README.md`）。
+2. 在對話中告訴 Claude，例如：「inbox/2026-10-livepatch 已上傳，寫成技術筆記單篇」。
+3. Claude 撰稿、搬移截圖、刪除已處理的素材，開 PR 並傳預覽截圖。
+4. ikusupuroa 確認後才合併上線（與導讀文章的「先發布、後審查」不同）。
 
 ---
 

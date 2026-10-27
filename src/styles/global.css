@@ -119,6 +119,49 @@
   }
 }
 
+/* ---------- 技術筆記／套件功能 ---------- */
+@layer components {
+  /* 【前情提要】系列第 2 章起 */
+  .article-prose .section-recap {
+    @apply mb-12 rounded-2xl border border-aubergine/20 bg-aubergine/5 p-6 md:p-8 dark:border-white/15 dark:bg-white/5;
+  }
+
+  .article-prose .section-recap > h2 {
+    @apply mt-0 text-aubergine dark:text-stone-100;
+  }
+
+  .article-prose .section-recap > :last-child {
+    @apply mb-0;
+  }
+
+  /* 【實作筆記與畫面】【技術文件導讀與實作】 */
+  .article-prose .section-lab > h2 {
+    @apply mt-0 border-b-2 border-ubuntu-orange/30 pb-2 dark:border-ubuntu-orange/40;
+  }
+
+  .article-prose .section-lab > h2::before {
+    content: '';
+    @apply mr-3 inline-block h-[0.9em] w-1.5 -translate-y-px rounded-sm bg-ubuntu-orange align-middle;
+  }
+
+  .article-prose .section-lab > h3 {
+    @apply border-l-4 border-ubuntu-orange pl-3;
+  }
+
+  /* 實作截圖 */
+  .article-prose .lab-figure {
+    @apply my-8;
+  }
+
+  .article-prose .lab-figure img {
+    @apply my-0 w-full rounded-xl border border-stone-200 shadow-md dark:border-white/10;
+  }
+
+  .article-prose .lab-figure figcaption {
+    @apply mt-3 text-center text-sm text-stone-500 dark:text-stone-400;
+  }
+}
+
 /* Shiki 雙主題切換 */
 .dark .astro-code,
 .dark .astro-code span {
