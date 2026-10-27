@@ -119,6 +119,125 @@
   }
 }
 
+/* ---------- 技術筆記／套件功能 ---------- */
+/*
+ * 兩個單元各有一組配色，包在 .lab-theme-notes 或 .lab-theme-packages 裡的元件都讀這些變數：
+ *   --lab-accent        主色（徽章、按鈕、標記）
+ *   --lab-accent-strong 白底上的文字色（連結、強調文字）
+ *   --lab-accent-light  深色底上的文字色
+ *   --lab-soft          淺色底（提示框、目錄）
+ *   --lab-muted         中性輔助色
+ *   --lab-hero          頁首與首頁入口卡的背景
+ */
+@layer base {
+  /* Ubuntu 套件功能：Ubuntu Orange #E95420（官方）＋ Warm Grey */
+  .lab-theme-packages {
+    --lab-accent: #e95420;
+    --lab-accent-strong: #c7431a;
+    --lab-accent-light: #ffb08f;
+    --lab-soft: #fdeee8;
+    --lab-muted: #aea79f;
+    --lab-hero: linear-gradient(120deg, #7a2208 0%, #b83a12 45%, #e95420 100%);
+  }
+
+  /* 技術筆記：Kubernetes Blue #326CE5（官方）＋ 本站搭配的深海軍藍與石板灰 */
+  .lab-theme-notes {
+    --lab-accent: #326ce5;
+    --lab-accent-strong: #2557c7;
+    --lab-accent-light: #a9c4f5;
+    --lab-soft: #eaf1fd;
+    --lab-muted: #64748b;
+    --lab-hero: linear-gradient(120deg, #0b1f44 0%, #163a8a 50%, #326ce5 100%);
+  }
+
+  .dark .lab-theme-packages {
+    --lab-accent-strong: #f26b3a;
+    --lab-soft: rgb(233 84 32 / 0.12);
+  }
+
+  .dark .lab-theme-notes {
+    --lab-accent-strong: #6a9bf0;
+    --lab-soft: rgb(50 108 229 / 0.15);
+  }
+}
+
+@layer components {
+  .lab-hero {
+    background: var(--lab-hero);
+  }
+
+  /* 單元頁的內文改用單元主色 */
+  .lab-theme .article-prose {
+    --tw-prose-links: var(--lab-accent-strong);
+    --tw-prose-invert-links: var(--lab-accent-strong);
+    --tw-prose-quote-borders: var(--lab-accent);
+    --tw-prose-invert-quote-borders: var(--lab-accent);
+  }
+
+  /* 【探討議題】沿用觀點 Callout 的版型，換成單元主色 */
+  .lab-theme .article-prose .section-take {
+    border-color: color-mix(in srgb, var(--lab-accent) 30%, transparent);
+    background-image: linear-gradient(to bottom right, var(--lab-soft), transparent 60%);
+  }
+
+  .lab-theme .article-prose .section-take::before {
+    background-image: linear-gradient(to bottom, var(--lab-accent), var(--lab-muted));
+  }
+
+  .lab-theme .article-prose .section-take > h2 {
+    color: var(--lab-accent-strong);
+  }
+
+  /* 【產品介紹】 */
+  .lab-theme .article-prose .section-digest > h2 {
+    border-color: color-mix(in srgb, var(--lab-muted) 40%, transparent);
+  }
+
+  .lab-theme .article-prose .section-digest > h2::before {
+    background-color: var(--lab-accent);
+  }
+
+  /* 【前情提要】系列第 2 章起 */
+  .article-prose .section-recap {
+    @apply mb-12 rounded-2xl border border-(--lab-accent)/25 bg-(--lab-soft) p-6 md:p-8;
+  }
+
+  .article-prose .section-recap > h2 {
+    @apply mt-0 text-(--lab-accent-strong);
+  }
+
+  .article-prose .section-recap > :last-child {
+    @apply mb-0;
+  }
+
+  /* 【實作筆記與畫面】【技術文件導讀與實作】 */
+  .article-prose .section-lab > h2 {
+    @apply mt-0 border-b-2 border-(--lab-accent)/30 pb-2;
+  }
+
+  .article-prose .section-lab > h2::before {
+    content: '';
+    @apply mr-3 inline-block h-[0.9em] w-1.5 -translate-y-px rounded-sm bg-(--lab-accent) align-middle;
+  }
+
+  .article-prose .section-lab > h3 {
+    @apply border-l-4 border-(--lab-accent) pl-3;
+  }
+
+  /* 實作截圖 */
+  .article-prose .lab-figure {
+    @apply my-8;
+  }
+
+  .article-prose .lab-figure img {
+    @apply my-0 w-full rounded-xl border border-stone-200 shadow-md dark:border-white/10;
+  }
+
+  .article-prose .lab-figure figcaption {
+    @apply mt-3 text-center text-sm text-stone-500 dark:text-stone-400;
+  }
+}
+
 /* Shiki 雙主題切換 */
 .dark .astro-code,
 .dark .astro-code span {

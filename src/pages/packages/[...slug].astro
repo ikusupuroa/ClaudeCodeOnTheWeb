@@ -1,0 +1,17 @@
+---
+import LabEntryPage from '../../components/labs/LabEntryPage.astro';
+import SeriesOverviewPage from '../../components/labs/SeriesOverviewPage.astro';
+import { getLabPaths, type LabPage } from '../../lib/labs';
+
+export async function getStaticPaths() {
+  return getLabPaths('packages');
+}
+
+interface Props {
+  page: LabPage;
+}
+
+const { page } = Astro.props;
+---
+
+{page.kind === 'series' ? <SeriesOverviewPage series={page.series} /> : <LabEntryPage entry={page.entry} series={page.series} />}

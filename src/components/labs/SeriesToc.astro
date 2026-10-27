@@ -1,0 +1,43 @@
+---
+import { sectionHref, type LabSeries } from '../../lib/labs';
+import { withBase } from '../../lib/site';
+
+interface Props {
+  series: LabSeries;
+  /** 目前所在章節；系列總覽頁不傳 */
+  current?: number;
+}
+
+const { series, current } = Astro.props;
+---
+
+<nav class="rounded-2xl border border-(--lab-accent)/20 bg-(--lab-soft) p-5" aria-label="系列章節">
+  <p class="text-sm text-stone-500 dark:text-stone-400">
+    系列：<a href={withBase(sectionHref(series.section, series.slug))} class="font-medium text-(--lab-accent-strong) hover:underline">{series.data.title}</a>
+    <span class="ml-1">（{series.chapters.length} 章・{series.data.status === 'completed' ? '已完結' : '連載中'}）</span>
+  </p>
+  <ol class="mt-3 space-y-1">
+    {
+      series.chapters.map((c) => {
+        const active = c.chapter === current;
+        return (
+          <li>
+            <a
+              href={withBase(sectionHref(series.section, c.slug))}
+              class:list={[
+                'flex gap-3 rounded-lg px-3 py-1.5 text-sm transition',
+                active
+                  ? 'bg-(--lab-accent) font-medium text-white'
+                  : 'text-stone-700 hover:bg-(--lab-accent)/10 hover:text-(--lab-accent-strong) dark:text-stone-300',
+              ]}
+              aria-current={active ? 'page' : undefined}
+            >
+              <span class:list={['font-mono', !active && 'text-(--lab-accent-strong)']}>{String(c.chapter).padStart(2, '0')}</span>
+              <span>{c.doc.data.title}</span>
+            </a>
+          </li>
+        );
+      })
+    }
+  </ol>
+</nav>

@@ -3,6 +3,8 @@ name: Build & Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+    # 只上傳實作素材到 inbox/ 時不需要重新部署
+    paths-ignore: ['inbox/**']
   pull_request:
   workflow_dispatch:
 
