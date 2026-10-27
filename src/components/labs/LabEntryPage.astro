@@ -25,14 +25,14 @@ const chapterHref = (c: LabEntry) => withBase(sectionHref(c.section, c.slug));
 ---
 
 <BaseLayout title={series ? `${data.title}｜${series.data.title}` : data.title} description={data.summary}>
-  <article class="mx-auto max-w-3xl px-4 pt-10 sm:px-6 md:pt-14">
+  <article class={`lab-theme lab-theme-${entry.section} mx-auto max-w-3xl px-4 pt-10 sm:px-6 md:pt-14`}>
     <nav class="text-sm text-stone-500 dark:text-stone-400" aria-label="麵包屑">
-      <a href={withBase(meta.path)} class="hover:text-ubuntu-orange">{meta.label}</a>
+      <a href={withBase(meta.path)} class="hover:text-(--lab-accent-strong)">{meta.label}</a>
       {
         series && (
           <>
             <span class="mx-2">/</span>
-            <a href={withBase(sectionHref(series.section, series.slug))} class="hover:text-ubuntu-orange">{series.data.title}</a>
+            <a href={withBase(sectionHref(series.section, series.slug))} class="hover:text-(--lab-accent-strong)">{series.data.title}</a>
           </>
         )
       }
@@ -82,12 +82,12 @@ const chapterHref = (c: LabEntry) => withBase(sectionHref(c.section, c.slug));
 
     {
       data.references.length > 0 && (
-        <section class="mt-14 rounded-2xl border-2 border-aubergine/20 bg-aubergine/[0.03] p-6 dark:border-white/10 dark:bg-white/[0.03]" aria-label="參考文件">
-          <p class="text-sm font-medium tracking-widest text-aubergine dark:text-ubuntu-orange-light">REFERENCES｜參考文件</p>
+        <section class="mt-14 rounded-2xl border-2 border-(--lab-accent)/20 bg-(--lab-soft) p-6" aria-label="參考文件">
+          <p class="text-sm font-medium tracking-widest text-(--lab-accent-strong)">REFERENCES｜參考文件</p>
           <ul class="mt-4 space-y-2 text-sm">
             {data.references.map((ref) => (
               <li>
-                <a href={ref.url} rel="noopener" class="font-medium text-ubuntu-orange hover:underline">
+                <a href={ref.url} rel="noopener" class="font-medium text-(--lab-accent-strong) hover:underline">
                   {ref.title} <span aria-hidden="true">↗</span>
                 </a>
               </li>
@@ -101,7 +101,7 @@ const chapterHref = (c: LabEntry) => withBase(sectionHref(c.section, c.slug));
       series ? (
         <nav class="mt-10 grid gap-4 sm:grid-cols-2" aria-label="上一章與下一章">
           {prev ? (
-            <a href={chapterHref(prev)} class="rounded-xl border border-stone-200 p-4 transition hover:border-ubuntu-orange dark:border-white/10">
+            <a href={chapterHref(prev)} class="rounded-xl border border-stone-200 p-4 transition hover:border-(--lab-accent) dark:border-white/10">
               <span class="text-xs text-stone-500">← 上一章</span>
               <span class="mt-1 block font-medium">{prev.doc.data.title}</span>
             </a>
@@ -109,7 +109,7 @@ const chapterHref = (c: LabEntry) => withBase(sectionHref(c.section, c.slug));
             <span />
           )}
           {next ? (
-            <a href={chapterHref(next)} class="rounded-xl border border-stone-200 p-4 text-right transition hover:border-ubuntu-orange dark:border-white/10">
+            <a href={chapterHref(next)} class="rounded-xl border border-stone-200 p-4 text-right transition hover:border-(--lab-accent) dark:border-white/10">
               <span class="text-xs text-stone-500">下一章 →</span>
               <span class="mt-1 block font-medium">{next.doc.data.title}</span>
             </a>
@@ -121,7 +121,7 @@ const chapterHref = (c: LabEntry) => withBase(sectionHref(c.section, c.slug));
         </nav>
       ) : (
         <p class="mt-10 text-center">
-          <a href={withBase(meta.path)} class="font-medium text-ubuntu-orange hover:underline">← 回到{meta.navLabel}</a>
+          <a href={withBase(meta.path)} class="font-medium text-(--lab-accent-strong) hover:underline">← 回到{meta.navLabel}</a>
         </p>
       )
     }

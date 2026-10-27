@@ -36,26 +36,26 @@ const card =
 ---
 
 <article
-  class="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:border-ubuntu-orange/50 hover:shadow-lg dark:border-white/10 dark:bg-white/[0.03]"
+  class="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm transition hover:-translate-y-0.5 hover:border-(--lab-accent)/50 hover:shadow-lg dark:border-white/10 dark:bg-white/[0.03]"
 >
-  <div class="h-1 bg-gradient-to-r from-aubergine to-ubuntu-orange"></div>
+  <div class="lab-hero h-1"></div>
   <div class="flex flex-1 flex-col p-6">
     <div class="flex flex-wrap items-center gap-2">
       <LabBadges section={card.section} product={card.product} seriesLabel={card.seriesLabel} />
     </div>
 
     <h2 class="mt-4 text-xl font-bold leading-snug text-stone-900 dark:text-white">
-      <a href={card.href} class="after:absolute after:inset-0 group-hover:text-ubuntu-orange">{card.title}</a>
+      <a href={card.href} class="after:absolute after:inset-0 group-hover:text-(--lab-accent-strong)">{card.title}</a>
     </h2>
 
     <p class="mt-3 line-clamp-3 text-[0.95rem] leading-relaxed text-stone-700 dark:text-stone-300">{card.summary}</p>
 
     {
       card.chapters.length > 0 && (
-        <ol class="mt-4 space-y-1 border-l-2 border-aubergine/20 pl-4 text-sm text-stone-600 dark:border-white/15 dark:text-stone-300">
+        <ol class="mt-4 space-y-1 border-l-2 border-(--lab-accent)/25 pl-4 text-sm text-stone-600 dark:border-white/15 dark:text-stone-300">
           {card.chapters.slice(0, 4).map((c) => (
             <li class="truncate">
-              <span class="mr-2 font-mono text-ubuntu-orange">{String(c.chapter).padStart(2, '0')}</span>
+              <span class="mr-2 font-mono text-(--lab-accent-strong)">{String(c.chapter).padStart(2, '0')}</span>
               {c.title}
             </li>
           ))}

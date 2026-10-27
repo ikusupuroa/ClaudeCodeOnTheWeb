@@ -126,14 +126,10 @@ const labs = await Promise.all(
         labs.map(({ meta, count, latest }) => (
           <a
             href={withBase(meta.path)}
-            class="group relative flex flex-col overflow-hidden rounded-2xl bg-aubergine-deep p-6 text-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg md:p-8"
+            class={`lab-theme-${meta.key} lab-hero group relative flex flex-col overflow-hidden rounded-2xl p-6 text-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg md:p-8`}
           >
-            <div
-              class="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_100%_0%,rgba(233,84,32,0.35),transparent_55%)]"
-              aria-hidden="true"
-            />
-            <p class="relative font-mono text-sm tracking-widest text-ubuntu-orange-light">{meta.eyebrow}</p>
-            <h3 class="relative mt-2 text-2xl font-bold group-hover:text-ubuntu-orange-light">{meta.label}</h3>
+            <p class="relative font-mono text-sm tracking-widest text-(--lab-accent-light)">{meta.eyebrow}</p>
+            <h3 class="relative mt-2 text-2xl font-bold">{meta.label}</h3>
             <p class="relative mt-3 leading-relaxed text-white/75">{meta.description}</p>
             <p class="relative mt-6 border-t border-white/15 pt-4 text-sm text-white/70">
               {latest ? (
@@ -143,12 +139,12 @@ const labs = await Promise.all(
                 </>
               ) : (
                 <span class="inline-flex items-center gap-2">
-                  <span class="rounded-full bg-ubuntu-orange px-2.5 py-0.5 text-xs font-medium text-white">即將推出</span>
+                  <span class="rounded-full bg-white px-2.5 py-0.5 text-xs font-medium text-(--lab-accent-strong)">即將推出</span>
                   第一篇正在實作中
                 </span>
               )}
             </p>
-            <span class="relative mt-4 font-medium text-ubuntu-orange-light">
+            <span class="relative mt-4 font-medium text-white group-hover:underline">
               前往{meta.navLabel} <span aria-hidden="true">→</span>
             </span>
           </a>

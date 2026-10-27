@@ -11,19 +11,19 @@ interface Props {
 const { section, product, seriesLabel } = Astro.props;
 ---
 
-<span class="inline-flex items-center gap-1 rounded-full bg-aubergine px-2.5 py-0.5 text-xs font-medium text-white dark:bg-aubergine-mid">
+<span class="inline-flex items-center gap-1 rounded-full bg-(--lab-accent) px-2.5 py-0.5 text-xs font-medium text-white">
   {LAB_SECTIONS[section].label}
 </span>
 {
   product && (
-    <span class="inline-flex items-center rounded-full bg-ubuntu-orange/10 px-2.5 py-0.5 font-mono text-xs font-medium text-[#c7431a] dark:bg-ubuntu-orange/25 dark:text-orange-100">
+    <span class="inline-flex items-center rounded-full bg-(--lab-soft) px-2.5 py-0.5 font-mono text-xs font-medium text-(--lab-accent-strong)">
       {product}
     </span>
   )
 }
 {
   seriesLabel && (
-    <span class="inline-flex items-center gap-1.5 rounded-full border border-aubergine/30 px-2.5 py-0.5 text-xs font-medium text-aubergine dark:border-white/20 dark:text-stone-200">
+    <span class="inline-flex items-center gap-1.5 rounded-full border border-(--lab-accent)/40 px-2.5 py-0.5 text-xs font-medium text-(--lab-accent-strong)">
       <span class="h-1.5 w-1.5 rounded-full bg-current" />
       {seriesLabel}
     </span>
