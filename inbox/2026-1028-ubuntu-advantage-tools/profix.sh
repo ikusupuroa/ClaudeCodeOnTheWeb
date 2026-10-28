@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # ==============================================================================
 # profix.sh - Ubuntu CVE 漏洞即時通報與診斷工具 (繁體中文版 / 對齊 pro fix 規格)
+# 僅供學習參考、使用風險自負
 # ==============================================================================
 # 使用方式:
 #   bash profix.sh [--dry-run] <CVE-編號-1> [CVE-編號-2 ...]
@@ -89,7 +90,7 @@ run_diagnosis() {
   local is_dry_run="$3"
 
   $PYTHON_BIN - "$json_file" "$release_codename" "$is_dry_run" << 'EOF'
-import sys, json, subprocess, io
+import sys, json, subprocess, io, re
 
 json_file = sys.argv[1]
 codename = sys.argv[2]
@@ -108,10 +109,19 @@ if not cve_id:
     sys.exit(1)
 
 title = (data.get('title') or '').strip()
+description = (data.get('description') or '').strip()
 packages_data = data.get('packages', [])
 
 if title:
     print("{}: {}".format(cve_id, title))
+elif description:
+    clean_desc = " ".join(description.split())
+    m_sent = re.search(r'^(.*?[.!?])(?:\s|$)', clean_desc)
+    if m_sent:
+        first_sentence = m_sent.group(1).strip()
+    else:
+        first_sentence = clean_desc
+    print("{}: {}".format(cve_id, first_sentence))
 else:
     pkg_names = [p.get('name') for p in packages_data if p.get('name')]
     if pkg_names and len(pkg_names) == 1:
@@ -185,6 +195,7 @@ for p in packages_data:
                 affected_sources.append({
                     'name': src_name,
                     'status': st_val,
+                    'pocket': (st.get('pocket') or '').strip().lower(),
                     'fix_version': st.get('description') or ''
                 })
 
@@ -216,19 +227,44 @@ else:
 all_resolved = True
 still_affected_sources = []
 needs_upgrade_bins = []
-needs_esm = False
+required_enable_cmds = []
 
 for idx, (item, matched_bins) in enumerate(installed_affected, 1):
     src_name = item['name']
     st = item['status'].lower()
     fix_ver = item['fix_version'] or ""
+    pocket = item.get('pocket', '')
     print("({}/{}) {}:".format(idx, total_installed, src_name))
-    
-    is_esm = ("esm" in fix_ver.lower()) or (codename in ["trusty", "precise", "xenial", "bionic"])
-    if is_esm:
-        repo_desc = "Ubuntu Pro (ESM-Infra) 專屬套件庫"
-    else:
+
+    # 依官方 API pocket 欄位判定套件庫與啟用指令
+    if pocket == 'esm-infra-legacy':
+        repo_desc = "Ubuntu Pro Legacy 支援套件庫（esm-infra-legacy）"
+        enable_cmd = "sudo ua enable esm-infra-legacy"
+        needs_enable = True
+    elif pocket == 'esm-infra':
+        repo_desc = "Ubuntu Pro ESM-Infra 支援套件庫（esm-infra）"
+        enable_cmd = "sudo ua enable esm-infra"
+        needs_enable = True
+    elif pocket == 'esm-apps':
+        repo_desc = "Ubuntu Pro ESM-Apps 支援套件庫（esm-apps）"
+        enable_cmd = "sudo ua enable esm-apps"
+        needs_enable = True
+    elif pocket in ['security', 'updates']:
         repo_desc = "Ubuntu 標準更新套件庫"
+        enable_cmd = ""
+        needs_enable = False
+    elif pocket:
+        repo_desc = "Ubuntu {} 套件庫".format(pocket)
+        if 'esm' in pocket:
+            enable_cmd = "sudo ua enable {}".format(pocket)
+            needs_enable = True
+        else:
+            enable_cmd = ""
+            needs_enable = False
+    else:
+        repo_desc = "Ubuntu 更新套件庫"
+        enable_cmd = ""
+        needs_enable = False
 
     if st == "released":
         is_pkg_vulnerable = False
@@ -250,8 +286,8 @@ for idx, (item, matched_bins) in enumerate(installed_affected, 1):
         if is_pkg_vulnerable:
             all_resolved = False
             still_affected_sources.append(src_name)
-            if is_esm:
-                needs_esm = True
+            if needs_enable and enable_cmd and enable_cmd not in required_enable_cmds:
+                required_enable_cmds.append(enable_cmd)
             print("官方修復已於 {} 中提供。".format(repo_desc))
             if fix_ver:
                 print("官方目標修復版號: {}".format(fix_ver))
@@ -302,8 +338,8 @@ else:
         bins_cmd = " ".join(sorted(set(needs_upgrade_bins)))
         print("")
         print("若要在 Ubuntu {} 上套用修復，請依序執行:".format(codename))
-        if needs_esm:
-            print("  sudo ua enable esm-infra")
+        for cmd in required_enable_cmds:
+            print("  {}".format(cmd))
         print("  sudo apt-get update")
         print("  sudo apt install --only-upgrade {}".format(bins_cmd))
 
