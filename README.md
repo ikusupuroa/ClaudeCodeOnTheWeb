@@ -195,6 +195,7 @@ references:                                # 技術筆記選填；套件功能�
     url: https://documentation.ubuntu.com/lxd/
 product: LXD                               # 套件功能必填
 draft: false                               # 選填
+locked: false                              # 選填，true 時網站只顯示標題與小鎖（內文不輸出；原稿在公開 repo 仍可見）
 ---
 ```
 
@@ -207,6 +208,9 @@ status: ongoing   # ongoing（連載中）或 completed（已完結）
 ```
 
 可直接複製 `example-single.md`、`example-series/` 這些範本草稿（`draft: true`，不會發布，但建置時會檢查格式）。
+
+- **指令區塊**：要在終端機執行的指令用 ` ```bash `，網頁會自動加上「複製」按鈕；輸出結果用 ` ```text `，不會有按鈕。
+- **上鎖**：`locked: true` 的單篇或章節，列表與目錄只顯示標題和小鎖，網址只顯示「這篇還在編輯中」。
 
 ### 發布流程（SOP）
 

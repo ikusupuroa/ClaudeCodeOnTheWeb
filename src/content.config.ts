@@ -48,6 +48,8 @@ const labSchema = z.object({
   references: z.array(z.object({ title: z.string(), url: z.url() })).default([]),
   /** （選填）草稿不會被建置 */
   draft: z.boolean().default(false),
+  /** （選填）上鎖：列表與目錄只顯示標題與小鎖，文章頁只顯示「編輯中」，內文不會輸出到網站 */
+  locked: z.boolean().default(false),
 });
 
 /** 技術筆記：議題 → Ubuntu 的解法 → 實作 */
