@@ -41,10 +41,10 @@ export const LAB_ENV: {
   summary: 'ASUS VivoBook 筆電・Ubuntu Desktop 26.04 LTS',
   updated: '2026 年 10 月',
   specs: [
-    { label: '筆電', value: 'ASUS VivoBook X513EQ（S513EQ）' },
+    { label: '筆電', value: 'ASUS VivoBook X513EQ（S513EQ），約 2021 年的機型（BIOS 日期 2021 年 7 月）' },
     { label: '作業系統', value: 'Ubuntu Desktop 26.04.1 LTS（kernel 7.0.0-38-generic、GNOME Shell 50.1）' },
     { label: 'CPU', value: 'Intel Core i7-1165G7（第 11 代，8 執行緒）' },
-    { label: '記憶體', value: '約 14 GiB（系統顯示的可用總量）' },
+    { label: '記憶體', value: '16 GB' },
     { label: '儲存裝置', value: 'Intel NVMe SSD 512 GB（SSDPEKNW512G8）' },
     {
       label: 'GPU',
