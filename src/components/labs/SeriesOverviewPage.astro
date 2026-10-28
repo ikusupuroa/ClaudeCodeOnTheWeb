@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import LabBadges from './LabBadges.astro';
+import LockIcon from './LockIcon.astro';
 import TagList from '../TagList.astro';
 import { LAB_SECTIONS, sectionHref, type LabSeries } from '../../lib/labs';
 import { formatDate, isoDate, withBase } from '../../lib/site';
@@ -11,7 +12,7 @@ interface Props {
 
 const { series } = Astro.props;
 const meta = LAB_SECTIONS[series.section];
-const first = series.chapters[0];
+const first = series.chapters.find((c) => !c.doc.data.locked);
 const tags = [...new Set(series.chapters.flatMap((c) => c.doc.data.tags))];
 const products = [...new Set(series.chapters.flatMap((c) => ('product' in c.doc.data ? [c.doc.data.product] : [])))];
 ---
@@ -29,12 +30,21 @@ const products = [...new Set(series.chapters.flatMap((c) => ('product' in c.doc.
         <h1 class="mt-3 text-3xl font-bold leading-tight md:text-5xl">{series.data.title}</h1>
         <p class="mt-4 text-lg leading-relaxed text-white/80">{series.data.summary}</p>
         <p class="mt-4 text-sm text-white/60">{series.data.status === 'completed' ? '已完結' : '連載中'}</p>
-        <a
-          href={withBase(sectionHref(first.section, first.slug))}
-          class="mt-8 inline-block rounded-full bg-white px-6 py-2.5 font-medium text-(--lab-accent-strong) shadow-lg transition hover:bg-white/90"
-        >
-          從第 {first.chapter} 章開始
-        </a>
+        {
+          first ? (
+            <a
+              href={withBase(sectionHref(first.section, first.slug))}
+              class="mt-8 inline-block rounded-full bg-white px-6 py-2.5 font-medium text-(--lab-accent-strong) shadow-lg transition hover:bg-white/90"
+            >
+              從第 {first.chapter} 章開始
+            </a>
+          ) : (
+            <p class="mt-8 inline-flex items-center gap-2 rounded-full bg-white/15 px-6 py-2.5 font-medium text-white/85">
+              <LockIcon />
+              章節還在編輯中
+            </p>
+          )
+        }
       </div>
     </section>
 
@@ -47,7 +57,19 @@ const products = [...new Set(series.chapters.flatMap((c) => ('product' in c.doc.
       <h2 class="mt-10 text-2xl font-bold">章節</h2>
       <ol class="mt-6 space-y-4">
         {
-          series.chapters.map((c) => (
+          series.chapters.map((c) =>
+            c.doc.data.locked ? (
+              <li class="flex gap-5 rounded-2xl border border-dashed border-stone-300 p-5 dark:border-white/15">
+                <span class="font-mono text-2xl font-bold text-stone-400">{String(c.chapter).padStart(2, '0')}</span>
+                <span class="min-w-0">
+                  <span class="flex items-center gap-2 text-lg font-bold text-stone-500 dark:text-stone-400">
+                    <LockIcon class="h-4 w-4 shrink-0" />
+                    {c.doc.data.title}
+                  </span>
+                  <span class="mt-1 block text-sm text-stone-500 dark:text-stone-400">這一章還在編輯中，完成後就會開放閱讀。</span>
+                </span>
+              </li>
+            ) : (
             <li>
               <a
                 href={withBase(sectionHref(c.section, c.slug))}
@@ -63,7 +85,8 @@ const products = [...new Set(series.chapters.flatMap((c) => ('product' in c.doc.
                 </span>
               </a>
             </li>
-          ))
+            ),
+          )
         }
       </ol>
       {

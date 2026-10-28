@@ -236,6 +236,20 @@
   .article-prose .lab-figure figcaption {
     @apply mt-3 text-center text-sm text-stone-500 dark:text-stone-400;
   }
+
+  /* 指令區塊的複製按鈕（實作單元） */
+  .article-prose .code-copy {
+    @apply relative;
+  }
+  .article-prose .code-copy pre {
+    padding-right: 4.75rem;
+  }
+  .code-copy-button {
+    @apply absolute top-2.5 right-2.5 rounded-md border border-stone-300 bg-white/90 px-2.5 py-1 text-xs font-medium text-stone-600 shadow-sm transition hover:border-(--lab-accent) hover:text-(--lab-accent-strong) dark:border-white/20 dark:bg-stone-800/90 dark:text-stone-200;
+  }
+  .code-copy-button[data-copied] {
+    @apply border-(--lab-accent) bg-(--lab-accent) text-white;
+  }
 }
 
 /* Shiki 雙主題切換 */

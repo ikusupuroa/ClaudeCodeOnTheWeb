@@ -2,6 +2,7 @@
 import { render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import LabBadges from './LabBadges.astro';
+import LockIcon from './LockIcon.astro';
 import SeriesToc from './SeriesToc.astro';
 import TagList from '../TagList.astro';
 import { LAB_SECTIONS, sectionHref, type LabEntry, type LabSeries } from '../../lib/labs';
@@ -16,7 +17,9 @@ const { entry, series } = Astro.props;
 const { data } = entry.doc;
 const meta = LAB_SECTIONS[entry.section];
 const product = 'product' in data ? data.product : undefined;
-const { Content } = await render(entry.doc);
+const locked = data.locked;
+// 上鎖的文章不呼叫 render()，內文不會出現在網站的 HTML 中
+const Content = locked ? undefined : (await render(entry.doc)).Content;
 
 const index = series ? series.chapters.findIndex((c) => c.slug === entry.slug) : -1;
 const prev = series && index > 0 ? series.chapters[index - 1] : undefined;
@@ -24,7 +27,10 @@ const next = series && index >= 0 ? series.chapters[index + 1] : undefined;
 const chapterHref = (c: LabEntry) => withBase(sectionHref(c.section, c.slug));
 ---
 
-<BaseLayout title={series ? `${data.title}｜${series.data.title}` : data.title} description={data.summary}>
+<BaseLayout
+  title={series ? `${data.title}｜${series.data.title}` : data.title}
+  description={locked ? `${data.title}：這篇還在編輯中。` : data.summary}
+>
   <article class={`lab-theme lab-theme-${entry.section} mx-auto max-w-3xl px-4 pt-10 sm:px-6 md:pt-14`}>
     <nav class="text-sm text-stone-500 dark:text-stone-400" aria-label="麵包屑">
       <a href={withBase(meta.path)} class="hover:text-(--lab-accent-strong)">{meta.label}</a>
@@ -55,12 +61,12 @@ const chapterHref = (c: LabEntry) => withBase(sectionHref(c.section, c.slug));
       <h1 class="mt-4 text-3xl font-bold leading-snug text-stone-900 md:text-[2.6rem] md:leading-tight dark:text-white">
         {data.title}
       </h1>
-      <p class="mt-4 text-lg leading-relaxed text-stone-600 dark:text-stone-300">{data.summary}</p>
+      {!locked && <p class="mt-4 text-lg leading-relaxed text-stone-600 dark:text-stone-300">{data.summary}</p>}
       <div class="mt-5"><TagList tags={data.tags} /></div>
     </header>
 
     {
-      data.environment.length > 0 && (
+      !locked && data.environment.length > 0 && (
         <div class="mt-8 flex flex-col gap-2 rounded-xl border border-stone-200 bg-stone-50 px-4 py-3 text-sm sm:flex-row sm:items-center dark:border-white/10 dark:bg-white/[0.04]">
           <span class="shrink-0 font-medium text-stone-800 dark:text-white">實作環境</span>
           <ul class="flex flex-wrap gap-1.5">
@@ -76,12 +82,22 @@ const chapterHref = (c: LabEntry) => withBase(sectionHref(c.section, c.slug));
 
     {series && <div class="mt-6"><SeriesToc series={series} current={entry.chapter} /></div>}
 
-    <div class="article-prose mt-12">
-      <Content />
-    </div>
+    {
+      Content ? (
+        <div class="article-prose mt-12" data-copy-commands>
+          <Content />
+        </div>
+      ) : (
+        <div class="mt-12 rounded-2xl border-2 border-dashed border-stone-300 px-6 py-14 text-center dark:border-white/15">
+          <LockIcon class="mx-auto h-8 w-8 text-(--lab-accent-strong)" />
+          <p class="mt-4 text-2xl font-bold">這篇還在編輯中</p>
+          <p class="mx-auto mt-3 max-w-md leading-relaxed text-stone-600 dark:text-stone-400">內容還在整理與確認，完成後就會開放閱讀。</p>
+        </div>
+      )
+    }
 
     {
-      data.references.length > 0 && (
+      !locked && data.references.length > 0 && (
         <section class="mt-14 rounded-2xl border-2 border-(--lab-accent)/20 bg-(--lab-soft) p-6" aria-label="參考文件">
           <p class="text-sm font-medium tracking-widest text-(--lab-accent-strong)">REFERENCES｜參考文件</p>
           <ul class="mt-4 space-y-2 text-sm">
@@ -100,7 +116,12 @@ const chapterHref = (c: LabEntry) => withBase(sectionHref(c.section, c.slug));
     {
       series ? (
         <nav class="mt-10 grid gap-4 sm:grid-cols-2" aria-label="上一章與下一章">
-          {prev ? (
+          {prev && prev.doc.data.locked ? (
+            <div class="rounded-xl border border-dashed border-stone-300 p-4 text-stone-500 dark:border-white/15">
+              <span class="text-xs">← 上一章</span>
+              <span class="mt-1 flex items-center gap-1.5 font-medium"><LockIcon class="h-3.5 w-3.5 shrink-0" />{prev.doc.data.title}</span>
+            </div>
+          ) : prev ? (
             <a href={chapterHref(prev)} class="rounded-xl border border-stone-200 p-4 transition hover:border-(--lab-accent) dark:border-white/10">
               <span class="text-xs text-stone-500">← 上一章</span>
               <span class="mt-1 block font-medium">{prev.doc.data.title}</span>
@@ -108,7 +129,12 @@ const chapterHref = (c: LabEntry) => withBase(sectionHref(c.section, c.slug));
           ) : (
             <span />
           )}
-          {next ? (
+          {next && next.doc.data.locked ? (
+            <div class="rounded-xl border border-dashed border-stone-300 p-4 text-right text-stone-500 dark:border-white/15">
+              <span class="text-xs">下一章 →</span>
+              <span class="mt-1 flex items-center justify-end gap-1.5 font-medium"><LockIcon class="h-3.5 w-3.5 shrink-0" />{next.doc.data.title}</span>
+            </div>
+          ) : next ? (
             <a href={chapterHref(next)} class="rounded-xl border border-stone-200 p-4 text-right transition hover:border-(--lab-accent) dark:border-white/10">
               <span class="text-xs text-stone-500">下一章 →</span>
               <span class="mt-1 block font-medium">{next.doc.data.title}</span>
@@ -127,3 +153,47 @@ const chapterHref = (c: LabEntry) => withBase(sectionHref(c.section, c.slug));
     }
   </article>
 </BaseLayout>
+
+<script>
+  // 終端機指令區塊（bash、sh 等）加上複製按鈕；輸出結果（text）與其他語言不加
+  const COMMAND_LANGS = ['bash', 'sh', 'shell', 'shellscript', 'zsh', 'console'];
+
+  async function copyText(text: string) {
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch {
+      const area = document.createElement('textarea');
+      area.value = text;
+      area.style.position = 'fixed';
+      area.style.opacity = '0';
+      document.body.append(area);
+      area.select();
+      document.execCommand('copy');
+      area.remove();
+    }
+  }
+
+  for (const pre of document.querySelectorAll<HTMLPreElement>('[data-copy-commands] pre[data-language]')) {
+    if (!COMMAND_LANGS.includes(pre.dataset.language ?? '')) continue;
+    const wrapper = document.createElement('div');
+    wrapper.className = 'code-copy';
+    pre.before(wrapper);
+    wrapper.append(pre);
+
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'code-copy-button';
+    button.textContent = '複製';
+    button.setAttribute('aria-label', '複製指令');
+    button.addEventListener('click', async () => {
+      await copyText((pre.querySelector('code')?.textContent ?? pre.textContent ?? '').replace(/\n$/, ''));
+      button.textContent = '已複製';
+      button.dataset.copied = '';
+      setTimeout(() => {
+        button.textContent = '複製';
+        delete button.dataset.copied;
+      }, 1500);
+    });
+    wrapper.append(button);
+  }
+</script>

@@ -1,4 +1,5 @@
 ---
+import LockIcon from './LockIcon.astro';
 import { sectionHref, type LabSeries } from '../../lib/labs';
 import { withBase } from '../../lib/site';
 
@@ -20,6 +21,17 @@ const { series, current } = Astro.props;
     {
       series.chapters.map((c) => {
         const active = c.chapter === current;
+        if (c.doc.data.locked && !active) {
+          return (
+            <li class="flex gap-3 px-3 py-1.5 text-sm text-stone-400 dark:text-stone-500" title="這一章還在編輯中">
+              <span class="font-mono">{String(c.chapter).padStart(2, '0')}</span>
+              <span class="inline-flex items-center gap-1.5">
+                <LockIcon class="h-3.5 w-3.5 shrink-0" />
+                {c.doc.data.title}
+              </span>
+            </li>
+          );
+        }
         return (
           <li>
             <a
@@ -33,7 +45,10 @@ const { series, current } = Astro.props;
               aria-current={active ? 'page' : undefined}
             >
               <span class:list={['font-mono', !active && 'text-(--lab-accent-strong)']}>{String(c.chapter).padStart(2, '0')}</span>
-              <span>{c.doc.data.title}</span>
+              <span class="inline-flex items-center gap-1.5">
+                {c.doc.data.locked && <LockIcon class="h-3.5 w-3.5 shrink-0" />}
+                {c.doc.data.title}
+              </span>
             </a>
           </li>
         );
