@@ -1,6 +1,6 @@
 # ikusupuroa 的 Ubuntu 技術筆記 — Claude 工作守則
 
-完整說明見 `README.md`；以下是 ikusupuroa（repo 擁有者，以下稱編輯）指定的規則，每次都要遵守。
+完整說明見 `README.md`；以下是 ikusupuroa（repo 擁有者，以下稱編輯）指定的規則，每次都要遵守。撰寫、修改或下架文章時，照 `.claude/skills/publish-content/` 的流程與驗收清單進行。
 
 網站定位：ikusupuroa 是一個 Linux 學習者，選擇 Ubuntu 作為學習路線，這個網站是 ikusupuroa 的學習筆記。網站上的敘述保持中立：以學習者的角度描述，不要把 ikusupuroa 寫成專家或顧問，也不要誇大 ikusupuroa 的能力或 Ubuntu 的優點。
 
