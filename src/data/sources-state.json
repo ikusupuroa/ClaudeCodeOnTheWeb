@@ -188,6 +188,20 @@
       "title": "Why embargoes matter for open source security",
       "processedDate": "2026-10-31",
       "article": "open-source-security-embargo"
+    },
+    {
+      "url": "https://ubuntu.com/blog/fixes-available-in-proposed-pocket-for-cve-2026-98432",
+      "status": "published",
+      "title": "Fixes available in -proposed pocket for CVE-2026-98432",
+      "processedDate": "2026-11-03",
+      "article": "linux-kernel-cve-2026-98432-proposed"
+    },
+    {
+      "url": "https://canonical.com/blog/how-to-build-maintain-and-secure-infrastructure-for-ai-factories",
+      "status": "published",
+      "title": "How to build, maintain, and secure infrastructure for AI factories",
+      "processedDate": "2026-11-03",
+      "article": "ai-factory-infrastructure-security"
     }
   ]
 }
