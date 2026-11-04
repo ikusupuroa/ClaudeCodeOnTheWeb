@@ -68,9 +68,9 @@ description: 撰寫、修改、下架本站文章的流程與驗收清單，涵�
 
 ## 流程 A：導讀文章
 
-1. 讀原文。只根據原文與可查證來源撰寫。
+1. 讀原文。只根據原文與可查證來源撰寫。讀網頁的工具連不上 canonical.com 或 ubuntu.com 時，改用 `curl -sSL` 下載到 scratchpad，再取出 `<article>` 的文字；發表時間看 HTML 裡的 `datePublished`。
 2. 新增 `src/content/articles/<slug>.md`：`pubDate` 用今天；必要區塊 `## ikusupuroa 觀點`、`## 原文精華導讀`（結尾附 `### 出處`）；標籤沿用既有分類。
-3. `src/data/sources-state.json` 記錄為 `published`（`article` 填 slug、`processedDate` 填今天）。
+3. `src/data/sources-state.json` 記錄為 `published`（`article` 填 slug、`processedDate` 填今天）。新紀錄只加在 `items` 陣列的最後面，不要加到 `monitored_feeds`；建置不會擋這種錯，改完用 `git diff src/data/sources-state.json` 確認。
 4. 驗收（見下方），開 PR → 建置檢查通過 → 直接合併 → 確認部署。
 5. 回報網址 `https://ikusupuroa.github.io/ClaudeCodeOnTheWeb/articles/<slug>/`、觀點重點、所有待確認與本站補充。
 6. 來自 `new-articles` Issue 時：略過的篇目標 `skipped` 加 `note`；整個 Issue 處理完後留言說明結果並關閉 Issue。
