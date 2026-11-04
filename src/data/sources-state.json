@@ -202,6 +202,20 @@
       "title": "How to build, maintain, and secure infrastructure for AI factories",
       "processedDate": "2026-11-03",
       "article": "ai-factory-infrastructure-security"
+    },
+    {
+      "url": "https://canonical.com/blog/designing-a-better-future-your-guide-to-design-contribution-in-open-source",
+      "status": "skipped",
+      "title": "Designing a better future: your guide to design contribution in Open Source",
+      "processedDate": "2026-11-04",
+      "note": "編輯指示：Issue #26 不發表，之後也不會使用"
+    },
+    {
+      "url": "https://canonical.com/blog/never-lose-robot-data-again-automatic-ros-2-bag-recording-and-upload",
+      "status": "published",
+      "title": "Never lose robot data again: automatic ROS 2 bag recording and upload",
+      "processedDate": "2026-11-04",
+      "article": "ros2-bag-auto-recording-upload"
     }
   ]
 }
