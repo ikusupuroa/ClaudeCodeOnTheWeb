@@ -23,11 +23,12 @@ description: 撰寫、修改、下架本站文章的流程與驗收清單，涵�
 - [ ] 1. 讀完素材（原文，或 inbox 的全部檔案與截圖）
 - [ ] 2. 敏感資訊：文字換成假資訊、截圖逐張檢查
 - [ ] 3. 撰稿（套用「寫作原則」）
-- [ ] 4. 驗收：建置、敏感資訊掃描、程式碼區塊、手機版跑版（不通過就修正後重跑）
-- [ ] 5. 開 PR，等建置檢查通過
-- [ ] 6. 實作單元：傳預覽截圖、問要不要上鎖、等編輯確認
-- [ ] 7. 合併、確認部署成功
-- [ ] 8. 回報：網址、待確認與本站補充段落、敏感資訊替換清單
+- [ ] 4. 去 AI 味：用 speak-human-tw 修稿（直接修改，記下修改摘要）
+- [ ] 5. 驗收：建置、敏感資訊掃描、程式碼區塊、手機版跑版（不通過就修正後重跑）
+- [ ] 6. 開 PR，等建置檢查通過
+- [ ] 7. 實作單元：傳預覽截圖、問要不要上鎖、等編輯確認
+- [ ] 8. 合併、確認部署成功
+- [ ] 9. 回報：網址、待確認與本站補充段落、敏感資訊替換清單、去 AI 味摘要
 ```
 
 ## 寫作原則
@@ -66,18 +67,25 @@ description: 撰寫、修改、下架本站文章的流程與驗收清單，涵�
 
 **8. 技術名詞保留英文並附繁體中文說明**；用學習者的角度、語氣中立，不寫成專家建議。
 
+**9. 撰稿後用 `speak-human-tw` 去 AI 味。** 載入 `.claude/skills/speak-human-tw/SKILL.md`，用「本站發布流程」模式：直接修改這次新寫或修改的段落，不另外等編輯勾選；版號、指令、程式碼區塊、待確認與本站補充一律不動。回報附修改摘要（處數、主要類型、3–5 個代表例子）。
+
+```text
+✗ 總的來說，先安裝或等待各有優缺點，取決於每個人的使用情境。
+✓ 有自己 kernel 驗收流程的人可以先裝，其他人等正式發布。
+```
+
 ## 流程 A：導讀文章
 
 1. 讀原文。只根據原文與可查證來源撰寫。讀網頁的工具連不上 canonical.com 或 ubuntu.com 時，改用 `curl -sSL` 下載到 scratchpad，再取出 `<article>` 的文字；發表時間看 HTML 裡的 `datePublished`。
 2. 新增 `src/content/articles/<slug>.md`：`pubDate` 用今天；必要區塊 `## ikusupuroa 觀點`、`## 原文精華導讀`（結尾附 `### 出處`）；標籤沿用既有分類。
 3. `src/data/sources-state.json` 記錄為 `published`（`article` 填 slug、`processedDate` 填今天）。新紀錄只加在 `items` 陣列的最後面，不要加到 `monitored_feeds`；建置不會擋這種錯，改完用 `git diff src/data/sources-state.json` 確認。
-4. 驗收（見下方），開 PR → 建置檢查通過 → 直接合併 → 確認部署。
-5. 回報網址 `https://ikusupuroa.github.io/ClaudeCodeOnTheWeb/articles/<slug>/`、觀點重點、所有待確認與本站補充。
+4. 去 AI 味（寫作原則 9）→ 驗收（見下方），開 PR → 建置檢查通過 → 直接合併 → 確認部署。
+5. 回報網址 `https://ikusupuroa.github.io/ClaudeCodeOnTheWeb/articles/<slug>/`、觀點重點、所有待確認與本站補充、去 AI 味摘要。
 6. 來自 `new-articles` Issue 時：略過的篇目標 `skipped` 加 `note`；整個 Issue 處理完後留言說明結果並關閉 Issue。
 
 原文更新（`source-updated` Issue）：照 `CLAUDE.md`「原文更新監控 Issue」處理；同步時文中依原文更新的段落照常標註來源，修改後執行 `node scripts/watch-source-updates.mjs --snapshot <slug>`，並確認 `--json` 不再列出這篇。原文還會持續更新的文章（例如修補尚未全部發布的資安公告），發表時問編輯要不要加 `watchSource: true`。
 
-修改：改完同樣直接合併並回報。下架：照 `CLAUDE.md`（`draft: true`、狀態改 `unpublished` 加 `note`）。
+修改：改完同樣直接合併並回報；去 AI 味只處理這次修改的段落。下架：照 `CLAUDE.md`（`draft: true`、狀態改 `unpublished` 加 `note`）。
 
 ## 流程 B：實作單元
 
@@ -86,9 +94,9 @@ description: 撰寫、修改、下架本站文章的流程與驗收清單，涵�
 3. 決定放法與必要區塊（見 `CLAUDE.md`）；系列第 2 章起第一個區塊是 `## 前情提要`。
 4. 撰稿：要讀者執行的指令用 ` ```bash `，不含提示字元；輸出用 ` ```text `；一個區塊不混放。`environment` 寫實作環境與版本。素材沒交代清楚的步驟標待確認，並在回報中詢問編輯。
 5. 截圖從 `inbox/` 搬到文章的 `images/`，處理完的 inbox 素材在同一個 PR 刪除。
-6. 驗收（見下方），開 **draft PR**。
+6. 去 AI 味（寫作原則 9），只改說明文字，不改指令、輸出與編輯的原話 → 驗收（見下方），開 **draft PR**。
 7. 用 Playwright 截桌面與手機的整頁截圖，用 `SendUserFile` 傳給編輯，並**問編輯這篇（或這一章）要不要上鎖**。
-8. **編輯確認後才合併** → 確認部署 → 回報網址、待確認與本站補充、敏感資訊替換清單。
+8. **編輯確認後才合併** → 確認部署 → 回報網址、待確認與本站補充、敏感資訊替換清單。去 AI 味摘要在第 7 步傳預覽時一起附上，讓編輯一起確認。
 
 ## 驗收
 
@@ -98,7 +106,7 @@ description: 撰寫、修改、下架本站文章的流程與驗收清單，涵�
 2. `bash .claude/skills/publishing-content/scripts/scan-sensitive.sh <檔案>`：逐筆確認列出的行
 3. 程式碼區塊：`bash` 只放指令、輸出都是 `text`
 4. `node .claude/skills/publishing-content/scripts/check-overflow.cjs <路徑>`：全部 ✓
-5. 讀一遍全文：查證過的事實沒有推論字眼、模擬結果沒有寫成已完成、待確認和本站補充都列進回報
+5. 讀一遍全文：查證過的事實沒有推論字眼、模擬結果沒有寫成已完成、待確認和本站補充都列進回報；去 AI 味沒有改到版號、指令或標註，也沒有新增原文沒有的事實
 
 ## 合併與部署
 
