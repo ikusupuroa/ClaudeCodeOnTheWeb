@@ -9,7 +9,7 @@ tags:
   - systemd
 environment:
   - Ubuntu 26.04 LTS（snapd 2.77.1）
-  - Snapcraft（classic 安裝）
+  - Snapcraft 9.2.1（classic 安裝）
   - base：core22
 references:
   - title: Creating a snap
@@ -270,20 +270,22 @@ cd ~/my-snap-game
 snapcraft pack --destructive-mode
 ```
 
-建置紀錄（節錄）：
+建置紀錄（Snapcraft 9.2.1）：
 
 ```text
-Running snapcraft without a command will not be possible in future releases. Use 'snapcraft pack' instead.
 Generated snap metadata
 Lint warnings:
-- metadata: Metadata field 'title' is missing or empty.
-...
+- metadata: Metadata field 'title' is missing or empty. (https://documentation.ubuntu.com/snapcraft/stable/reference/project-file/snapcraft-yaml/#title)
+- metadata: Metadata field 'contact' is missing or empty. (https://documentation.ubuntu.com/snapcraft/stable/reference/project-file/snapcraft-yaml/#contact)
+- metadata: Metadata field 'license' is missing or empty. (https://documentation.ubuntu.com/snapcraft/stable/reference/project-file/snapcraft-yaml/#license)
+Lint information:
+- metadata: Metadata field 'issues' is missing or empty. (https://documentation.ubuntu.com/snapcraft/stable/reference/project-file/snapcraft-yaml/#issues)
+- metadata: Metadata field 'source-code' is missing or empty. (https://documentation.ubuntu.com/snapcraft/stable/reference/project-file/snapcraft-yaml/#source-code
+- metadata: Metadata field 'website' is missing or empty. (https://documentation.ubuntu.com/snapcraft/stable/reference/project-file/snapcraft-yaml/#website)
 Created snap package my-snake-game_1.0.0_amd64.snap
 ```
 
-> **待確認**：建置紀錄第一行的提示是「沒有加指令直接執行 `snapcraft`」時才會出現的訊息，但上面的指令有加 `pack`。這份紀錄是不是執行 `snapcraft --destructive-mode` 時留下的？另外，`snapcraft --version` 的版本是多少？
-
-`Lint warnings` 提醒 metadata 少了 `title` 欄位，不影響打包。完成後用 `ls -lh *.snap` 可以看到 `my-snake-game_1.0.0_amd64.snap`。
+`Lint warnings` 提醒 metadata 少了 `title`、`contact`、`license`，`Lint information` 列出還可以補的 `issues`、`source-code`、`website`，每一項都附上說明文件的連結。這些都不影響打包，最後一行顯示 `.snap` 已經產生。完成後用 `ls -lh *.snap` 可以看到 `my-snake-game_1.0.0_amd64.snap`。
 
 ### 步驟 5：在本機安裝並執行
 
@@ -377,8 +379,6 @@ my-snake-game.my-snake-game  enabled  active   -
 - **`Rev` 是 `x2`**：從 Snap Store 裝的套件，revision 是純數字（例如前面的 708、8763）；本機安裝的套件以 `x` 開頭，這是第二次安裝，所以是 `x2`。
 - **服務已經啟動**：`Startup` 是 `enabled`（開機自動啟動）、`Current` 是 `active`（執行中）。不用開終端機，打開 `http://localhost:8099` 就能玩。
 
-> **待確認**：素材提到用 `sudo snap revert my-snake-game` 可以回到 1.0.0（`x1`），這次沒有實際執行。
-
 服務可以用 `snap` 指令停止或啟動：
 
 ```bash
@@ -386,7 +386,32 @@ sudo snap stop my-snake-game
 sudo snap start my-snake-game
 ```
 
-### 步驟 7：移除
+### 步驟 7：回滾到 1.0.0
+
+本機安裝的套件一樣可以用 `snap revert` 回到上一個 revision：
+
+```bash
+sudo snap revert my-snake-game
+snap list my-snake-game
+sudo snap services my-snake-game
+```
+
+```text
+my-snake-game 已恢復到 1.0.0
+```
+
+```text
+Name           Version  Rev  Tracking  Publisher  Notes
+my-snake-game  1.0.0    x1   -         -          -
+```
+
+```text
+error: snap "my-snake-game" has no services
+```
+
+版本回到 1.0.0、`Rev` 回到 `x1`。1.0.0 的 `snapcraft.yaml` 沒有 `daemon`，所以回滾後背景服務也跟著消失，`snap services` 回應這個套件沒有服務，要玩就得像步驟 5 那樣在終端機執行 `my-snake-game`。
+
+### 步驟 8：移除
 
 ```bash
 sudo snap remove my-snake-game --purge

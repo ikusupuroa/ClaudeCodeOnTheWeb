@@ -88,15 +88,23 @@ sudo caddy version
 
 #### 步驟 B：切換到 edge（Rev 722）
 
-先停掉 Caddy，再切換通道，切完重新啟動：
+如果 Caddy 還在執行就直接切換通道，會怎樣？我先讓 Caddy 在背景跑著（啟動訊息顯示 `pid=626936`），再執行：
+
+```bash
+sudo snap refresh caddy --channel=edge
+```
+
+```text
+error: cannot refresh "caddy": snap "caddy" has running apps (caddy), pids: 626936
+```
+
+snapd 拒絕更新，並列出還在執行的程式與它的 PID。所以要先停掉 Caddy，再切換通道，切完重新啟動：
 
 ```bash
 sudo caddy stop
 sudo snap refresh caddy --channel=edge
 sudo caddy start --config /var/snap/caddy/current/Caddyfile
 ```
-
-> **待確認**：素材提到「Caddy 沒停就更新，snapd 會拒絕更新」，這次是先停掉才更新，沒有實測不停的情況，也還沒查到官方文件的說明。
 
 再檢查版本與資料：
 
