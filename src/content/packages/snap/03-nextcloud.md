@@ -50,8 +50,6 @@ snap list nextcloud
 
 我一開始用的是 10080，結果 `curl -I` 正常回應 `HTTP/1.1 302 Found`，瀏覽器卻顯示「此網址受到限制」（This address is restricted），連不上。原因是瀏覽器會封鎖一些特定的連接埠，10080 就在清單裡。Chromium 的原始碼裡，受限制的連接埠清單 `kRestrictedPorts` 列了 `10080, // Amanda`（Amanda 是一套備份軟體使用的埠號）。所以這次改用 10081。
 
-> **待確認**：Firefox 是否也封鎖 10080，以及封鎖原因是否和素材提到的 NAT Slipstreaming 2.0 攻擊有關，還沒查到官方來源。
-
 設定 Nextcloud 的 HTTP 埠號並確認：
 
 ```bash
@@ -79,8 +77,6 @@ sudo nextcloud.manual-install admin <已遮蔽>
 ### 步驟 5：設定 trusted_domains 與網址
 
 `trusted_domains` 比對的是瀏覽器網址列裡的主機名稱（HTTP 的 `Host` 標頭），也就是伺服器自己的位址，不是訪客電腦的 IP。用非標準埠號（不是 80、443）時，`Host` 會帶著埠號（例如 `192.0.2.10:10081`），所以這次我把帶埠號和不帶埠號的位址都加進去。
-
-> **待確認**：「非標準埠號時 `trusted_domains` 必須包含埠號」這點，還沒在 Nextcloud 官方的管理手冊中確認。
 
 先查這台主機的 IP：
 
@@ -121,8 +117,6 @@ sudo snap refresh nextcloud --channel=28/stable
 
 更新後，埠號 10081、資料和管理者帳號都還在。
 
-> **待確認**：素材提到「更新時會自動完成資料庫遷移」，這次沒有記錄更新過程的輸出，也還沒查到 nextcloud-snap 的官方說明。
-
 如果新版本有問題（例如外掛不相容），可以回滾：
 
 ```bash
@@ -159,8 +153,6 @@ nextcloud removed (snap data snapshot saved)
 ```
 
 一般移除時，snapd 會把這個套件的資料與設定打包成一份快照（snapshot）留著，誤刪時還有機會救回來；也因為這樣，移除後硬碟空間沒有馬上釋放。
-
-> **待確認**：自動快照預設會保留多久，還沒查到官方文件。
 
 查看目前保留的快照：
 

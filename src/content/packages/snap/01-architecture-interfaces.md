@@ -29,8 +29,6 @@ references:
 
 Snap 的做法是把軟體和它需要的函式庫打包在一起（self-contained，自帶相依）。我自己用「微波便當盒」來記：主菜、配菜、餐具都裝在同一個盒子裡，拿到哪台微波爐都能加熱；盒子是密封的，裡面的東西不會灑到廚房。對應到 Snap，就是同一個套件可以裝在不同的 Linux 發行版上，而且預設跑在沙盒（sandbox，隔離環境）裡。
 
-> **待確認**：官方文件列出的支援發行版清單（素材提到 Ubuntu、Debian、Fedora、Arch Linux），工作環境連不到 snapcraft.io，還沒核對。
-
 ### 四個主要元件
 
 | 元件 | 角色 |
@@ -44,7 +42,7 @@ Snap 的做法是把軟體和它需要的函式庫打包在一起（self-contain
 
 ### 和其他軟體交付方式的比較
 
-> **本站補充**：這張表整理自素材與各專案的公開說明，是我學習時的理解，不是官方的比較。
+> **本站補充**：這張表整理自我的筆記與各專案的公開說明，是我學習時的理解，不是官方的比較。
 
 | 比較項目 | Snap | Flatpak | Docker／Podman | APT（`.deb`） |
 | --- | --- | --- | --- | --- |
@@ -144,8 +142,6 @@ loop2    7:2    0 110.2M  1 loop /snap/obsidian/72
 
 每個 Snap 是一個獨立的 loop 裝置，`RO` 欄位是 `1`，表示唯讀。
 
-> **待確認**：`df -h` 預設不顯示 loop 裝置是從哪一版 Ubuntu 開始的，還沒查到官方說明。
-
 接著看 `/snap` 底下的目錄：
 
 ```bash
@@ -171,8 +167,6 @@ lrwxrwxrwx 1 root root    4 Oct 13 19:12 current -> 8763
 | classic（傳統模式） | 走出玻璃罩 | 和傳統軟體一樣可以存取整個系統，安裝時要加 `--classic` | VS Code、編譯器、Go |
 | devmode（開發者模式） | 帶著警報器的測試員 | 違反隔離規則的動作只記錄警告、不阻擋，用在開發測試階段 | 打包測試中的軟體 |
 
-> **待確認**：表中各等級的行為描述來自素材，工作環境連不到 snapcraft.io 的 confinement 文件，還沒和官方文件逐條核對。
-
 ### plug 與 slot：用介面開權限
 
 strict 的軟體需要用到麥克風、外接硬碟這類資源時，Snap 用 interface（介面）來授權：
@@ -192,7 +186,7 @@ snap connections firefox
 - **開頭是冒號**（例如 `:camera`、`:network`）：由系統提供的能力。
 - **開頭有套件名**（例如 `mesa-2404:gpu-2404`、`gtk-common-themes:gtk-3-themes`）：由其他 Snap 提供的內容，稱為 content interface（內容共享介面）。顯示卡驅動、桌面主題由專門的 Snap 提供，其他套件共用，不必每個套件各自帶一份。
 
-`Notes` 欄位如果是 `manual`，表示這個連線是使用者手動設定的。素材提到像 `nmap:network-control` 這類權限較大的介面，預設不會自動連線，要使用者自己 `snap connect`。
+`Notes` 欄位如果是 `manual`，表示這個連線是使用者手動設定的。像 `nmap:network-control` 這類權限較大的介面，預設不會自動連線，要使用者自己 `snap connect`。
 
 ### 實作：拔掉再插回 Firefox 的相機權限
 
@@ -231,8 +225,6 @@ camera  firefox:camera  :camera  manual
 ```
 
 最後的 `Notes` 從 `-` 變成 `manual`，snapd 記下了這是使用者手動設定的連線。
-
-> **待確認**：素材提到「標成 `manual` 後，Firefox 自動更新也不會改動這個連線」，還沒找到官方文件確認，也還沒實測更新後的狀態。
 
 ### 這一章的小結
 

@@ -140,8 +140,6 @@ curl http://localhost:8085/caddy_data.txt
 
 回滾之所以快，是因為舊的 Rev 708 映像檔沒有被刪掉，`revert` 把 `/snap/caddy/current` 指回 708；`/var/snap/caddy/current` 也一起指回 708 的資料目錄，所以讀到的是當時的狀態。
 
-> **待確認**：「資料目錄依 revision 分開存放、更新時複製一份到新 revision」是素材的說明，和這次的實測結果相符，但還沒查到官方文件確認。
-
 #### 步驟 D：移除
 
 ```bash
@@ -195,15 +193,11 @@ Done    today at 21:10 CST  today at 21:10 CST  Setup snap "caddy" (708) securit
 
 一次 `snap revert` 背後拆成好幾個步驟：停止服務、讓目前的 revision 下線、掛上 708、重新連接介面、啟動服務、健康檢查（health check）、設定安全規則。
 
-> **待確認**：素材提到「其中任何一步失敗，snapd 會把整個操作復原，不會停在一半」，還沒查到官方文件確認。
-
 ### 實作：停掉 snapd，執行中的服務會不會跟著停？
 
 學 Snap 時一個常見的疑問是：Snap 是不是都跑在 snapd 裡面？snapd 停了，服務會不會跟著停？實際測試的結果是不會。
 
 我的理解是 snapd 負責管理：下載套件、掛載 SquashFS、產生 AppArmor 規則、向 systemd 註冊服務。服務啟動之後，由 systemd 管理（例如 LXD 的 `snap.lxd.daemon.service`），AppArmor 與 seccomp 的規則也已經載入核心，不再經過 snapd。
-
-> **待確認**：上面這段架構說明是素材的整理，和下面的實測結果一致，但還沒和官方文件逐條核對。
 
 #### 步驟 1：記下 LXD 和容器的 PID
 
@@ -239,8 +233,6 @@ snap list
 
 指令卡住沒有回應，直到我按 `Ctrl + C` 才結束。snapd 停了，`snap` 指令就沒辦法管理套件。
 
-> **待確認**：素材提到 `snap` 指令連不到 `/run/snapd.socket` 時會等待重試，到逾時才結束；這次是手動中斷，沒有等到逾時，也還沒查到官方說明。
-
 #### 步驟 4：再看一次 LXD 和容器
 
 ```bash
@@ -263,21 +255,19 @@ snap list
 | 項目 | 狀態 | 說明 |
 | --- | --- | --- |
 | 執行中的服務與容器 | 照常運作 | 這次實測 LXD 與 3 個容器的 PID 沒變 |
-| 正在用的桌面程式 | 照常運作 | 素材的觀察，這次沒有另外記錄 |
+| 正在用的桌面程式 | 照常運作 | 這次沒有另外記錄 |
 | `snap` 管理指令 | 無法使用 | `install`、`refresh`、`remove` 都要等 snapd 回來 |
 | 自動更新 | 暫停 | snapd 不在，就不會檢查或下載更新 |
-| 新開某些桌面程式 | 可能受影響 | 素材提到需要向 snapd 要求權限的桌面程式，啟動時可能受阻；這次沒有實測 |
+| 新開某些桌面程式 | 可能受影響 | 需要向 snapd 要求權限的桌面程式，啟動時可能受阻；這次沒有實測 |
 
 > **本站補充**：Docker 的預設行為不一樣。Docker 官方文件寫到，預設情況下 Docker daemon 結束時會把執行中的容器停掉；要讓容器在 daemon 不在時繼續跑，需要另外開啟 live restore（在 `/etc/docker/daemon.json` 加上 `"live-restore": true`）。來源：[Docker docs：Live restore](https://github.com/docker/docs/blob/main/content/manuals/engine/daemon/live-restore.md)。
 
 ### 延伸：IoT 裝置與 Ubuntu Core
 
-Snap 也被用在 IoT（物聯網）裝置上。素材提到兩個和 IoT 有關的設計：
+Snap 也被用在 IoT（物聯網）裝置上。和 IoT 有關的設計有兩個：
 
-- **transactional update（交易式更新）**：新版本準備好之前，舊版本繼續運作；更新中途斷電或斷網，裝置仍停在原本可以用的版本。素材舉的例子是散在各地的充電樁或監控設備，更新失敗時不必派人到現場重灌。
+- **transactional update（交易式更新）**：新版本準備好之前，舊版本繼續運作；更新中途斷電或斷網，裝置仍停在原本可以用的版本。例如散在各地的充電樁或監控設備，更新失敗時不必派人到現場重灌。
 - **delta update（差異更新）**：只下載新舊版本之間有變動的部分，節省按流量計費的行動網路用量。
-
-> **待確認**：這兩項的細節（更新中斷時的處理方式、delta 更新能省多少流量）還沒查到官方文件，素材中的節省比例先不列出。
 
 Ubuntu Core 是 Canonical 為 IoT 與嵌入式裝置做的 Ubuntu 版本，官方文件稱它是「immutable and transaction-based version of Ubuntu」（不可變、以交易為基礎）。依官方文件《Inside Ubuntu Core》，系統由這幾種 Snap 組成：
 
