@@ -78,6 +78,9 @@ node scripts/fetch-sources.mjs --json       # JSON 輸出，方便 Claude 或其
 ## 專案結構
 
 ```text
+├── .claude/skills/
+│   ├── publishing-content/        # 撰寫、修改、下架文章的流程與驗收清單
+│   └── speak-human-tw/            # 去 AI 味修稿（撰稿後、驗收前使用）
 ├── .github/workflows/
 │   ├── deploy.yml                 # PR 建置檢查；合併到 main 後部署到 GitHub Pages
 │   ├── monitor-feeds.yml          # 每小時檢查官方 Blog，有新文章就開 Issue
