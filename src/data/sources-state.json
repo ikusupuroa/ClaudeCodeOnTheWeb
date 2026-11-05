@@ -216,6 +216,13 @@
       "title": "Never lose robot data again: automatic ROS 2 bag recording and upload",
       "processedDate": "2026-11-04",
       "article": "ros2-bag-auto-recording-upload"
+    },
+    {
+      "url": "https://ubuntu.com/blog/apt-vulnerability-fixes-available",
+      "status": "published",
+      "title": "CVE-2026-109518 APT vulnerability fixes available",
+      "processedDate": "2026-11-05",
+      "article": "apt-cve-2026-109518"
     }
   ]
 }
