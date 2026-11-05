@@ -63,6 +63,16 @@ node scripts/fetch-sources.mjs --json       # JSON 輸出，方便 Claude 或其
 - 選題後回到 Claude Code 對話，例如：「Issue #5 的第 1、3 篇要寫，其他略過」。
 - 注意：公開 repo 連續 60 天沒有任何 commit，GitHub 會自動停用排程，需要到 Actions 頁面重新啟用。
 
+## 原文更新監控
+
+有些原文會在發表後持續更新（例如資安公告補上新的修補狀態）。在文章 frontmatter 加上 `watchSource: true`，就會納入監控：
+
+- `.github/workflows/monitor-source-updates.yml` 每小時（UTC 第 47 分）執行 `watch-source-updates.mjs`，抓原文的正文，和 `src/data/source-snapshots/<slug>.txt`（本站撰寫時的原文）比對。
+- 內容不同時，開一個帶 `source-updated` 標籤的 Issue，列出差異並 @ repo 擁有者；同一篇已有未關閉的 Issue 時，只在原文又變了才留言補充。
+- 不會自動改文章：回到 Claude Code 對話說「Issue #N 的更新要同步」或「不用同步」，處理後會一併更新比對基準並關閉 Issue。
+- 想立刻檢查，可以到 Actions 頁面手動執行「Monitor source article updates」。
+- 原文不會再更新時（例如修補都已正式發布），把 `watchSource` 拿掉即可停止監控。
+
 ---
 
 ## 專案結構
@@ -70,10 +80,13 @@ node scripts/fetch-sources.mjs --json       # JSON 輸出，方便 Claude 或其
 ```text
 ├── .github/workflows/
 │   ├── deploy.yml                 # PR 建置檢查；合併到 main 後部署到 GitHub Pages
-│   └── monitor-feeds.yml          # 每小時檢查官方 Blog，有新文章就開 Issue
+│   ├── monitor-feeds.yml          # 每小時檢查官方 Blog，有新文章就開 Issue
+│   └── monitor-source-updates.yml # 每小時比對 watchSource 文章的原文，有更新就開 Issue
 ├── scripts/
 │   ├── fetch-sources.mjs          # RSS 監控與去重腳本
-│   └── notify-new-articles.cjs    # 把新文章開成 GitHub Issue
+│   ├── notify-new-articles.cjs    # 把新文章開成 GitHub Issue
+│   ├── watch-source-updates.mjs   # 原文更新比對；--snapshot 更新比對基準
+│   └── notify-source-updates.cjs  # 把原文更新開成 GitHub Issue
 ├── src/
 │   ├── content/articles/          # 文章 Markdown（檔名即網址 slug）
 │   ├── content/notes/             # 技術筆記（單篇或系列，example-* 為範本草稿）
@@ -118,6 +131,7 @@ tags: [Ubuntu, Security]                   # 必填，至少一個
 canonicalAuthor: Jane Doe                  # 選填，原文作者
 canonicalPubDate: 2026-10-15T12:16:02Z     # 選填，原文發布時間（排序依據；沒填就用 pubDate）
 draft: false                               # 選填，true 時不會建置
+watchSource: false                         # 選填，true 時監控原文更新（見「原文更新監控」）
 ---
 ```
 

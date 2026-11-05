@@ -75,6 +75,8 @@ description: 撰寫、修改、下架本站文章的流程與驗收清單，涵�
 5. 回報網址 `https://ikusupuroa.github.io/ClaudeCodeOnTheWeb/articles/<slug>/`、觀點重點、所有待確認與本站補充。
 6. 來自 `new-articles` Issue 時：略過的篇目標 `skipped` 加 `note`；整個 Issue 處理完後留言說明結果並關閉 Issue。
 
+原文更新（`source-updated` Issue）：照 `CLAUDE.md`「原文更新監控 Issue」處理；同步時文中依原文更新的段落照常標註來源，修改後執行 `node scripts/watch-source-updates.mjs --snapshot <slug>`，並確認 `--json` 不再列出這篇。原文還會持續更新的文章（例如修補尚未全部發布的資安公告），發表時問編輯要不要加 `watchSource: true`。
+
 修改：改完同樣直接合併並回報。下架：照 `CLAUDE.md`（`draft: true`、狀態改 `unpublished` 加 `note`）。
 
 ## 流程 B：實作單元
