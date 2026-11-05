@@ -27,6 +27,8 @@ const articles = defineCollection({
     canonicalPubDate: z.coerce.date().optional(),
     /** （選填）草稿不會被建置 */
     draft: z.boolean().default(false),
+    /** （選填）監控原文更新：原文有變動時，monitor-source-updates.yml 會開 Issue 通知 */
+    watchSource: z.boolean().default(false),
   }),
 });
 

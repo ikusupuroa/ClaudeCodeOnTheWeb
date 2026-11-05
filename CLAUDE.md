@@ -19,6 +19,13 @@
 - 處理時：要寫的照上方流程發布；編輯說略過的，在 `sources-state.json` 標為 `skipped` 並加 `note`。
 - 該 Issue 的每一篇都處理完（發布或略過）後，在 Issue 留言說明處理結果並關閉 Issue。
 
+## 原文更新監控 Issue
+
+- frontmatter 有 `watchSource: true` 的文章，原文一更新，`monitor-source-updates.yml` 會開帶 `source-updated` 標籤的 Issue，列出和比對基準的差異。
+- 編輯說要同步時：照差異修改文章（同「編輯要求修改」的流程，直接合併並回報），並在同一個 PR 執行 `node scripts/watch-source-updates.mjs --snapshot <slug>` 更新比對基準。
+- 編輯說不用同步時：只更新比對基準。兩種情況都在合併後留言並關閉 Issue。
+- 原文不會再更新時（例如修補都已正式發布），在回報裡提醒編輯可以拿掉 `watchSource`。
+
 ## 寫作規則
 
 - 每篇都必須有 `## ikusupuroa 觀點` 與 `## 原文精華導讀` 兩個區塊（缺一建置會失敗）；frontmatter 的 `takeaway` 是觀點的核心引言。
