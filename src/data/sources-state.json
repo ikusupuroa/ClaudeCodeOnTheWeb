@@ -223,6 +223,27 @@
       "title": "CVE-2026-109518 APT vulnerability fixes available",
       "processedDate": "2026-11-05",
       "article": "apt-cve-2026-109518"
+    },
+    {
+      "url": "https://canonical.com/blog/ubuntu-summit-26-10-less-than-a-week-away",
+      "status": "skipped",
+      "title": "Ubuntu Summit 26.10: Less than a week away!",
+      "processedDate": "2026-11-06",
+      "note": "編輯指示：Issue #40 略過"
+    },
+    {
+      "url": "https://canonical.com/blog/the-missing-piece-bringing-up-to-15-years-of-support-to-zephyr-for-microcontroller-based-ecus",
+      "status": "published",
+      "title": "The missing piece: bringing up to 15 years of support to Zephyr for microcontroller-based ECUs",
+      "processedDate": "2026-11-06",
+      "article": "zephyr-lts-automotive-mcu-ecu"
+    },
+    {
+      "url": "https://canonical.com/blog/canonical-validates-charmed-apache-spark-on-vmware-vsphere-kubernetes",
+      "status": "skipped",
+      "title": "Canonical validates Charmed Apache Spark on VMware vSphere Kubernetes Service",
+      "processedDate": "2026-11-06",
+      "note": "編輯指示：Issue #40 略過"
     }
   ]
 }
