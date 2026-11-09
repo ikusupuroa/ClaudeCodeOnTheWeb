@@ -244,6 +244,13 @@
       "title": "Canonical validates Charmed Apache Spark on VMware vSphere Kubernetes Service",
       "processedDate": "2026-11-06",
       "note": "編輯指示：Issue #40 略過"
+    },
+    {
+      "url": "https://canonical.com/blog/tigera-and-canonical-partner-on-multi-tenant-k8s",
+      "status": "published",
+      "title": "Tigera and Canonical partner to deliver resilient multi-tenant Kubernetes across cloud, on-premises, and edge",
+      "processedDate": "2026-11-09",
+      "article": "tigera-calico-canonical-kubernetes-multi-tenant"
     }
   ]
 }
