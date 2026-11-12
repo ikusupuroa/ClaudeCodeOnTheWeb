@@ -251,6 +251,13 @@
       "title": "Tigera and Canonical partner to deliver resilient multi-tenant Kubernetes across cloud, on-premises, and edge",
       "processedDate": "2026-11-09",
       "article": "tigera-calico-canonical-kubernetes-multi-tenant"
+    },
+    {
+      "url": "https://ubuntu.com/blog/what-if-your-virtual-data-room-vdr-was-android-based",
+      "status": "published",
+      "title": "What if your Virtual Data Room (VDR) was Android™ based?",
+      "processedDate": "2026-11-12",
+      "article": "android-vdr-anbox-cloud-streaming"
     }
   ]
 }
