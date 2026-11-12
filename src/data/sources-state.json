@@ -258,6 +258,13 @@
       "title": "What if your Virtual Data Room (VDR) was Android™ based?",
       "processedDate": "2026-11-12",
       "article": "android-vdr-anbox-cloud-streaming"
+    },
+    {
+      "url": "https://canonical.com/blog/new-edge-archive-offers-opt-in-ai-driven-security-remediation-and-backports",
+      "status": "published",
+      "title": "New Edge archive offers opt-in AI-driven security remediation and backports",
+      "processedDate": "2026-11-12",
+      "article": "ubuntu-edge-archive-surge-ai-security-backports"
     }
   ]
 }
