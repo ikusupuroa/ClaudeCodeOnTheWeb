@@ -265,6 +265,20 @@
       "title": "New Edge archive offers opt-in AI-driven security remediation and backports",
       "processedDate": "2026-11-12",
       "article": "ubuntu-edge-archive-surge-ai-security-backports"
+    },
+    {
+      "url": "https://canonical.com/blog/from-documentation-to-design-thinking-lessons-from-canonicals-design-academy",
+      "status": "skipped",
+      "title": "From documentation to design thinking: lessons from Canonical’s Design Academy",
+      "processedDate": "2026-11-18",
+      "note": "編輯指示：Issue #52 略過"
+    },
+    {
+      "url": "https://canonical.com/blog/canonical-huawei-kunpeng-announce-collaboration-optimized-ubuntu",
+      "status": "published",
+      "title": "Canonical and Huawei Kunpeng announce collaboration to deliver optimized Ubuntu and Ubuntu Pro on Kunpeng hardware",
+      "processedDate": "2026-11-18",
+      "article": "canonical-huawei-kunpeng-ubuntu-pro"
     }
   ]
 }
