@@ -279,6 +279,13 @@
       "title": "Canonical and Huawei Kunpeng announce collaboration to deliver optimized Ubuntu and Ubuntu Pro on Kunpeng hardware",
       "processedDate": "2026-11-18",
       "article": "canonical-huawei-kunpeng-ubuntu-pro"
+    },
+    {
+      "url": "https://canonical.com/blog/ubuntu-pro-available-on-dlami",
+      "status": "skipped",
+      "title": "Ubuntu Pro is now available on AWS Deep Learning Amazon Machine Images (DLAMI)",
+      "processedDate": "2026-11-22",
+      "note": "編輯指示：Issue #39 略過"
     }
   ]
 }
