@@ -286,6 +286,13 @@
       "title": "Ubuntu Pro is now available on AWS Deep Learning Amazon Machine Images (DLAMI)",
       "processedDate": "2026-11-22",
       "note": "編輯指示：Issue #39 略過"
+    },
+    {
+      "url": "https://ubuntu.com/blog/15-years-of-long-term-support-for-bare-metal-automation-with-maas",
+      "status": "published",
+      "title": "15 years of long term support for bare metal automation with MAAS",
+      "processedDate": "2026-11-22",
+      "article": "maas-3-8-lts-15-years-bare-metal"
     }
   ]
 }
