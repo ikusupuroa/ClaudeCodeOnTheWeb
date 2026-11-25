@@ -293,6 +293,20 @@
       "title": "15 years of long term support for bare metal automation with MAAS",
       "processedDate": "2026-11-22",
       "article": "maas-3-8-lts-15-years-bare-metal"
+    },
+    {
+      "url": "https://canonical.com/blog/ubuntu-26-04-lts-is-now-available-on-amazon-workspaces",
+      "status": "published",
+      "title": "Ubuntu 26.04 LTS is now available on Amazon WorkSpaces",
+      "processedDate": "2026-11-25",
+      "article": "ubuntu-26-04-lts-amazon-workspaces"
+    },
+    {
+      "url": "https://canonical.com/blog/canonical-academy-sysadmin-track-live",
+      "status": "published",
+      "title": "The full Canonical Academy SysAdmin track is now live",
+      "processedDate": "2026-11-25",
+      "article": "canonical-academy-sysadmin-track-live"
     }
   ]
 }
